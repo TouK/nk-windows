@@ -1,0 +1,16 @@
+{
+  "report-dir": "coverage/cypress",
+  "reporter": [
+    "text",
+    "json",
+    "lcov"
+  ],
+  "all": true,
+  "include": [
+    "src/**/*.{js,jsx,ts,tsx}"
+  ],
+  "exclude": [
+    "**/*.{stories,test,spec}.{js,jsx,ts,tsx}",
+    "**/{stories,test,spec}.{js,jsx,ts,tsx}"
+  ]
+}
