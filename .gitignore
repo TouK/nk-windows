@@ -5,8 +5,7 @@ storybook-static
 
 .nyc_output
 coverage
-reports
-jest-coverage
-cypress-coverage
 cypress/videos
 cypress/screenshots
+cypress/**/__image_snapshots__/*
+!cypress/**/__image_snapshots__/*\[Linux\]*
