@@ -1,6 +1,6 @@
 context("Actions", () => {
   beforeEach(() => {
-    cy.visit("iframe.html?id=hello-world--default");
+    cy.visit("iframe.html?id=hello-world-2--default");
   });
 
   it("should work", () => {
