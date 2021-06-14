@@ -6,7 +6,7 @@ import HelloWorld from "./hello-world";
 
 test('displays a "Hello World" message', () => {
   render(<HelloWorld />);
-  expect(screen.getByText("Hello World")).toBeInTheDocument();
+  expect(screen.getByText("Hello World 2")).toBeInTheDocument();
 });
 
 test("should return true", () => {
