@@ -2,3 +2,11 @@ node_modules
 build
 storybook-static
 .idea
+
+.nyc_output
+coverage
+reports
+jest-coverage
+cypress-coverage
+cypress/videos
+cypress/screenshots
