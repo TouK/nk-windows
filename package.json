@@ -40,7 +40,6 @@
     "type": "git",
     "url": "https://github.com/JulianWielga/nk-windows.git"
   },
-  "private": "true",
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@cypress/browserify-preprocessor": "^3.0.1",
