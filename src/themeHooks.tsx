@@ -6,7 +6,7 @@ import { rgba } from "./rgba";
 export function useFrameTheme() {
   const theme = useTheme<any>();
   const focusWrapperTheme = css({
-    border: `${theme.spacing.baseUnit / 2}px solid ${theme.colors.borderColor}`,
+    border: `${theme.spacing?.baseUnit / 2}px solid ${theme.colors?.borderColor}`,
   });
   const windowTheme = css({
     background: rgba(theme.colors.primaryBackground, 0.9),

@@ -1,4 +1,4 @@
-import { WindowType } from "./types";
+import { WindowType } from "../../types";
 
 export interface WindowContentProps<K extends number | string = any, M = undefined> {
   data: WindowType<K, M>;

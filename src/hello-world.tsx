@@ -1,9 +1,7 @@
 import React from "react";
 import Inspector from "react-inspector";
 import { DebugButtons } from "./debug";
-import { DefaultContent } from "./DefaultContent";
-import { WindowContentProps } from "./WindowContentProps";
-import { WindowManager } from "./WindowManager";
+import { DefaultContent, WindowContentProps, WindowManagerProvider } from "./index";
 
 function contentGetter(props: WindowContentProps<any>) {
   return (
@@ -15,11 +13,21 @@ function contentGetter(props: WindowContentProps<any>) {
 }
 
 const HelloWorld: React.FC = () => {
-  const theme = { spacing: {}, colors: { primaryColor: "#ff0000", primaryBackground: "#FFFFFF", borderColor: "#000000" } };
   return (
-    <WindowManager contentGetter={contentGetter} theme={theme}>
+    <WindowManagerProvider
+      contentGetter={contentGetter}
+      theme={{
+        colors: {
+          focusColor: "#FF0000",
+          primaryBackground: "#FFFFFF",
+          secondaryBackground: "#CCCCCC",
+          borderColor: "#000000",
+          mutedColor: "#999999",
+        },
+      }}
+    >
       <DebugButtons />
-    </WindowManager>
+    </WindowManagerProvider>
   );
 };
 

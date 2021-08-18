@@ -4,11 +4,10 @@ import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } fr
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { DRAG_HANDLE_CLASS_NAME } from "./getDragHandleClass";
-import { useViewportSize } from "./hooks";
-import { rgba } from "./rgba";
-import { useFrameTheme } from "./themeHooks";
-import { defer, random } from "./utils";
+import { DRAG_HANDLE_CLASS_NAME } from "../../consts";
+import { useViewportSize } from "../../hooks";
+import { useFrameTheme } from "../../themeHooks";
+import { defer, random } from "../../utils";
 
 interface WindowFrameProps {
   focusGroup?: string;

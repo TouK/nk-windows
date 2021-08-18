@@ -1,23 +1,24 @@
 import { css, cx } from "emotion";
 import { uniqBy } from "lodash";
 import React, { PropsWithChildren, useMemo } from "react";
-import { defaultFooterComponents } from "./DefaultFooterComponents";
-import { WindowButtonProps } from "./FooterButton";
+import { ContentClasses } from "./DefaultContent";
+import * as defaultFooterComponents from "./footer";
+import { FooterButtonProps } from "./footer";
 
-interface WindowFooterProps {
-  buttons?: WindowButtonProps[];
+export type WindowFooterProps = PropsWithChildren<{
+  buttons?: FooterButtonProps[];
   disabled?: boolean;
-  className?: string;
+  classnames?: Pick<ContentClasses, "footer" | "footerButton">;
   components?: Partial<typeof defaultFooterComponents>;
-}
+}>;
 
 export function WindowFooter({
   buttons = [],
   disabled: allDisabled,
   children,
-  className,
+  classnames = {},
   components = {},
-}: PropsWithChildren<WindowFooterProps>): JSX.Element {
+}: WindowFooterProps): JSX.Element {
   const uniqButtons = uniqBy(buttons, (b) => b.title);
   const flexClass = css({
     display: "flex",
@@ -35,11 +36,11 @@ export function WindowFooter({
   );
 
   return (
-    <footer className={cx(flexClass, css({ justifyContent: "center" }), className)}>
+    <footer className={cx(flexClass, css({ justifyContent: "center" }), classnames.footer)}>
       {children}
       <div>
         {uniqButtons.map(({ disabled, ...props }) => (
-          <Button key={props.title} disabled={allDisabled || disabled} {...props} />
+          <Button key={props.title} disabled={allDisabled || disabled} {...props} classname={classnames.footerButton} />
         ))}
       </div>
     </footer>

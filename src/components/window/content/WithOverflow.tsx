@@ -1,13 +1,13 @@
 import { css, cx } from "emotion";
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
 import { MoveFocusInside } from "react-focus-lock";
-import { useSize } from "./hooks";
+import { useSize } from "../../../hooks";
 
-export function WithOverflow(
-  props: PropsWithChildren<{
-    className?: string;
-  }>,
-): JSX.Element {
+export type WithOverflowProps = PropsWithChildren<{
+  className?: string;
+}>;
+
+export function WithOverflow(props: WithOverflowProps): JSX.Element {
   const { children, className } = props;
   const { observe: ref, height: availableHeight, entry } = useSize();
   const { observe: childRef, height: contentHeight } = useSize();

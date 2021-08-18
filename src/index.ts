@@ -1,8 +1,7 @@
-export { WindowManager } from "./WindowManager";
-export { WindowContentProps } from "./WindowContentProps";
-export { WindowKind } from "./types";
-export { WindowButtonProps } from "./FooterButton";
-export { DefaultContent, DefaultContentProps } from "./DefaultContent";
-export { useWindowManager } from "./hooks";
+export { WindowContentProps } from "./components/window/WindowContentProps";
+export { ContentGetter } from "./components/window/WindowContent";
+export { FooterButtonProps as WindowButtonProps } from "./components/window/footer/FooterButton";
 export { WindowId, WindowType } from "./types";
-export { WithOverflow as Overflow } from "./WithOverflow";
+export { useWindowManager } from "./hooks";
+export { WindowManager as WindowManagerProvider } from "./components/WindowManager";
+export { DefaultContent, DefaultContentProps } from "./components/window/DefaultContent";

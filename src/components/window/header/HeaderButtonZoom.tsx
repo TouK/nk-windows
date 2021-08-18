@@ -1,14 +1,13 @@
 import React from "react";
 import { HeaderButton } from "./HeaderButton";
-import ZoomIcon from "./zoom-in.svg";
-import RestoreIcon from "./zoom-out.svg";
+import RestoreIcon from "./restore.svg";
+import ZoomIcon from "./zoom.svg";
 
-export function HeaderButtonZoom({
-  zoomDialog,
-  isMaximized,
-}: {
+export interface HeaderButtonZoomProps {
   zoomDialog: (value?: boolean) => void;
   isMaximized: boolean;
-}): JSX.Element {
+}
+
+export function HeaderButtonZoom({ zoomDialog, isMaximized }: HeaderButtonZoomProps): JSX.Element {
   return <HeaderButton onClick={() => zoomDialog()}>{isMaximized ? <RestoreIcon /> : <ZoomIcon />}</HeaderButton>;
 }

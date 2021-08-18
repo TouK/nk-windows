@@ -1,10 +1,10 @@
 import { css, cx } from "emotion";
 import React, { useMemo } from "react";
-import { defaultHeaderComponents } from "./DefaultHeaderComponents";
-import { DragHandle } from "./DragHandle";
+import * as defaultHeaderComponents from "./header";
+import { DragHandle } from "../DragHandle";
 import { HeaderButtons } from "./HeaderButtons";
 
-interface WindowHeaderProps {
+export interface WindowHeaderProps {
   title?: string;
   closeDialog?: () => void;
   zoomDialog?: (value?: boolean) => void;

@@ -1,7 +1,7 @@
 import { css, cx } from "emotion";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
-type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+export type HeaderTitleProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 const titleClassName = css({
   fontSize: 14,
@@ -10,7 +10,7 @@ const titleClassName = css({
   padding: ".25em .5em",
 });
 
-export function HeaderTitle({ children, className }: Props): JSX.Element {
+export function HeaderTitle({ children, className }: HeaderTitleProps): JSX.Element {
   return (
     <div className={cx(titleClassName, className)}>
       <span>{children}</span>

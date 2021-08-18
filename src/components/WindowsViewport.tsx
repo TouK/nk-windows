@@ -1,8 +1,14 @@
 import { css, cx } from "emotion";
 import React, { PropsWithChildren, useMemo } from "react";
-import { ignorePointerEvents } from "./classNames";
-import { useSize } from "./hooks";
-import { ViewportContext } from "./ViewportContext";
+import { useSize } from "../hooks";
+import { ViewportContext } from "../ViewportContext";
+
+const ignorePointerEvents = css({
+  pointerEvents: "none",
+  "& > *": {
+    pointerEvents: "auto",
+  },
+});
 
 const fullscreenFixed = css({
   top: 0,

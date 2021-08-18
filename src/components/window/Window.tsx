@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { useWindowManager, useWindowZoom } from "./hooks";
-import { WindowWithOrder } from "./types";
+import { useWindowManager, useWindowZoom } from "../../hooks";
+import { WindowWithOrder } from "../../types";
 import { ContentGetter, WindowContent } from "./WindowContent";
 import { WindowFrame } from "./WindowFrame";
 

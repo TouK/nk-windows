@@ -1,6 +1,6 @@
-import { cx } from "emotion";
+import { css, cx } from "emotion";
 import React, { MouseEvent, PropsWithChildren, ReactElement, useCallback } from "react";
-import { getDragHandleClass } from "./getDragHandleClass";
+import { DRAG_HANDLE_CLASS_NAME } from "../consts";
 
 type DragHandleProps = {
   disabled?: boolean;
@@ -8,6 +8,16 @@ type DragHandleProps = {
   className?: string;
   el?: ReactElement;
 };
+
+function getDragHandleClass(isStatic: boolean) {
+  return cx(
+    css({
+      userSelect: isStatic ? "none" : "auto",
+      cursor: isStatic ? "auto" : "move",
+    }),
+    DRAG_HANDLE_CLASS_NAME,
+  );
+}
 
 export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Element {
   const { children, className, disabled, el = <div />, ignoredChildren = `textarea, input, select, button` } = props;

@@ -1,7 +1,7 @@
 import { css, cx } from "emotion";
 import React from "react";
-import { rgba } from "./rgba";
-import { useModalMaskTheme } from "./themeHooks";
+import { rgba } from "../rgba";
+import { useModalMaskTheme } from "../themeHooks";
 
 export function ModalMask({ zIndex }: { zIndex?: number }): JSX.Element {
   const modalMaskTheme = useModalMaskTheme();

@@ -1,19 +1,20 @@
 import React, { PropsWithChildren, useMemo } from "react";
-import { defaultComponents } from "./DefaultComponents";
-import { DragHandle } from "./DragHandle";
-import { WindowButtonProps } from "./FooterButton";
-import { getWindowDefaultColors } from "./getWindowDefaultColors";
+import { DragHandle } from "../DragHandle";
+import { getWindowDefaultColors } from "../../getWindowDefaultColors";
 import { WindowContentProps } from "./WindowContentProps";
-import { WindowContentGrid } from "./WindowContentWrap";
+import { WindowContentGrid } from "./WindowContentGrid";
+import * as defaultComponents from "./defaultComponents";
+import { FooterButtonProps } from "./footer";
 
-interface ContentClasses {
+export interface ContentClasses {
   content?: string;
   footer?: string;
+  footerButton?: string;
   header?: string;
 }
 
 export interface DefaultContentProps<K extends number | string = any, M = unknown> extends WindowContentProps<K, M> {
-  buttons?: WindowButtonProps[];
+  buttons?: FooterButtonProps[];
   title?: string;
   backgroundDrag?: boolean;
   classnames?: ContentClasses;
@@ -61,7 +62,7 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
         components={passComponents}
       />
       <Content className={classes.content}>{children}</Content>
-      <Footer buttons={buttons} className={classes.footer} components={passComponents} />
+      <Footer buttons={buttons} classnames={classes} components={passComponents} />
     </WindowContentGrid>
   );
 }
