@@ -1,3 +1,15 @@
+# [1.0.0-beta.3](https://github.com/touk/nk-windows/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-08-18)
+
+
+### Features
+
+* window footer button component change possibility ([6298794](https://github.com/touk/nk-windows/commit/6298794b530c601d590cf66ab29f0d4995647c03))
+
+
+### BREAKING CHANGES
+
+* removed LaddaButton
+
 # [1.0.0-beta.2](https://github.com/touk/nk-windows/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-08-17)
 
 
