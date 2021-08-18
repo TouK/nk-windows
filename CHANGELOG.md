@@ -1,3 +1,15 @@
+# [1.0.0-beta.4](https://github.com/touk/nk-windows/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-08-18)
+
+
+### Code Refactoring
+
+* rearrange code, cleanup ([102778e](https://github.com/touk/nk-windows/commit/102778e56577cf44d7b558a97877a8df056ff38d))
+
+
+### BREAKING CHANGES
+
+* some renames
+
 # [1.0.0-beta.3](https://github.com/touk/nk-windows/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-08-18)
 
 
