@@ -61,7 +61,7 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
         components={passComponents}
       />
       <Content className={classes.content}>{children}</Content>
-      <Footer buttons={buttons} className={classes.footer} />
+      <Footer buttons={buttons} className={classes.footer} components={passComponents} />
     </WindowContentGrid>
   );
 }

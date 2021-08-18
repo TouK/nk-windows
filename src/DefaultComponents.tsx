@@ -1,3 +1,4 @@
+import { defaultFooterComponents } from "./DefaultFooterComponents";
 import { defaultHeaderComponents } from "./DefaultHeaderComponents";
 import { WindowFooter } from "./WindowFooter";
 import { WindowHeader } from "./WindowHeader";
@@ -8,4 +9,5 @@ export const defaultComponents = {
   ...defaultHeaderComponents,
   Content: WithOverflow,
   Footer: WindowFooter,
+  ...defaultFooterComponents,
 };
