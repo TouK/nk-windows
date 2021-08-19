@@ -1,3 +1,10 @@
+## [1.0.1-beta.1](https://github.com/touk/nk-windows/compare/v1.0.0...v1.0.1-beta.1) (2021-08-19)
+
+
+### Bug Fixes
+
+* removed broken urlParam ([aa34eb8](https://github.com/touk/nk-windows/commit/aa34eb8853b669211693537e2437a2ca76a2a411))
+
 # 1.0.0 (2021-08-18)
 
 
