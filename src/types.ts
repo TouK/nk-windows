@@ -10,7 +10,6 @@ export interface WindowType<Kind extends string | number = any, Meta extends any
   isResizable?: boolean;
   isStatic?: boolean;
   isMaximized?: boolean;
-  urlParam?: [string, string];
   shouldCloseOnEsc?: boolean;
   parent?: WindowId; // closing parent closes children
   focusParent?: string; // modal is focusParent for self and for windows opened since this modal is visible
