@@ -1,3 +1,10 @@
+# [1.1.0-beta.1](https://github.com/touk/nk-windows/compare/v1.0.1-beta.1...v1.1.0-beta.1) (2021-08-23)
+
+
+### Features
+
+* prevent bigger than screen windows ([4c1c307](https://github.com/touk/nk-windows/commit/4c1c3073e031028fb8b426c5eaf2b4f73d08c17e))
+
 ## [1.0.1-beta.1](https://github.com/touk/nk-windows/compare/v1.0.0...v1.0.1-beta.1) (2021-08-19)
 
 
