@@ -10,9 +10,8 @@ const useStyles = () => {
   const { colors } = useTheme<AppTheme>();
   return css({
     lineHeight: 0,
-    height: "100%",
     svg: {
-      height: "100%",
+      height: "2em",
       path: {
         fill: colors.mutedColor,
       },
