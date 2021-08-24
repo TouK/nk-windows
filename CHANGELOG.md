@@ -1,3 +1,15 @@
+# [1.1.0-beta.2](https://github.com/touk/nk-windows/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2021-08-24)
+
+
+### Bug Fixes
+
+* header button size ([7a60cc1](https://github.com/touk/nk-windows/commit/7a60cc14ee03bf963ceebb6d9956903af15258f6))
+
+
+### Features
+
+* expose header buttons styles setter ([84b7dc9](https://github.com/touk/nk-windows/commit/84b7dc904aa9dd942366961dfbc8781ec14a5585))
+
 # [1.1.0-beta.1](https://github.com/touk/nk-windows/compare/v1.0.1-beta.1...v1.1.0-beta.1) (2021-08-23)
 
 
