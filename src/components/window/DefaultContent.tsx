@@ -1,16 +1,17 @@
 import React, { PropsWithChildren, useMemo } from "react";
-import { DragHandle } from "../DragHandle";
 import { getWindowDefaultColors } from "../../getWindowDefaultColors";
-import { WindowContentProps } from "./WindowContentProps";
-import { WindowContentGrid } from "./WindowContentGrid";
+import { DragHandle } from "../DragHandle";
 import * as defaultComponents from "./defaultComponents";
 import { FooterButtonProps } from "./footer";
+import { WindowContentGrid } from "./WindowContentGrid";
+import { WindowContentProps } from "./WindowContentProps";
 
 export interface ContentClasses {
   content?: string;
   footer?: string;
   footerButton?: string;
   header?: string;
+  headerButtons?: string;
 }
 
 export interface DefaultContentProps<K extends number | string = any, M = unknown> extends WindowContentProps<K, M> {
@@ -54,7 +55,7 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
     <WindowContentGrid>
       <Header
         title={title || data.title}
-        className={classes.header}
+        classnames={classes}
         isStatic={isMaximized || data.isStatic}
         isMaximized={isMaximized}
         zoomDialog={zoom}
