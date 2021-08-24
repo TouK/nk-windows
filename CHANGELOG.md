@@ -1,3 +1,10 @@
+# [1.1.0-beta.3](https://github.com/touk/nk-windows/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2021-08-24)
+
+
+### Bug Fixes
+
+* header buttons names instead of classnames ([c4d2a02](https://github.com/touk/nk-windows/commit/c4d2a02df304070d6e31f4b1cb230635b9cb1742))
+
 # [1.1.0-beta.2](https://github.com/touk/nk-windows/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2021-08-24)
 
 
