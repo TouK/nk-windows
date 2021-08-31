@@ -41,15 +41,21 @@ const useButtonTheme = () => {
 
 export function FooterButton({ action, disabled, classname, ...props }: FooterButtonProps): JSX.Element {
   const [working, setWorking] = useState(false);
+  const [error, setError] = useState(false);
   const onClick = useCallback(async () => {
     setWorking(true);
-    await action();
+    setError(null);
+    try {
+      await action();
+    } catch (e) {
+      setError(true);
+    }
     setWorking(false);
   }, [action]);
   const isDisabled = disabled || working;
   const buttonTheme = useButtonTheme();
   return (
-    <button type="button" className={cx(buttonReset, buttonTheme, classname)} onClick={onClick} disabled={isDisabled} {...props}>
+    <button type="button" className={cx(buttonReset, buttonTheme, { error }, classname)} onClick={onClick} disabled={isDisabled} {...props}>
       {props.title}
     </button>
   );
