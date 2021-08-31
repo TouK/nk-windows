@@ -55,7 +55,13 @@ export function FooterButton({ action, disabled, classname, ...props }: FooterBu
   const isDisabled = disabled || working;
   const buttonTheme = useButtonTheme();
   return (
-    <button type="button" className={cx(buttonReset, buttonTheme, { error }, classname)} onClick={onClick} disabled={isDisabled} {...props}>
+    <button
+      type="button"
+      className={cx(buttonReset, buttonTheme, { "action-failed": error }, classname)}
+      onClick={onClick}
+      disabled={isDisabled}
+      {...props}
+    >
       {props.title}
     </button>
   );
