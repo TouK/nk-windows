@@ -1,3 +1,10 @@
+# [1.1.0-beta.4](https://github.com/touk/nk-windows/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2021-08-31)
+
+
+### Features
+
+* better default footer button support for promise fail ([6ca213e](https://github.com/touk/nk-windows/commit/6ca213e0ee17caa4856ebd8ed02a3ae173006d6e))
+
 # [1.1.0-beta.3](https://github.com/touk/nk-windows/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2021-08-24)
 
 
