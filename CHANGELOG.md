@@ -1,3 +1,10 @@
+# [1.1.0-beta.6](https://github.com/touk/nk-windows/compare/v1.1.0-beta.5...v1.1.0-beta.6) (2021-08-31)
+
+
+### Bug Fixes
+
+* individual button classname ([c277006](https://github.com/touk/nk-windows/commit/c2770066ad33c2a7c7ac267650386aedcf3e42cb))
+
 # [1.1.0-beta.5](https://github.com/touk/nk-windows/compare/v1.1.0-beta.4...v1.1.0-beta.5) (2021-08-31)
 
 
