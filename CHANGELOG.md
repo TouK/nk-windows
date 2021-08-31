@@ -1,3 +1,10 @@
+# [1.1.0-beta.5](https://github.com/touk/nk-windows/compare/v1.1.0-beta.4...v1.1.0-beta.5) (2021-08-31)
+
+
+### Bug Fixes
+
+* safe (from global styles) classname ([410ff32](https://github.com/touk/nk-windows/commit/410ff325ea834db379522d8af40ea1ec653b8506))
+
 # [1.1.0-beta.4](https://github.com/touk/nk-windows/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2021-08-31)
 
 
