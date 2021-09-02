@@ -1,3 +1,10 @@
+# [1.2.0-beta.1](https://github.com/touk/nk-windows/compare/v1.1.0...v1.2.0-beta.1) (2021-09-02)
+
+
+### Features
+
+* expose base HeaderButton for customization ([2322c87](https://github.com/touk/nk-windows/commit/2322c87904ad7edfcb9691864159f61efb3c3735))
+
 # [1.1.0](https://github.com/touk/nk-windows/compare/v1.0.0...v1.1.0) (2021-09-02)
 
 
