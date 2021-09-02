@@ -1,6 +1,6 @@
 import { css, cx } from "emotion";
 import { isEqual } from "lodash";
-import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } from "react";
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
@@ -150,6 +150,14 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     setFocused(false);
   }, []);
 
+  const maxSize = useMemo(
+    () => ({
+      height: `calc(100% - ${position?.y || 0}px)`,
+      width: `calc(100% - ${position?.x || 0}px)`,
+    }),
+    [position],
+  );
+
   return (
     <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
       <Rnd
@@ -162,6 +170,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         position={maximized ? { x: 0, y: 0 } : position}
         minWidth={maximized ? "100%" : 400}
         minHeight={maximized ? "100%" : 140}
+        maxHeight={maxSize.height}
+        maxWidth={maxSize.width}
         onResizeStop={onResizeStop}
         onDrag={onDrag}
         onDragStop={onDragStop}

@@ -1,4 +1,3 @@
-import { groupBy, mapValues } from "lodash";
 import { createSelector } from "reselect";
 import { WindowId, WindowManagerState, WindowType } from "../types";
 
@@ -19,14 +18,6 @@ export const getTopmostModal = createSelector(
   getWindowsState,
   ({ order, windows }): WindowId => order.find((id) => windows.find(byId(id))?.isModal),
 );
-
-export const getWindowsFromQuery = createSelector(getWindowsState, ({ windows }) => {
-  const windowsFromQuery = windows.filter((w) => w.urlParam).map((w) => w.urlParam);
-  return mapValues(
-    groupBy(windowsFromQuery, ([param]) => param),
-    (values) => values.map(([, value]) => value),
-  );
-});
 
 export const getWindowsWithOrder = createSelector(
   getWindows,

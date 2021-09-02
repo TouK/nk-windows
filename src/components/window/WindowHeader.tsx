@@ -1,7 +1,8 @@
 import { css, cx } from "emotion";
 import React, { useMemo } from "react";
-import * as defaultHeaderComponents from "./header";
 import { DragHandle } from "../DragHandle";
+import { ContentClasses } from "./DefaultContent";
+import * as defaultHeaderComponents from "./header";
 import { HeaderButtons } from "./HeaderButtons";
 
 export interface WindowHeaderProps {
@@ -10,7 +11,7 @@ export interface WindowHeaderProps {
   zoomDialog?: (value?: boolean) => void;
   isMaximized?: boolean;
   isStatic?: boolean;
-  className?: string;
+  classnames?: Pick<ContentClasses, "header" | "headerButtons">;
   components?: Partial<typeof defaultHeaderComponents>;
 }
 
@@ -22,7 +23,7 @@ const flexRow = css({
 
 export function WindowHeader({
   title,
-  className,
+  classnames,
   closeDialog,
   zoomDialog,
   isStatic,
@@ -48,8 +49,8 @@ export function WindowHeader({
 
   return (
     <DragHandle el={el} disabled={isStatic}>
-      {title && <Title className={className}>{title}</Title>}
-      <HeaderButtons className={cx(flexRow, css({ flexBasis: "0%" }))}>
+      {title && <Title className={classnames.header}>{title}</Title>}
+      <HeaderButtons className={cx(flexRow, classnames.headerButtons)}>
         {zoomDialog && <Zoom zoomDialog={zoomDialog} isMaximized={isMaximized} />}
         {closeDialog && <Close closeDialog={closeDialog} />}
       </HeaderButtons>

@@ -39,8 +39,8 @@ export function WindowFooter({
     <footer className={cx(flexClass, css({ justifyContent: "center" }), classnames.footer)}>
       {children}
       <div>
-        {uniqButtons.map(({ disabled, ...props }) => (
-          <Button key={props.title} disabled={allDisabled || disabled} {...props} classname={classnames.footerButton} />
+        {uniqButtons.map(({ disabled, classname, ...props }) => (
+          <Button key={props.title} disabled={allDisabled || disabled} {...props} classname={cx(classname, classnames.footerButton)} />
         ))}
       </div>
     </footer>

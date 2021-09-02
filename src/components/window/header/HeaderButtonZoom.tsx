@@ -9,5 +9,9 @@ export interface HeaderButtonZoomProps {
 }
 
 export function HeaderButtonZoom({ zoomDialog, isMaximized }: HeaderButtonZoomProps): JSX.Element {
-  return <HeaderButton onClick={() => zoomDialog()}>{isMaximized ? <RestoreIcon /> : <ZoomIcon />}</HeaderButton>;
+  return (
+    <HeaderButton name="zoom" onClick={() => zoomDialog()}>
+      {isMaximized ? <RestoreIcon /> : <ZoomIcon />}
+    </HeaderButton>
+  );
 }
