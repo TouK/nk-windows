@@ -43,7 +43,7 @@
     "url": "https://github.com/touk/nk-windows.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.15.4",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@cypress/code-coverage": "3.9.10",
     "@rollup/plugin-commonjs": "20.0.0",
@@ -82,7 +82,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "24.4.0",
     "eslint-plugin-prettier": "^3.4.1",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "istanbul-merge": "^1.1.1",
     "jest": "27.1.0",
