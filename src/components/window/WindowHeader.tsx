@@ -49,7 +49,7 @@ export function WindowHeader({
 
   return (
     <DragHandle el={el} disabled={isStatic}>
-      {title && <Title className={classnames.header}>{title}</Title>}
+      {title ? <Title className={classnames.header}>{title}</Title> : <div />}
       <HeaderButtons className={cx(flexRow, classnames.headerButtons)}>
         {zoomDialog && <Zoom zoomDialog={zoomDialog} isMaximized={isMaximized} />}
         {closeDialog && <Close closeDialog={closeDialog} />}

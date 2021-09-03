@@ -1,6 +1,6 @@
 import { css, cx } from "emotion";
 import { useTheme } from "emotion-theming";
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef } from "react";
 import { AppTheme } from "../../../AppTheme";
 import { buttonReset } from "../footer/ButtonReset";
 
@@ -26,7 +26,10 @@ const useStyles = () => {
   });
 };
 
-export function HeaderButton({ className, ...props }: HeaderButtonProps): JSX.Element {
+export const HeaderButton = forwardRef(function HeaderButton(
+  { className, ...props }: HeaderButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+): JSX.Element {
   const headerButtonTheme = useStyles();
-  return <button className={cx(buttonReset, headerButtonTheme, className)} {...props} />;
-}
+  return <button className={cx(buttonReset, headerButtonTheme, className)} {...props} ref={ref} />;
+});

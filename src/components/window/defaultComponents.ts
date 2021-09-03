@@ -1,4 +1,5 @@
 export { WindowHeader as Header, WindowHeaderProps as HeaderProps } from "./WindowHeader";
+export { HeaderButton, HeaderButtonProps } from "./header/HeaderButton";
 export {
   HeaderTitle,
   HeaderTitleProps,
