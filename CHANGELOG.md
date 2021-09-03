@@ -1,3 +1,10 @@
+# [1.2.0-beta.3](https://github.com/touk/nk-windows/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2021-09-03)
+
+
+### Bug Fixes
+
+* placeholder for empty title ([563ca60](https://github.com/touk/nk-windows/commit/563ca6045f3b427a593cfcf6c74ceee078c17f88))
+
 # [1.2.0-beta.2](https://github.com/touk/nk-windows/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2021-09-02)
 
 
