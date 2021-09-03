@@ -1,3 +1,18 @@
+# [1.2.0](https://github.com/touk/nk-windows/compare/v1.1.0...v1.2.0) (2021-09-03)
+
+
+### Bug Fixes
+
+* placeholder for empty title ([563ca60](https://github.com/touk/nk-windows/commit/563ca6045f3b427a593cfcf6c74ceee078c17f88))
+
+
+### Features
+
+* blur after zoom click (prevent focused style) ([55cd790](https://github.com/touk/nk-windows/commit/55cd7906a69e947325bdf4acfbb2dddac2dc25a4))
+* expose base HeaderButton for customization ([2322c87](https://github.com/touk/nk-windows/commit/2322c87904ad7edfcb9691864159f61efb3c3735))
+* forward HeaderButton ref ([adcdd1e](https://github.com/touk/nk-windows/commit/adcdd1e909f1948de60b9295b39277663986514e))
+* new header button icons ([a2c2e84](https://github.com/touk/nk-windows/commit/a2c2e8482694251252b17a2727a1c97d441fba72))
+
 # [1.2.0-beta.3](https://github.com/touk/nk-windows/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2021-09-03)
 
 
