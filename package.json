@@ -43,7 +43,7 @@
     "url": "https://github.com/touk/nk-windows.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.15.4",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@cypress/code-coverage": "3.9.10",
     "@rollup/plugin-commonjs": "20.0.0",
