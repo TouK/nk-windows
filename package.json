@@ -43,7 +43,7 @@
     "url": "https://github.com/touk/nk-windows.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.4",
+    "@babel/core": "^7.15.5",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@cypress/code-coverage": "3.9.10",
     "@juggle/resize-observer": "^3.3.1",
@@ -57,7 +57,7 @@
     "@semantic-release/release-notes-generator": "^9.0.3",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
-    "@storybook/addons": "6.3.7",
+    "@storybook/addons": "6.3.8",
     "@storybook/builder-webpack5": "^6.3.7",
     "@storybook/manager-webpack5": "^6.3.7",
     "@storybook/react": "^6.3.8",
@@ -70,7 +70,7 @@
     "@types/jest": "27.0.1",
     "@types/lodash": "^4.14.172",
     "@types/node": "16.7.13",
-    "@types/react": "^17.0.19",
+    "@types/react": "^17.0.20",
     "@types/testing-library__jest-dom": "5.14.1",
     "@types/testing-library__react": "^10.2.0",
     "@typescript-eslint/eslint-plugin": "4.31.0",
