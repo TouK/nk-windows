@@ -1,3 +1,8 @@
 import { createContext } from "react";
 
-export const ViewportContext = createContext({ width: 0, height: 0 });
+export interface ViewportContextType {
+  width: number;
+  height: number;
+}
+
+export const ViewportContext = createContext<ViewportContextType>({ width: 0, height: 0 });
