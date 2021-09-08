@@ -89,7 +89,7 @@
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "istanbul-merge": "^1.1.1",
-    "jest": "27.1.0",
+    "jest": "27.1.1",
     "lodash": "^4.17.21",
     "prettier": "2.3.2",
     "react": "^17.0.0",
