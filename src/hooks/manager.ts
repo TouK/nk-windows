@@ -2,9 +2,9 @@ import { useCallback, useContext, useMemo } from "react";
 import { WindowManagerContext } from "../context";
 import { closeWindow, getWindowsWithOrder, openWindow } from "../store";
 import { WindowId, WindowManagerState, WindowType } from "../types";
-import { ViewportContext } from "../ViewportContext";
+import { ViewportContext, ViewportContextType } from "../ViewportContext";
 
-export function useViewportSize(): { width: number; height: number } {
+export function useViewportSize(): ViewportContextType {
   const context = useContext(ViewportContext);
   if (!context) {
     throw new Error("used outside WindowManager");

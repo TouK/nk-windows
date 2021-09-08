@@ -1,13 +1,14 @@
 import { css, cx } from "emotion";
 import { isEqual } from "lodash";
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
+import { usePrevious } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
-import { defer, random } from "../../utils";
+import { random } from "../../utils";
 
 interface WindowFrameProps {
   focusGroup?: string;
@@ -19,6 +20,7 @@ interface WindowFrameProps {
   maximized?: boolean;
   onTopEdgeZoom?: (isTouching: boolean) => void;
   onEscape?: () => void;
+  edgeMargin?: number; //default/minimal size is 8 to avoid loops in calculations
 }
 
 const zoomAnimation = {
@@ -26,11 +28,8 @@ const zoomAnimation = {
   exit: css({ transition: "all 150ms" }),
 };
 
-function calcOffView(viewportSize: number, end: number, current: number) {
-  const normalizedEnd = Math.min(0, Math.round(viewportSize - end));
-  const start = Math.round(current);
-
-  return normalizedEnd ? (start === 0 ? current : current + normalizedEnd) : start > 0 ? current : 0;
+function calcCoord(padding: number, end: number, viewportSize: number, current: number) {
+  return Math.max(padding, end >= viewportSize - padding / 2 ? current - Math.max(padding, end - viewportSize) : current);
 }
 
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
@@ -44,6 +43,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     resizable = false,
     moveable = false,
     onTopEdgeZoom,
+    edgeMargin = 8,
   } = props;
 
   const ref = useRef<HTMLDivElement>();
@@ -52,31 +52,43 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const [size, setSize] = useState<{ width: number; height: number }>(null);
   const dragging = useRef(false);
 
-  useEffect(
-    () =>
-      defer(() => {
-        const { height, width, bottom, right } = ref.current.getBoundingClientRect();
-        if (dragging.current) return;
-        if (!position) {
-          setPosition({
-            x: (viewport.width - width) / 2 + random(randomizePosition),
-            y: (viewport.height * 0.75 - height) / 2 + random(randomizePosition),
-          });
-        }
-        if (!maximized) {
-          setPosition((current) => {
-            const nextPosition = {
-              x: calcOffView(viewport.width, right, current.x),
-              y: calcOffView(viewport.height, bottom, current.y),
-            };
-            return isEqual(nextPosition, current) ? current : nextPosition;
-          });
-        }
-      }),
-    [maximized, position, randomizePosition, viewport],
+  // set initial position
+  useEffect(() => {
+    const { height, width } = ref.current.getBoundingClientRect();
+    if (dragging.current) return;
+    if (!position) {
+      setPosition({
+        x: Math.max(0, (viewport.width - width) / 2 + random(randomizePosition)),
+        y: Math.max(0, (viewport.height * 0.75 - height) / 2 + random(randomizePosition)),
+      });
+    }
+  }, [maximized, position, randomizePosition, viewport]);
+
+  // setup position correction for screen egdes
+  const padding = useMemo(() => Math.max(8, edgeMargin), [edgeMargin]);
+  const wasMaximized = usePrevious(maximized);
+  const calcPosition = useCallback(
+    (viewport) => {
+      const { top, left, bottom, right } = ref.current.getBoundingClientRect();
+      return {
+        x: calcCoord(padding, right, viewport.width, left),
+        y: calcCoord(padding, bottom, viewport.height, top),
+      };
+    },
+    [padding],
   );
 
-  const savePosition = useCallback((position: Position) => !maximized && setPosition(position), [maximized]);
+  useLayoutEffect(() => {
+    if (!(maximized || wasMaximized)) {
+      const newValue = calcPosition(viewport);
+      setPosition((current) => (isEqual(newValue, current) ? current : newValue));
+    }
+  }, [wasMaximized, calcPosition, maximized, position, viewport]);
+
+  const savePosition = useCallback(
+    (position: Position) => !(maximized || wasMaximized) && setPosition(position),
+    [wasMaximized, maximized],
+  );
 
   const timeout = useRef<NodeJS.Timeout>();
   const onDrag = useCallback(
@@ -152,10 +164,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   const maxSize = useMemo(
     () => ({
-      height: `calc(100% - ${position?.y || 0}px)`,
-      width: `calc(100% - ${position?.x || 0}px)`,
+      width: `calc(100% - ${position?.x <= padding ? padding * 2 : position?.x || 0}px)`,
+      height: `calc(100% - ${position?.y <= padding ? padding * 2 : position?.y || 0}px)`,
     }),
-    [position],
+    [padding, position],
   );
 
   return (
