@@ -1,3 +1,10 @@
+# [1.2.0-beta.4](https://github.com/touk/nk-windows/compare/v1.2.0-beta.3...v1.2.0-beta.4) (2021-09-08)
+
+
+### Bug Fixes
+
+* better window positioning ([7b94f19](https://github.com/touk/nk-windows/commit/7b94f198cf7a2261e56ff6cc1a55e7418386f0b4))
+
 # [1.2.0-beta.3](https://github.com/touk/nk-windows/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2021-09-03)
 
 

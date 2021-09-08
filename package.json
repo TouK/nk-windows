@@ -1,6 +1,6 @@
 {
   "name": "@touk/window-manager",
-  "version": "1.2.0-beta.3",
+  "version": "1.2.0-beta.4",
   "types": "./cjs/index.d.ts",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
@@ -113,18 +113,6 @@
     "typescript": "4.4.2",
     "ua-parser-js": "^0.7.28",
     "webpack": "^5.51.2",
-    "@juggle/resize-observer": "^3.3.1",
-    "color-alpha": "^1.1.3",
-    "emotion": "^10.0.27",
-    "emotion-theming": "^10.0.27",
-    "lodash": "^4.17.21",
-    "react-cool-dimensions": "^2.0.7",
-    "react-focus-lock": "^2.5.2",
-    "react-hotkeys-hook": "^3.4.0",
-    "react-inspector": "^5.1.1",
-    "react-rnd": "^10.3.4",
-    "react-transition-group": "^4.4.2",
-    "reselect": "^4.0.0",
     "rooks": "^5.7.0"
   },
   "peerDependencies": {
