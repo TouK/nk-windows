@@ -6,6 +6,8 @@ import { WindowManagerContextProvider } from "../context";
 import { ContentGetter } from "./window/WindowContent";
 import { WindowsContainer } from "./WindowsContainer";
 
+const defaultTheme = { backgroundOpacity: 0.9, backdropFilter: "blur(16px)" };
+
 export function WindowManager({
   children,
   theme,
@@ -18,7 +20,7 @@ export function WindowManager({
     <WindowManagerContextProvider>
       <div>
         {children}
-        <ThemeProvider<AppTheme> theme={(outerTheme = {}) => defaultsDeep(theme, outerTheme)}>
+        <ThemeProvider<AppTheme> theme={(outerTheme = {}) => defaultsDeep(theme, outerTheme, defaultTheme)}>
           <WindowsContainer contentGetter={contentGetter} />
         </ThemeProvider>
       </div>

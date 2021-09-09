@@ -1,18 +1,30 @@
-import { css } from "emotion";
+import { css, cx } from "emotion";
 import { useTheme } from "emotion-theming";
-import React from "react";
+import React, { useMemo } from "react";
+import { AppTheme } from "./AppTheme";
 import { rgba } from "./rgba";
 
 export function useFrameTheme() {
-  const theme = useTheme<any>();
+  const { colors, spacing = {}, backgroundOpacity, backdropFilter } = useTheme<AppTheme>();
+  const { baseUnit = 0 } = spacing;
   const focusWrapperTheme = css({
-    border: `${theme.spacing?.baseUnit / 2}px solid ${theme.colors?.borderColor}`,
+    border: `${Math.round(baseUnit / 2)}px solid ${colors?.borderColor}`,
   });
-  const windowTheme = css({
-    background: rgba(theme.colors.primaryBackground, 0.9),
-    boxShadow: `0 4px 16px 0 ${rgba(theme.colors.borderColor, 0.5)}`,
-  });
-  return { focusWrapperTheme, windowTheme };
+  const windowMargin = useMemo(() => Math.max(8, baseUnit * 2), [baseUnit]);
+  const windowTheme = useMemo(
+    () =>
+      cx(
+        css({
+          backdropFilter: backdropFilter,
+          background: rgba(colors.primaryBackground, backgroundOpacity),
+          boxShadow: `0 4px 16px 0 ${rgba(colors.borderColor, 0.5)}`,
+          margin: windowMargin, // just to show in devtools
+        }),
+      ),
+    [backdropFilter, backgroundOpacity, colors.borderColor, colors.primaryBackground, windowMargin],
+  );
+
+  return { focusWrapperTheme, windowTheme, windowMargin };
 }
 
 export function useModalMaskTheme() {
