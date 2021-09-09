@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/touk/nk-windows/compare/v1.2.1...v1.2.2) (2021-09-09)
+
+
+### Bug Fixes
+
+* expose backgroundOpacity, backdropFilter and windowMargin for customization ([f55fa87](https://github.com/touk/nk-windows/commit/f55fa8710493ab74171c6b2cd73445f4598543b7))
+
 ## [1.2.2-beta.1](https://github.com/touk/nk-windows/compare/v1.2.1...v1.2.2-beta.1) (2021-09-09)
 
 
