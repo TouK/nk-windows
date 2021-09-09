@@ -20,4 +20,16 @@ context("WM", () => {
     cy.get("button[name='zoom']").click();
     cy.document().toMatchImageSnapshot({ screenshotConfig });
   });
+
+  it("should prevent window from going offscreen", () => {
+    cy.contains("danger").click();
+    cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.document().toMatchImageSnapshot({ screenshotConfig });
+    cy.viewport(500, 500);
+    cy.wait(200);
+    cy.document().toMatchImageSnapshot({ screenshotConfig });
+    cy.viewport("macbook-13");
+    cy.wait(200);
+    cy.document().toMatchImageSnapshot({ screenshotConfig });
+  });
 });
