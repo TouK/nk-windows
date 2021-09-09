@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import HelloWorld from "./hello-world";
+import Demo from "./demo";
 
 test("displays debug button", () => {
-  render(<HelloWorld />);
+  render(<Demo />);
   expect(screen.getByText("add()")).toBeInTheDocument();
 });
