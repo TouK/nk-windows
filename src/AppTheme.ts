@@ -1,5 +1,7 @@
 export type AppTheme = Partial<{
   themeClass: string;
+  backgroundOpacity?: number;
+  backdropFilter?: string;
   spacing: Partial<{ baseUnit: number; controlHeight: number }>;
   borderRadius: number;
   fontSize: number;

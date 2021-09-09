@@ -53,6 +53,9 @@ const HelloWorld: React.FC = () => {
           borderColor: "#000000",
           mutedColor: "#999999",
         },
+        spacing: {
+          baseUnit: 5,
+        },
       }}
     >
       <DebugButtons />

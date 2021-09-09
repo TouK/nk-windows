@@ -20,7 +20,6 @@ interface WindowFrameProps {
   maximized?: boolean;
   onTopEdgeZoom?: (isTouching: boolean) => void;
   onEscape?: () => void;
-  edgeMargin?: number; //default/minimal size is 8 to avoid loops in calculations
 }
 
 const zoomAnimation = {
@@ -43,13 +42,12 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     resizable = false,
     moveable = false,
     onTopEdgeZoom,
-    edgeMargin = 8,
   } = props;
-
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<{ x: number; y: number }>();
   const [size, setSize] = useState<{ width: number; height: number }>(null);
+  const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
 
   // set initial position
@@ -65,17 +63,16 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, [maximized, position, randomizePosition, viewport]);
 
   // setup position correction for screen egdes
-  const padding = useMemo(() => Math.max(8, edgeMargin), [edgeMargin]);
   const wasMaximized = usePrevious(maximized);
   const calcPosition = useCallback(
     (viewport) => {
       const { top, left, bottom, right } = ref.current.getBoundingClientRect();
       return {
-        x: calcCoord(padding, right, viewport.width, left),
-        y: calcCoord(padding, bottom, viewport.height, top),
+        x: calcCoord(windowMargin, right, viewport.width, left),
+        y: calcCoord(windowMargin, bottom, viewport.height, top),
       };
     },
-    [padding],
+    [windowMargin],
   );
 
   useLayoutEffect(() => {
@@ -95,24 +92,24 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     (e, { y }) => {
       dragging.current = true;
 
-      if (!onTopEdgeZoom) {
-        return;
-      }
-
       clearTimeout(timeout.current);
-      if (maximized && y > 15) {
-        timeout.current = setTimeout(() => {
-          if (dragging.current) {
-            setPosition((p) => ({ ...p, y }));
-            onTopEdgeZoom(false);
-          }
-        }, 40);
-      } else if (y <= 15) {
-        timeout.current = setTimeout(() => {
-          if (dragging.current) {
-            onTopEdgeZoom(true);
-          }
-        }, 250);
+
+      // maximize when top edge long touched
+      if (onTopEdgeZoom) {
+        if (maximized && y > 15) {
+          timeout.current = setTimeout(() => {
+            if (dragging.current) {
+              setPosition((p) => ({ ...p, y }));
+              onTopEdgeZoom(false);
+            }
+          }, 40);
+        } else if (y <= 15) {
+          timeout.current = setTimeout(() => {
+            if (dragging.current) {
+              onTopEdgeZoom(true);
+            }
+          }, 250);
+        }
       }
     },
     [maximized, onTopEdgeZoom],
@@ -136,10 +133,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, []);
 
   const onResizeStop = useCallback((e, dir, el, delta, position) => savePosition(position), [savePosition]);
-  const { focusWrapperTheme, windowTheme } = useFrameTheme();
   const [focused, setFocused] = useState(false);
 
   const focusWrapperClass = css({
+    boxSizing: "border-box",
     overflow: "auto",
     width: "100%",
     height: "100%",
@@ -147,7 +144,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   });
 
   const windowClass = css({
-    backdropFilter: "blur(16px)",
+    boxSizing: "border-box",
     overflow: "visible",
     backfaceVisibility: "hidden",
     perspective: "1000",
@@ -164,10 +161,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   const maxSize = useMemo(
     () => ({
-      width: `calc(100% - ${position?.x <= padding ? padding * 2 : position?.x || 0}px)`,
-      height: `calc(100% - ${position?.y <= padding ? padding * 2 : position?.y || 0}px)`,
+      width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
+      height: `calc(100% - ${position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0}px)`,
     }),
-    [padding, position],
+    [windowMargin, position],
   );
 
   return (
@@ -175,8 +172,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       <Rnd
         disableDragging={maximized || !moveable}
         enableResizing={resizable && !maximized}
-        className={cx(windowClass, windowTheme, css({ zIndex }))}
-        style={{ display: "flex" }} // override default inline-block
+        className={cx(windowClass, windowTheme)}
+        style={{ display: "flex", zIndex }} // override default inline-block
         bounds="parent"
         size={size}
         position={maximized ? { x: 0, y: 0 } : position}
