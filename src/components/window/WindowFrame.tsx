@@ -185,6 +185,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         onDrag={onDrag}
         onDragStop={onDragStop}
         dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+        data-testid="window-frame"
       >
         {/* trap keyboard focus within group (windows opened since last modal) */}
         <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
