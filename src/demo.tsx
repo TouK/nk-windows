@@ -32,8 +32,8 @@ function ContentGetter(props: WindowContentProps<any>) {
     >
       <Inspector expandLevel={1} data={props.data} />
       <DebugButtons currentId={props.data.id} />
-      <button onClick={() => setState((s) => [...s, Math.random().toString()])}>add</button>
-      <button onClick={() => setState([])}>add</button>
+      <button onClick={() => setState((s) => [...s, Math.random().toString()])}>add line</button>
+      <button onClick={() => setState([])}>clear</button>
       {state.map((e) => (
         <p key={e}>{e}</p>
       ))}
@@ -41,7 +41,7 @@ function ContentGetter(props: WindowContentProps<any>) {
   );
 }
 
-const HelloWorld: React.FC = () => {
+const Demo: React.FC = () => {
   return (
     <WindowManagerProvider
       contentGetter={ContentGetter}
@@ -53,6 +53,9 @@ const HelloWorld: React.FC = () => {
           borderColor: "#000000",
           mutedColor: "#999999",
         },
+        spacing: {
+          baseUnit: 5,
+        },
       }}
     >
       <DebugButtons />
@@ -60,4 +63,4 @@ const HelloWorld: React.FC = () => {
   );
 };
 
-export default HelloWorld;
+export default Demo;
