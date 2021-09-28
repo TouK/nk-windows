@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import { useTheme } from "emotion-theming";
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef } from "react";
 import { AppTheme } from "../../../AppTheme";

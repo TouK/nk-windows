@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import React, { PropsWithChildren, useMemo } from "react";
 import { useSize } from "../hooks";
 import { ViewportContext } from "../ViewportContext";

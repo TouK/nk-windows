@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import React from "react";
 import { rgba } from "../rgba";
 import { useModalMaskTheme } from "../themeHooks";

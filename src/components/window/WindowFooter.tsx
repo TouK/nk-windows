@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import { uniqBy } from "lodash";
 import React, { PropsWithChildren, useMemo } from "react";
 import { ContentClasses } from "./DefaultContent";

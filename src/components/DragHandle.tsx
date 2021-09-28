@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import React, { MouseEvent, PropsWithChildren, ReactElement, useCallback } from "react";
 import { DRAG_HANDLE_CLASS_NAME } from "../consts";
 

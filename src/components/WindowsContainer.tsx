@@ -1,13 +1,13 @@
-import { css } from "emotion";
+import { css } from "@emotion/css";
 import { flatMap } from "lodash";
 import React from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { WindowsViewport } from "./WindowsViewport";
 import { useWindowManager } from "../hooks";
 import { ModalMask } from "./ModalMask";
 import { Window } from "./window/Window";
 import { ContentGetter } from "./window/WindowContent";
+import { WindowsViewport } from "./WindowsViewport";
 
 const fadeInAnimation = {
   enter: css({
