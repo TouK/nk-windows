@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export type HeaderTitleProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;

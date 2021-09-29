@@ -1,4 +1,4 @@
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import React, { useMemo } from "react";
 import { DragHandle } from "../DragHandle";
 import { ContentClasses } from "./DefaultContent";
