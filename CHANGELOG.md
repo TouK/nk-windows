@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/touk/nk-windows/compare/v1.2.3...v1.2.4) (2021-10-05)
+
+
+### Bug Fixes
+
+* prevent font blur ([5a90f4b](https://github.com/touk/nk-windows/commit/5a90f4bef865aa5b5b17486528e4043e48fbe225))
+
 ## [1.2.4-beta.1](https://github.com/touk/nk-windows/compare/v1.2.3...v1.2.4-beta.1) (2021-10-05)
 
 
