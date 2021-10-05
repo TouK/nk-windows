@@ -1,5 +1,6 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
+import { mapValues } from "lodash/fp";
 import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
@@ -31,6 +32,18 @@ function calcCoord(padding: number, end: number, viewportSize: number, current: 
   return Math.max(padding, end >= viewportSize - padding / 2 ? current - Math.max(padding, end - viewportSize) : current);
 }
 
+interface Coords {
+  x: number;
+  y: number;
+}
+
+interface Size {
+  width: number;
+  height: number;
+}
+
+const roundCoords = mapValues<Coords, number>(Math.round);
+
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
   const {
     focusGroup,
@@ -45,32 +58,36 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   } = props;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
-  const [position, setPosition] = useState<{ x: number; y: number }>();
-  const [size, setSize] = useState<{ width: number; height: number }>(null);
+  const [position, setPosition] = useState<Coords>();
+  const [size, setSize] = useState<Size>(null);
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
+
+  const randomize = useMemo(
+    () => mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition))),
+    [randomizePosition],
+  );
 
   // set initial position
   useEffect(() => {
     const { height, width } = ref.current.getBoundingClientRect();
     if (dragging.current) return;
     if (!position) {
-      setPosition({
-        x: Math.max(0, (viewport.width - width) / 2 + random(randomizePosition)),
-        y: Math.max(0, (viewport.height * 0.75 - height) / 2 + random(randomizePosition)),
-      });
+      const x = (viewport.width - width) / 2;
+      const y = (viewport.height * 0.75 - height) / 2;
+      setPosition(roundCoords(randomize({ x, y })));
     }
-  }, [maximized, position, randomizePosition, viewport]);
+  }, [maximized, position, randomize, viewport]);
 
   // setup position correction for screen egdes
   const wasMaximized = usePrevious(maximized);
   const calcPosition = useCallback(
     (viewport) => {
       const { top, left, bottom, right } = ref.current.getBoundingClientRect();
-      return {
+      return roundCoords({
         x: calcCoord(windowMargin, right, viewport.width, left),
         y: calcCoord(windowMargin, bottom, viewport.height, top),
-      };
+      });
     },
     [windowMargin],
   );
@@ -83,7 +100,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, [wasMaximized, calcPosition, maximized, position, viewport]);
 
   const savePosition = useCallback(
-    (position: Position) => !(maximized || wasMaximized) && setPosition(position),
+    (position: Position) => !(maximized || wasMaximized) && setPosition(roundCoords(position)),
     [wasMaximized, maximized],
   );
 
@@ -99,7 +116,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         if (maximized && y > 15) {
           timeout.current = setTimeout(() => {
             if (dragging.current) {
-              setPosition((p) => ({ ...p, y }));
+              setPosition((p) => roundCoords({ ...p, y }));
               onTopEdgeZoom(false);
             }
           }, 40);
