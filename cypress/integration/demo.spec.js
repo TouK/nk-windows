@@ -32,4 +32,15 @@ context("WM", () => {
     cy.wait(200);
     cy.document().toMatchImageSnapshot({ screenshotConfig });
   });
+
+  it("should round translation coords", () => {
+    cy.contains("not modal").click();
+    cy.get("[data-testid='window-frame']")
+      .should("be.visible")
+      .should(($el) => {
+        const { top, left } = $el[0].getBoundingClientRect();
+        expect(top).to.eq(Math.round(top));
+        expect(left).to.eq(Math.round(left));
+      });
+  });
 });
