@@ -1,3 +1,11 @@
+## [1.2.6](https://github.com/touk/nk-windows/compare/v1.2.5...v1.2.6) (2021-10-06)
+
+
+### Bug Fixes
+
+* dependencies ([076e1e8](https://github.com/touk/nk-windows/commit/076e1e823788140583fa3f4c0cdd141f4e640ce1))
+* dependencies ([320e835](https://github.com/touk/nk-windows/commit/320e8353a7c6d1582875029b2916ea7eea4c22b7))
+
 ## [1.2.6-beta.1](https://github.com/touk/nk-windows/compare/v1.2.5...v1.2.6-beta.1) (2021-10-06)
 
 
