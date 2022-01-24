@@ -1,3 +1,17 @@
+# [1.3.0-beta.1](https://github.com/touk/nk-windows/compare/v1.2.6...v1.3.0-beta.1) (2022-01-24)
+
+
+### Bug Fixes
+
+* pass div props to root container ([fd5d663](https://github.com/touk/nk-windows/commit/fd5d663c7c306354c8ac2ae2d1a2cf5ed46e985b))
+* pass div props to root container ([f0f34aa](https://github.com/touk/nk-windows/commit/f0f34aaa672cbf02cc7855d5d77604cba0d49209))
+
+
+### Features
+
+* better overflow support ([e301d83](https://github.com/touk/nk-windows/commit/e301d838c11b2091a57c0f5a73d3ae97121e2cbd))
+* better overflow support ([b0536c6](https://github.com/touk/nk-windows/commit/b0536c647354500a69b30ede0e8707d08cdf8992))
+
 ## [1.2.6](https://github.com/touk/nk-windows/compare/v1.2.5...v1.2.6) (2021-10-06)
 
 
