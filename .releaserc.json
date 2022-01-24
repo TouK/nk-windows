@@ -11,6 +11,10 @@
           {
             "scope": "deps",
             "release": "patch"
+          },
+          {
+            "type": "test",
+            "release": "prerelease"
           }
         ]
       }
