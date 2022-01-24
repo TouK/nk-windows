@@ -9,7 +9,7 @@
       "imageConfig": {
         "threshold": 0.00004
       },
-      "updateSnapshots": false
+      "updateSnapshots": true
     }
   }
 }
