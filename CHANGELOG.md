@@ -2,11 +2,6 @@
 
 # [1.3.0-beta.6](https://github.com/touk/nk-windows/compare/v1.3.0-beta.5...v1.3.0-beta.6) (2022-01-24)
 
-
-### Reverts
-
-* Revert "perf: trigger build only" ([766f945](https://github.com/touk/nk-windows/commit/766f9450c8a279695f6fd9ad21368ca1537ff588))
-
 # [1.3.0-beta.5](https://github.com/touk/nk-windows/compare/v1.3.0-beta.4...v1.3.0-beta.5) (2022-01-24)
 
 # [1.3.0-beta.4](https://github.com/touk/nk-windows/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2022-01-24)
