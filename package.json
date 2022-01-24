@@ -80,7 +80,7 @@
     "babel-plugin-istanbul": "^6.1.1",
     "cypress": "^8.5.0",
     "cypress-plugin-snapshots": "^1.4.4",
-    "eslint": "7.32.0",
+    "eslint": "8.7.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.5.2",
     "eslint-plugin-prettier": "^4.0.0",
