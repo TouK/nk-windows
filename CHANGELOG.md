@@ -1,3 +1,10 @@
+# [1.3.0-beta.5](https://github.com/touk/nk-windows/compare/v1.3.0-beta.4...v1.3.0-beta.5) (2022-01-24)
+
+
+### Performance Improvements
+
+* trigger build only ([a3257f4](https://github.com/touk/nk-windows/commit/a3257f4924eeb753cec4191ad75827428a1d7ddc))
+
 # [1.3.0-beta.4](https://github.com/touk/nk-windows/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2022-01-24)
 
 # [1.3.0-beta.3](https://github.com/touk/nk-windows/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2022-01-24)
