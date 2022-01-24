@@ -6,3 +6,4 @@
 Window manager used in Nussknacker (nussknacker.io)
 
 Some simple demo is [here](https://touk.github.io/nk-windows).
+
