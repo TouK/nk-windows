@@ -1,3 +1,5 @@
+# [1.3.0-beta.7](https://github.com/touk/nk-windows/compare/v1.3.0-beta.6...v1.3.0-beta.7) (2022-01-24)
+
 # [1.3.0-beta.6](https://github.com/touk/nk-windows/compare/v1.3.0-beta.5...v1.3.0-beta.6) (2022-01-24)
 
 
