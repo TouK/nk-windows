@@ -60,7 +60,7 @@ jobs:
           echo ::set-output name=found::$(ls cypress/integration/__image_snapshots__/*.diff.png | wc -l)
       - name: update snapshots
         if: ${{ always() && steps.snapshots_diffs.outputs.found > 0 }}
-        run: npm run test:cypress:update
+        run: npm run test:cypress:ci:update
       - name: Create Pull Request
         id: update_snapshots
         if: always() && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
