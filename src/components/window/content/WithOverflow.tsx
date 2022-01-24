@@ -1,7 +1,9 @@
 import { css, cx } from "@emotion/css";
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MoveFocusInside } from "react-focus-lock";
+import { useForkRef } from "rooks";
 import { useSize } from "../../../hooks";
+import { Ctx, OverflowContext } from "./OverflowContext";
 
 export type WithOverflowProps = PropsWithChildren<{
   className?: string;
@@ -9,7 +11,7 @@ export type WithOverflowProps = PropsWithChildren<{
 
 export function WithOverflow(props: WithOverflowProps): JSX.Element {
   const { children, className } = props;
-  const { observe: ref, height: availableHeight, entry } = useSize();
+  const { observe: parentRef, height: availableHeight, entry } = useSize();
   const { observe: childRef, height: contentHeight } = useSize();
 
   const innerShadow = useMemo(
@@ -27,46 +29,60 @@ export function WithOverflow(props: WithOverflowProps): JSX.Element {
     [],
   );
 
-  const overflowSize = useMemo(() => Math.round(contentHeight - availableHeight), [availableHeight, contentHeight]);
-  const [overflows, setOverflows] = useState([0, 0]);
+  const overflowSize = useMemo(() => Math.max(0, Math.round(contentHeight - availableHeight)), [availableHeight, contentHeight]);
+  const [overflowTop, setOverflowTop] = useState(0);
+  const [overflowBottom, setOverflowBottom] = useState(0);
   const updateOverflows = useCallback(() => {
-    const scrollTop = entry?.target.scrollTop;
-    const topOverflow = Math.min(2, scrollTop / 10);
-    const bottomOverflow = Math.min(2, (overflowSize - scrollTop) / 10);
-    setOverflows([topOverflow, bottomOverflow]);
+    const scrollTop = entry?.target.scrollTop || 0;
+    const topOverflow = Math.max(0, Math.min(2, scrollTop / 10));
+    const bottomOverflow = Math.max(0, Math.min(2, (overflowSize - scrollTop) / 10));
+    setOverflowTop(topOverflow);
+    setOverflowBottom(bottomOverflow);
   }, [entry, overflowSize]);
 
   useEffect(() => {
     updateOverflows();
   }, [updateOverflows]);
 
-  const styles = useMemo(
+  const [top, bottom] = useMemo(
     () =>
-      overflows.map((size) => ({
+      [overflowTop, overflowBottom].map((size) => ({
         boxShadow: `0 0 4px ${Math.max(0, size)}px rgba(0,0,0, .5)`,
       })),
-    [overflows],
+    [overflowBottom, overflowTop],
+  );
+  const scrollRef = useRef<HTMLDivElement>();
+  const ref = useForkRef(parentRef, scrollRef);
+
+  const scrollTo = useCallback((top: number) => scrollRef.current.scrollTo({ top, behavior: "smooth" }), []);
+  const ctx = useMemo<Ctx>(
+    () => ({
+      scrollTo: overflowTop || overflowBottom ? scrollTo : null,
+      scrollToTop: overflowTop ? () => scrollTo(0) : null,
+      scrollToBottom: overflowBottom ? () => scrollTo(contentHeight) : null,
+    }),
+    [contentHeight, overflowBottom, overflowTop, scrollTo],
   );
 
-  const [top, bottom] = styles;
-
   return (
-    <section ref={ref} onScroll={updateOverflows} className={css({ overflow: "auto" })}>
-      {overflowSize >= 0 && (
-        <div className={cx(innerShadow, css({ top: 0 }))}>
-          <div style={top} />
-        </div>
-      )}
+    <OverflowContext.Provider value={ctx}>
+      <section ref={ref} onScroll={updateOverflows} className={css({ overflow: "auto" })}>
+        {overflowSize >= 0 && (
+          <div className={cx(innerShadow, css({ top: 0 }))}>
+            <div style={top} />
+          </div>
+        )}
 
-      <div ref={childRef} className={cx(className)}>
-        <MoveFocusInside>{children}</MoveFocusInside>
-      </div>
-
-      {overflowSize >= 0 && (
-        <div className={cx(innerShadow, css({ bottom: 0 }))}>
-          <div style={bottom} />
+        <div ref={childRef} className={cx(className)}>
+          <MoveFocusInside>{children}</MoveFocusInside>
         </div>
-      )}
-    </section>
+
+        {overflowSize >= 0 && (
+          <div className={cx(innerShadow, css({ bottom: 0 }))}>
+            <div style={bottom} />
+          </div>
+        )}
+      </section>
+    </OverflowContext.Provider>
   );
 }
