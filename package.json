@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",
-    "@cypress/browserify-preprocessor": "^3.0.1",
+    "@cypress/browserify-preprocessor": "^3.0.2",
     "@cypress/code-coverage": "^3.9.11",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
