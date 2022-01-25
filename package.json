@@ -116,7 +116,7 @@
     "react-inspector": "^5.1.1",
     "react-rnd": "^10.3.5",
     "react-transition-group": "^4.4.2",
-    "reselect": "^4.0.0",
+    "reselect": "^4.1.5",
     "rooks": "^5.10.0"
   },
   "peerDependencies": {
