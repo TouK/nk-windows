@@ -1,3 +1,10 @@
+# [1.3.0-beta.8](https://github.com/touk/nk-windows/compare/v1.3.0-beta.7...v1.3.0-beta.8) (2022-01-25)
+
+
+### Reverts
+
+* Revert "chore(deps): bulk update" ([ad71e31](https://github.com/touk/nk-windows/commit/ad71e31fe63eccee38016d46beb68c8028b5923a))
+
 # [1.3.0-beta.7](https://github.com/touk/nk-windows/compare/v1.3.0-beta.6...v1.3.0-beta.7) (2022-01-24)
 
 # [1.3.0-beta.6](https://github.com/touk/nk-windows/compare/v1.3.0-beta.5...v1.3.0-beta.6) (2022-01-24)
