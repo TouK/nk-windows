@@ -1,3 +1,46 @@
+# [1.3.0-beta.13](https://github.com/touk/nk-windows/compare/v1.3.0-beta.12...v1.3.0-beta.13) (2022-01-25)
+
+# [1.3.0-beta.12](https://github.com/touk/nk-windows/compare/v1.3.0-beta.11...v1.3.0-beta.12) (2022-01-25)
+
+# [1.3.0-beta.11](https://github.com/touk/nk-windows/compare/v1.3.0-beta.10...v1.3.0-beta.11) (2022-01-25)
+
+# [1.3.0-beta.10](https://github.com/touk/nk-windows/compare/v1.3.0-beta.9...v1.3.0-beta.10) (2022-01-25)
+
+# [1.3.0-beta.9](https://github.com/touk/nk-windows/compare/v1.3.0-beta.8...v1.3.0-beta.9) (2022-01-25)
+
+# [1.3.0-beta.8](https://github.com/touk/nk-windows/compare/v1.3.0-beta.7...v1.3.0-beta.8) (2022-01-25)
+
+
+### Reverts
+
+* Revert "chore(deps): bulk update" ([ad71e31](https://github.com/touk/nk-windows/commit/ad71e31fe63eccee38016d46beb68c8028b5923a))
+
+# [1.3.0-beta.7](https://github.com/touk/nk-windows/compare/v1.3.0-beta.6...v1.3.0-beta.7) (2022-01-24)
+
+# [1.3.0-beta.6](https://github.com/touk/nk-windows/compare/v1.3.0-beta.5...v1.3.0-beta.6) (2022-01-24)
+
+# [1.3.0-beta.5](https://github.com/touk/nk-windows/compare/v1.3.0-beta.4...v1.3.0-beta.5) (2022-01-24)
+
+# [1.3.0-beta.4](https://github.com/touk/nk-windows/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2022-01-24)
+
+# [1.3.0-beta.3](https://github.com/touk/nk-windows/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2022-01-24)
+
+# [1.3.0-beta.2](https://github.com/touk/nk-windows/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2022-01-24)
+
+# [1.3.0-beta.1](https://github.com/touk/nk-windows/compare/v1.2.6...v1.3.0-beta.1) (2022-01-24)
+
+
+### Bug Fixes
+
+* pass div props to root container ([fd5d663](https://github.com/touk/nk-windows/commit/fd5d663c7c306354c8ac2ae2d1a2cf5ed46e985b))
+* pass div props to root container ([f0f34aa](https://github.com/touk/nk-windows/commit/f0f34aaa672cbf02cc7855d5d77604cba0d49209))
+
+
+### Features
+
+* better overflow support ([e301d83](https://github.com/touk/nk-windows/commit/e301d838c11b2091a57c0f5a73d3ae97121e2cbd))
+* better overflow support ([b0536c6](https://github.com/touk/nk-windows/commit/b0536c647354500a69b30ede0e8707d08cdf8992))
+
 ## [1.2.6](https://github.com/touk/nk-windows/compare/v1.2.5...v1.2.6) (2021-10-06)
 
 

@@ -5,7 +5,7 @@ import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useM
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { usePrevious } from "rooks";
+import { usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
@@ -80,7 +80,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, [maximized, position, randomize, viewport]);
 
   // setup position correction for screen egdes
-  const wasMaximized = usePrevious(maximized);
+  const wasMaximized = usePreviousImmediate(maximized);
   const calcPosition = useCallback(
     (viewport) => {
       const { top, left, bottom, right } = ref.current.getBoundingClientRect();
