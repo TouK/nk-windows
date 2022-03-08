@@ -1,3 +1,10 @@
+## [1.3.1-beta.1](https://github.com/touk/nk-windows/compare/v1.3.0...v1.3.1-beta.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* **types:** make theme optional ([c558b99](https://github.com/touk/nk-windows/commit/c558b99f607bd35abaf4bc81bfbf7ccf6dfc862b))
+
 # [1.3.0](https://github.com/touk/nk-windows/compare/v1.2.6...v1.3.0) (2022-01-25)
 
 
