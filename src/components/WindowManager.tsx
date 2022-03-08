@@ -9,11 +9,11 @@ import { WindowsContainer } from "./WindowsContainer";
 const defaultTheme = { backgroundOpacity: 0.9, backdropFilter: "blur(16px)" };
 
 interface WindowManagerProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  theme: AppTheme;
+  theme?: AppTheme;
   contentGetter: ContentGetter;
 }
 
-export function WindowManager({ theme, contentGetter, children, ...props }: WindowManagerProps): JSX.Element {
+export function WindowManager({ theme = {}, contentGetter, children, ...props }: WindowManagerProps): JSX.Element {
   return (
     <WindowManagerContextProvider>
       <div {...props}>
