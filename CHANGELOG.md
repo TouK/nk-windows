@@ -1,3 +1,5 @@
+## [1.3.1-beta.3](https://github.com/touk/nk-windows/compare/v1.3.1-beta.2...v1.3.1-beta.3) (2022-03-22)
+
 ## [1.3.1-beta.2](https://github.com/touk/nk-windows/compare/v1.3.1-beta.1...v1.3.1-beta.2) (2022-03-09)
 
 
