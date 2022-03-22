@@ -65,7 +65,7 @@
     "@storybook/react-docgen-typescript-plugin": "^1.0.1",
     "@storybook/storybook-deployer": "2.8.10",
     "@svgr/rollup": "6.2.0",
-    "@svgr/webpack": "6.2.0",
+    "@svgr/webpack": "6.2.1",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "^12.1.2",
     "@types/jest": "27.4.0",
