@@ -84,7 +84,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "26.0.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "4.3.0",
     "istanbul-merge": "^1.1.1",
     "jest": "27.4.7",
