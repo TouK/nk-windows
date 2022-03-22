@@ -74,13 +74,6 @@ const Demo: React.FC = () => {
       theme={{
         colors: {
           focusColor: "#FF0000",
-          primaryBackground: "#FFFFFF",
-          secondaryBackground: "#CCCCCC",
-          borderColor: "#000000",
-          mutedColor: "#999999",
-        },
-        spacing: {
-          baseUnit: 5,
         },
       }}
     >
