@@ -78,7 +78,7 @@
     "@typescript-eslint/parser": "5.10.1",
     "babel-loader": "8.2.3",
     "babel-plugin-istanbul": "6.1.1",
-    "cypress": "^9.3.1",
+    "cypress": "^9.5.2",
     "cypress-plugin-snapshots": "^1.4.4",
     "eslint": "8.7.0",
     "eslint-config-prettier": "^8.3.0",
