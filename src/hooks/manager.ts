@@ -17,11 +17,11 @@ export function useRawState<K extends number | string = any>(): WindowManagerSta
   return state;
 }
 
-export function useWindowManager(parent?: WindowId) {
+export function useWindowManager<K extends number | string = any>(parent?: WindowId) {
   const [state, dispatch] = useContext(WindowManagerContext);
 
   const open = useCallback(
-    <Kind extends number | string = any, Meta = never>(windowData: Partial<WindowType<Kind, Meta>> = {}) => {
+    <Kind extends number | string = K, Meta = never>(windowData: Partial<WindowType<Kind, Meta>> = {}) => {
       return dispatch(openWindow({ parent, ...windowData }));
     },
     [dispatch, parent],

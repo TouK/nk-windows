@@ -1,8 +1,3 @@
-export enum WindowKind {
-  default,
-  danger,
-}
-
 export interface WindowType<Kind extends string | number = any, Meta = any> {
   id: string;
   title?: string;

@@ -21,12 +21,17 @@ const defaultTheme = {
   },
 };
 
-interface WindowManagerProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface WindowManagerProps<K extends number | string = any> extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   theme?: AppTheme;
-  contentGetter: ContentGetter;
+  contentGetter: ContentGetter<K>;
 }
 
-export function WindowManager({ theme = {}, contentGetter, children, ...props }: WindowManagerProps): JSX.Element {
+export function WindowManager<K extends number | string = any>({
+  theme = {},
+  contentGetter,
+  children,
+  ...props
+}: WindowManagerProps<K>): JSX.Element {
   return (
     <WindowManagerContextProvider>
       <div {...props}>

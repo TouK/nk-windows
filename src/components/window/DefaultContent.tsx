@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, useMemo } from "react";
-import { getWindowDefaultColors } from "../../getWindowDefaultColors";
 import { DragHandle } from "../DragHandle";
 import * as defaultComponents from "./defaultComponents";
 import { FooterButtonProps } from "./footer";
@@ -35,14 +34,6 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
     components = {},
   } = props;
 
-  const classes: ContentClasses = useMemo(
-    () => ({
-      header: getWindowDefaultColors(data.kind),
-      ...classnames,
-    }),
-    [classnames, data.kind],
-  );
-
   const { Content, Header, Footer, ...passComponents } = useMemo(
     () => ({
       ...defaultComponents,
@@ -55,15 +46,15 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
     <WindowContentGrid>
       <Header
         title={title || data.title}
-        classnames={classes}
+        classnames={classnames}
         isStatic={isMaximized || data.isStatic}
         isMaximized={isMaximized}
         zoomDialog={zoom}
         closeDialog={close}
         components={passComponents}
       />
-      <Content className={classes.content}>{children}</Content>
-      <Footer buttons={buttons} classnames={classes} components={passComponents} />
+      <Content className={classnames.content}>{children}</Content>
+      <Footer buttons={buttons} classnames={classnames} components={passComponents} />
     </WindowContentGrid>
   );
 }
