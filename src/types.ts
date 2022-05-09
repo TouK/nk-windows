@@ -3,7 +3,7 @@ export enum WindowKind {
   danger,
 }
 
-export interface WindowType<Kind extends string | number = any, Meta extends any = never> {
+export interface WindowType<Kind extends string | number = any, Meta = any> {
   id: string;
   title?: string;
   isModal?: boolean; // blocks access to everything under

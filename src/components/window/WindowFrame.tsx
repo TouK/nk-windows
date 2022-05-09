@@ -5,11 +5,12 @@ import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useM
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { usePreviousImmediate } from "rooks";
+import { useMutationObserver, usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
 import { random } from "../../utils";
+import { fadeInAnimation } from "../WindowsContainer";
 
 interface WindowFrameProps {
   focusGroup?: string;
@@ -44,6 +45,22 @@ interface Size {
 
 const roundCoords = mapValues<Coords, number>(Math.round);
 
+function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: () => void) {
+  const [firstChild, setFirstChild] = useState<Element>();
+  if (firstChild !== ref.current?.children[0]) {
+    setFirstChild(ref.current?.children[0]);
+  }
+
+  // support lazy loaded content with different size fallback
+  useMutationObserver(ref, () => {
+    setFirstChild(ref.current?.children[0]);
+  });
+
+  useLayoutEffect(() => firstChild && onContentChange?.(), [onContentChange, firstChild]);
+
+  return !!firstChild;
+}
+
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
   const {
     focusGroup,
@@ -68,16 +85,24 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     [randomizePosition],
   );
 
-  // set initial position
-  useEffect(() => {
-    const { height, width } = ref.current.getBoundingClientRect();
-    if (dragging.current) return;
-    if (!position) {
+  const centerWindow = useCallback(() => {
+    if (ref.current) {
+      const { height, width } = ref.current.getBoundingClientRect();
       const x = (viewport.width - width) / 2;
       const y = (viewport.height * 0.75 - height) / 2;
       setPosition(roundCoords(randomize({ x, y })));
     }
-  }, [maximized, position, randomize, viewport]);
+  }, [randomize, viewport.height, viewport.width]);
+
+  const contentAvailable = useContentVisibiliy(ref, centerWindow);
+
+  // set initial position
+  useEffect(() => {
+    if (dragging.current) return;
+    if (contentAvailable && !position) {
+      centerWindow();
+    }
+  }, [contentAvailable, maximized, position, centerWindow]);
 
   // setup position correction for screen egdes
   const wasMaximized = usePreviousImmediate(maximized);
@@ -93,11 +118,11 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   );
 
   useLayoutEffect(() => {
-    if (!(maximized || wasMaximized)) {
+    if (contentAvailable && !(maximized || wasMaximized)) {
       const newValue = calcPosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [wasMaximized, calcPosition, maximized, position, viewport]);
+  }, [contentAvailable, wasMaximized, calcPosition, maximized, position, viewport]);
 
   const savePosition = useCallback(
     (position: Position) => !(maximized || wasMaximized) && setPosition(roundCoords(position)),
@@ -185,40 +210,43 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   );
 
   return (
-    <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
-      <Rnd
-        disableDragging={maximized || !moveable}
-        enableResizing={resizable && !maximized}
-        className={cx(windowClass, windowTheme)}
-        style={{ display: "flex", zIndex }} // override default inline-block
-        bounds="parent"
-        size={size}
-        position={maximized ? { x: 0, y: 0 } : position}
-        minWidth={maximized ? "100%" : 400}
-        minHeight={maximized ? "100%" : 140}
-        maxHeight={maxSize.height}
-        maxWidth={maxSize.width}
-        onResizeStop={onResizeStop}
-        onDrag={onDrag}
-        onDragStop={onDragStop}
-        dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
-        data-testid="window-frame"
-      >
-        {/* trap keyboard focus within group (windows opened since last modal) */}
-        <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
-          <div
-            ref={ref}
-            onFocus={focus}
-            onBlur={blur}
-            onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
-            tabIndex={-1}
-            className={cx(focusWrapperClass, focusWrapperTheme)}
-            data-testid="window"
-          >
-            {props.children}
-          </div>
-        </FocusLock>
-      </Rnd>
+    // fallback animation for lazy loaded content
+    <CSSTransition in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
+        <Rnd
+          disableDragging={maximized || !moveable}
+          enableResizing={resizable && !maximized}
+          className={cx(windowClass, windowTheme)}
+          style={{ display: "flex", zIndex }} // override default inline-block
+          bounds="parent"
+          size={size}
+          position={maximized ? { x: 0, y: 0 } : position}
+          minWidth={contentAvailable ? (maximized ? "100%" : 400) : 0}
+          minHeight={contentAvailable ? (maximized ? "100%" : 140) : 0}
+          maxHeight={maxSize.height}
+          maxWidth={maxSize.width}
+          onResizeStop={onResizeStop}
+          onDrag={onDrag}
+          onDragStop={onDragStop}
+          dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+          data-testid="window-frame"
+        >
+          {/* trap keyboard focus within group (windows opened since last modal) */}
+          <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+            <div
+              ref={ref}
+              onFocus={focus}
+              onBlur={blur}
+              onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
+              tabIndex={-1}
+              className={contentAvailable ? cx(focusWrapperClass, focusWrapperTheme) : null}
+              data-testid="window"
+            >
+              {props.children}
+            </div>
+          </FocusLock>
+        </Rnd>
+      </CSSTransition>
     </CSSTransition>
   );
 }

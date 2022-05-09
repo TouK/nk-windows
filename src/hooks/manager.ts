@@ -21,7 +21,7 @@ export function useWindowManager(parent?: WindowId) {
   const [state, dispatch] = useContext(WindowManagerContext);
 
   const open = useCallback(
-    <Kind extends number | string = any, Meta extends any = never>(windowData: Partial<WindowType<Kind, Meta>> = {}) => {
+    <Kind extends number | string = any, Meta = never>(windowData: Partial<WindowType<Kind, Meta>> = {}) => {
       return dispatch(openWindow({ parent, ...windowData }));
     },
     [dispatch, parent],

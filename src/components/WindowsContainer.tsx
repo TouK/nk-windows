@@ -9,7 +9,7 @@ import { Window } from "./window/Window";
 import { ContentGetter } from "./window/WindowContent";
 import { WindowsViewport } from "./WindowsViewport";
 
-const fadeInAnimation = {
+export const fadeInAnimation = {
   enter: css({
     opacity: 0,
   }),
