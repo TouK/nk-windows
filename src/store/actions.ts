@@ -3,6 +3,8 @@ import { WindowType } from "../types";
 import { WMAction } from "./action";
 import { getTopmostModal, getWindows } from "./selectors";
 
+const timeout = (t = 0) => new Promise((resolve) => setTimeout(resolve, t));
+
 const defaults: Partial<WindowType> = {
   isModal: true,
   isResizable: true,
@@ -12,9 +14,9 @@ const defaults: Partial<WindowType> = {
 export function openWindow<Kind extends number | string = any, Meta = never>({
   id = uuid(),
   ...data
-}: Partial<WindowType<Kind, Meta>>): WMAction<WindowType<Kind, Meta>> {
+}: Partial<WindowType<Kind, Meta>>): WMAction<Promise<WindowType<Kind, Meta>>> {
   const withDefaults = { ...defaults, ...data };
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const state = getState();
     const windowData = {
       ...withDefaults,
@@ -22,6 +24,7 @@ export function openWindow<Kind extends number | string = any, Meta = never>({
       focusParent: withDefaults.isModal ? id : getTopmostModal(state),
     };
 
+    await timeout(50);
     dispatch({ type: "OPEN_WINDOW", windowData });
     return windowData;
   };
