@@ -11,6 +11,21 @@ import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
 import { random } from "../../utils";
 import { fadeInAnimation } from "../WindowsContainer";
+import { SnapMask } from "./SnapMask";
+import { Box, useSnapAreas } from "./useSnapAreas";
+import { useSnapSide } from "./useSnapSide";
+
+export enum Side {
+  none,
+  top = 1 << 0,
+  bottom = 1 << 1,
+  left = 1 << 2,
+  right = 1 << 3,
+  topLeft = top | left,
+  topRight = top | right,
+  bottomLeft = bottom | left,
+  bottomRight = bottom | right,
+}
 
 interface WindowFrameProps {
   focusGroup?: string;
@@ -20,7 +35,6 @@ interface WindowFrameProps {
   moveable?: boolean;
   resizable?: boolean;
   maximized?: boolean;
-  onTopEdgeZoom?: (isTouching: boolean) => void;
   onEscape?: () => void;
 }
 
@@ -62,21 +76,13 @@ function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContent
 }
 
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
-  const {
-    focusGroup,
-    zIndex,
-    randomizePosition,
-    onFocus,
-    onEscape,
-    maximized = false,
-    resizable = false,
-    moveable = false,
-    onTopEdgeZoom,
-  } = props;
+  const { focusGroup, zIndex, randomizePosition, onFocus, onEscape, maximized = false, resizable = false, moveable = false } = props;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
   const [size, setSize] = useState<Size>(null);
+  const prevSize = usePreviousImmediate(size);
+
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
 
@@ -102,12 +108,11 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   // setup position correction for screen egdes
   const wasMaximized = usePreviousImmediate(maximized);
-  const calcPosition = useCallback(
-    (viewport) => {
-      const { top, left, bottom, right } = ref.current.getBoundingClientRect();
+  const calcEdgePosition = useCallback(
+    (viewport, box: Box = ref.current.getBoundingClientRect()) => {
       return roundCoords({
-        x: calcCoord(windowMargin, right, viewport.width, left),
-        y: calcCoord(windowMargin, bottom, viewport.height, top),
+        x: calcCoord(windowMargin, box.x + box.width, viewport.width, box.x),
+        y: calcCoord(windowMargin, box.y + box.height, viewport.height, box.y),
       });
     },
     [windowMargin],
@@ -115,50 +120,62 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   useLayoutEffect(() => {
     if (contentAvailable && !(maximized || wasMaximized)) {
-      const newValue = calcPosition(viewport);
+      const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [contentAvailable, wasMaximized, calcPosition, maximized, position, viewport]);
+  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
 
   const savePosition = useCallback(
     (position: Position) => !(maximized || wasMaximized) && setPosition(roundCoords(position)),
     [wasMaximized, maximized],
   );
 
+  const [side, setSide] = useState<Side>(Side.none);
+  const getSnapSide = useSnapSide(ref);
+
+  const onSnap = useCallback((box) => {
+    const { y, height, width, x } = box;
+    setSize({ width, height });
+    setPosition({ x, y });
+  }, []);
+
+  const [snapPreviewBox, onSideSnap] = useSnapAreas(windowMargin, onSnap);
+
+  useEffect(() => {
+    onSideSnap?.(side, !dragging.current);
+  }, [onSideSnap, side]);
+
   const timeout = useRef<NodeJS.Timeout>();
-  const onDrag = useCallback(
-    (e, { y }) => {
-      dragging.current = true;
+  const onDrag = useCallback(() => {
+    dragging.current = true;
 
-      clearTimeout(timeout.current);
+    clearTimeout(timeout.current);
 
-      // maximize when top edge long touched
-      if (onTopEdgeZoom) {
-        if (maximized && y > 15) {
-          timeout.current = setTimeout(() => {
-            if (dragging.current) {
-              setPosition((p) => roundCoords({ ...p, y }));
-              onTopEdgeZoom(false);
-            }
-          }, 40);
-        } else if (y <= 15) {
-          timeout.current = setTimeout(() => {
-            if (dragging.current) {
-              onTopEdgeZoom(true);
-            }
-          }, 250);
+    if (!resizable) {
+      return;
+    }
+
+    const side = getSnapSide(windowMargin / 3);
+
+    if (side) {
+      timeout.current = setTimeout(() => {
+        if (dragging.current && !maximized) {
+          setSide(side);
         }
-      }
-    },
-    [maximized, onTopEdgeZoom],
-  );
+      }, 100);
+    } else {
+      setSide(side);
+    }
+  }, [getSnapSide, maximized, resizable]);
 
   const onDragStop = useCallback(
     (e, position) => {
-      savePosition(position);
       dragging.current = false;
+      savePosition(position);
+      onSideSnap?.(side, true);
+      setSide(Side.none);
     },
-    [savePosition],
+    [onSideSnap, savePosition, side],
   );
 
   const onEnter = useCallback(() => {
@@ -167,10 +184,17 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, []);
 
   const onExited = useCallback(() => {
-    setSize(null);
-  }, []);
+    setSize(prevSize || null);
+  }, [prevSize]);
 
-  const onResizeStop = useCallback((e, dir, el, delta, position) => savePosition(position), [savePosition]);
+  const onResizeStop = useCallback(
+    (e, dir, el, delta, position) => {
+      const { width, height } = el.getBoundingClientRect();
+      savePosition(position);
+      setSize({ width, height });
+    },
+    [savePosition],
+  );
   const [focused, setFocused] = useState(false);
 
   const focusWrapperClass = css({
@@ -245,6 +269,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
           </Rnd>
         </CSSTransition>
       </CSSTransition>
+      <SnapMask previewBox={snapPreviewBox} />
     </>
   );
 }
