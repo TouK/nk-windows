@@ -1,32 +1,15 @@
-import { css } from "@emotion/css";
 import { flatMap } from "lodash";
 import React from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useWindowManager } from "../hooks";
+import { getFadeInAnimation } from "./getFadeInAnimation";
 import { ModalMask } from "./ModalMask";
 import { Window } from "./window/Window";
 import { ContentGetter } from "./window/WindowContent";
 import { WindowsViewport } from "./WindowsViewport";
 
-export const fadeInAnimation = {
-  enter: css({
-    opacity: 0,
-  }),
-  enterActive: css({
-    opacity: 1,
-    transition: "opacity 250ms ease-in-out",
-    pointerEvents: "none",
-  }),
-  exit: css({
-    opacity: 1,
-  }),
-  exitActive: css({
-    opacity: 0,
-    transition: "opacity 250ms ease-in-out",
-    pointerEvents: "none",
-  }),
-};
+export const fadeInAnimation = getFadeInAnimation();
 
 interface WindowsContainerProps {
   container?: HTMLElement;

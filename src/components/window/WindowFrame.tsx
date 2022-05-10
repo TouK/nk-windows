@@ -33,12 +33,12 @@ function calcCoord(padding: number, end: number, viewportSize: number, current: 
   return Math.max(padding, end >= viewportSize - padding / 2 ? current - Math.max(padding, end - viewportSize) : current);
 }
 
-interface Coords {
+export interface Coords {
   x: number;
   y: number;
 }
 
-interface Size {
+export interface Size {
   width: number;
   height: number;
 }
@@ -80,19 +80,15 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
 
-  const randomize = useMemo(
-    () => mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition))),
-    [randomizePosition],
-  );
-
   const centerWindow = useCallback(() => {
     if (ref.current) {
+      const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
       const x = (viewport.width - width) / 2;
       const y = (viewport.height * 0.75 - height) / 2;
       setPosition(roundCoords(randomize({ x, y })));
     }
-  }, [randomize, viewport.height, viewport.width]);
+  }, [randomizePosition, viewport.height, viewport.width]);
 
   const contentAvailable = useContentVisibiliy(ref, centerWindow);
 
@@ -210,43 +206,45 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   );
 
   return (
-    // fallback animation for lazy loaded content
-    <CSSTransition in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
-      <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
-        <Rnd
-          disableDragging={maximized || !moveable}
-          enableResizing={resizable && !maximized}
-          className={cx(windowClass, windowTheme)}
-          style={{ display: "flex", zIndex }} // override default inline-block
-          bounds="parent"
-          size={size}
-          position={maximized ? { x: 0, y: 0 } : position}
-          minWidth={contentAvailable ? (maximized ? "100%" : 400) : 0}
-          minHeight={contentAvailable ? (maximized ? "100%" : 140) : 0}
-          maxHeight={maxSize.height}
-          maxWidth={maxSize.width}
-          onResizeStop={onResizeStop}
-          onDrag={onDrag}
-          onDragStop={onDragStop}
-          dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
-          data-testid="window-frame"
-        >
-          {/* trap keyboard focus within group (windows opened since last modal) */}
-          <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
-            <div
-              ref={ref}
-              onFocus={focus}
-              onBlur={blur}
-              onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
-              tabIndex={-1}
-              className={contentAvailable ? cx(focusWrapperClass, focusWrapperTheme) : null}
-              data-testid="window"
-            >
-              {props.children}
-            </div>
-          </FocusLock>
-        </Rnd>
+    <>
+      {/*fallback animation for lazy loaded content*/}
+      <CSSTransition in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+        <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
+          <Rnd
+            disableDragging={maximized || !moveable}
+            enableResizing={resizable && !maximized}
+            className={cx(windowClass, windowTheme)}
+            style={{ display: "flex", zIndex }} // override default inline-block
+            bounds="parent"
+            size={size}
+            position={maximized ? { x: 0, y: 0 } : position}
+            minWidth={contentAvailable ? (maximized ? "100%" : 400) : 0}
+            minHeight={contentAvailable ? (maximized ? "100%" : 140) : 0}
+            maxHeight={maxSize.height}
+            maxWidth={maxSize.width}
+            onResizeStop={onResizeStop}
+            onDrag={onDrag}
+            onDragStop={onDragStop}
+            dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+            data-testid="window-frame"
+          >
+            {/* trap keyboard focus within group (windows opened since last modal) */}
+            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+              <div
+                ref={ref}
+                onFocus={focus}
+                onBlur={blur}
+                onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
+                tabIndex={-1}
+                className={contentAvailable ? cx(focusWrapperClass, focusWrapperTheme) : null}
+                data-testid="window"
+              >
+                {props.children}
+              </div>
+            </FocusLock>
+          </Rnd>
+        </CSSTransition>
       </CSSTransition>
-    </CSSTransition>
+    </>
   );
 }

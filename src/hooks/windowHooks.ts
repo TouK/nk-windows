@@ -10,7 +10,7 @@ export function useWindowZoom({
   const [zoom, setZoom] = useState(isMaximized);
   const toggleZoom = useMemo(
     () => (isResizable ? (value: boolean = null) => setZoom((z) => (value !== null ? value : !z)) : null),
-    [isMaximized, isResizable],
+    [isResizable],
   );
   return [zoom, toggleZoom];
 }
