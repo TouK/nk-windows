@@ -1,3 +1,15 @@
+# [1.4.0-beta.1](https://github.com/touk/nk-windows/compare/v1.3.1...v1.4.0-beta.1) (2022-05-10)
+
+
+### Bug Fixes
+
+* types & demo content ([d8fe131](https://github.com/touk/nk-windows/commit/d8fe131ce88c3310030bf31413f0e29c479f393f))
+
+
+### Features
+
+* support for lazy loaded window contents ([c785997](https://github.com/touk/nk-windows/commit/c7859978eca55c0ad914f2b43d08a919176db5ed))
+
 ## [1.3.1](https://github.com/touk/nk-windows/compare/v1.3.0...v1.3.1) (2022-03-22)
 
 
