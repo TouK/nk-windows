@@ -106,8 +106,9 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [contentAvailable, maximized, position, centerWindow]);
 
-  // setup position correction for screen egdes
   const wasMaximized = usePreviousImmediate(maximized);
+
+  // setup position correction for screen egdes
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
       return roundCoords({
@@ -125,10 +126,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
 
-  const savePosition = useCallback(
-    (position: Position) => !(maximized || wasMaximized) && setPosition(roundCoords(position)),
-    [wasMaximized, maximized],
-  );
+  const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
   const [side, setSide] = useState<Side>(Side.none);
   const getSnapSide = useSnapSide(ref);
