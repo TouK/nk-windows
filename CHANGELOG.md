@@ -1,3 +1,16 @@
+# [1.4.0-beta.2](https://github.com/touk/nk-windows/compare/v1.4.0-beta.1...v1.4.0-beta.2) (2022-05-11)
+
+
+### Bug Fixes
+
+* minor bugs ([6f2333f](https://github.com/touk/nk-windows/commit/6f2333f4c712e78f2b1a5d8d22d5fd0da90fac03))
+* minor bugs ([0b632b4](https://github.com/touk/nk-windows/commit/0b632b48516ba5cd69879135692847ee0dd3c4e4))
+
+
+### Features
+
+* added snap to edge functionality ([e36e844](https://github.com/touk/nk-windows/commit/e36e84407cc6d5e3f86f3f255d33dd47249ec90f))
+
 # [1.4.0-beta.1](https://github.com/touk/nk-windows/compare/v1.3.1...v1.4.0-beta.1) (2022-05-10)
 
 
