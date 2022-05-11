@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/touk/nk-windows/compare/v1.4.0...v1.4.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* focus outline on window without tabindexed element ([048359e](https://github.com/touk/nk-windows/commit/048359ed369f69907dedf519833eb11c9739a46b))
+
 ## [1.4.1-beta.1](https://github.com/touk/nk-windows/compare/v1.4.0...v1.4.1-beta.1) (2022-05-11)
 
 
