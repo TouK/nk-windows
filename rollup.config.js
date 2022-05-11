@@ -9,7 +9,7 @@ export default [
     input: {
       index: "./src/index.ts",
       "components/window/defaultComponents": "./src/components/window/defaultComponents.ts",
-      "debug/index": "./src/debug/index.ts",
+      "debug/index": "./src/demo/DebugButtons.tsx",
     },
     output: [
       {

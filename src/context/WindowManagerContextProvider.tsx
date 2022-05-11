@@ -5,7 +5,6 @@ export const WindowManagerContext = createContext<ReducerWithThunk<typeof reduce
 
 export function WindowManagerContextProvider({ children }: PropsWithChildren<unknown>): JSX.Element {
   const [state, dispatch] = useReducerWithThunk(reducer, { windows: [], order: [] });
-
   // clear windows on unmount
   useEffect(() => () => dispatch({ type: "CLEAR_WINDOWS" }), [dispatch]);
 

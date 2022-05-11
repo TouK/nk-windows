@@ -1,19 +1,21 @@
 import React, { useMemo } from "react";
 import { useWindowManager } from "../hooks";
-import { WindowId, WindowKind } from "../types";
+import { WindowId } from "../types";
+import { DemoWindowKind } from "./DemoWindowKind";
 
 export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Element {
-  const { open, close, closeAll } = useWindowManager(currentId);
+  const { open, close, closeAll } = useWindowManager<DemoWindowKind | string>(currentId);
 
   const buttons = useMemo(
     () => [
       undefined,
       { title: "with title" },
-      { title: "danger", kind: WindowKind.danger },
-      { title: "danger, maximized", kind: WindowKind.danger, isMaximized: true },
-      { title: "danger, maximized, non-resizable", kind: WindowKind.danger, isMaximized: true, isResizable: false },
-      { title: "danger, non-resizable", kind: WindowKind.danger, isResizable: false },
+      { title: "danger", kind: DemoWindowKind.danger },
+      { title: "danger, maximized", kind: DemoWindowKind.danger, isMaximized: true },
+      { title: "danger, maximized, non-resizable", kind: DemoWindowKind.danger, isMaximized: true, isResizable: false },
+      { title: "danger, non-resizable", kind: DemoWindowKind.danger, isResizable: false },
       { title: "not modal", isModal: false },
+      { title: "lazy loaded content", kind: DemoWindowKind.lazy },
     ],
     [],
   );

@@ -1,6 +1,6 @@
 import { uniq, without } from "lodash";
 import { Reducer } from "react";
-import { WindowId, WindowKind, WindowManagerState, WindowType } from "../types";
+import { WindowId, WindowManagerState, WindowType } from "../types";
 import { Action } from "./action";
 import { combine } from "./combine";
 
@@ -8,7 +8,7 @@ export function withoutId<T extends { id: I }, I = string>(arr: T[], id: T["id"]
   return arr.filter((el) => id !== el.id);
 }
 
-const windows: Reducer<WindowType<WindowKind, any>[], Action> = (windows = [], action) => {
+const windows: Reducer<WindowType<any, any>[], Action> = (windows = [], action) => {
   switch (action.type) {
     case "CLEAR_WINDOWS":
       return [];
