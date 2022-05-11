@@ -1,3 +1,18 @@
+# [1.4.0](https://github.com/touk/nk-windows/compare/v1.3.1...v1.4.0) (2022-05-11)
+
+
+### Bug Fixes
+
+* minor bugs ([6f2333f](https://github.com/touk/nk-windows/commit/6f2333f4c712e78f2b1a5d8d22d5fd0da90fac03))
+* minor bugs ([0b632b4](https://github.com/touk/nk-windows/commit/0b632b48516ba5cd69879135692847ee0dd3c4e4))
+* types & demo content ([d8fe131](https://github.com/touk/nk-windows/commit/d8fe131ce88c3310030bf31413f0e29c479f393f))
+
+
+### Features
+
+* added snap to edge functionality ([e36e844](https://github.com/touk/nk-windows/commit/e36e84407cc6d5e3f86f3f255d33dd47249ec90f))
+* support for lazy loaded window contents ([c785997](https://github.com/touk/nk-windows/commit/c7859978eca55c0ad914f2b43d08a919176db5ed))
+
 # [1.4.0-beta.2](https://github.com/touk/nk-windows/compare/v1.4.0-beta.1...v1.4.0-beta.2) (2022-05-11)
 
 
