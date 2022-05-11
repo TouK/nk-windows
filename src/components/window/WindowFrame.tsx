@@ -201,6 +201,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     width: "100%",
     height: "100%",
     display: "flex",
+    outline: "none",
   });
 
   const windowClass = css({
@@ -258,7 +259,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
                 onBlur={blur}
                 onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
                 tabIndex={-1}
-                className={contentAvailable ? cx(focusWrapperClass, focusWrapperTheme) : null}
+                className={cx(focusWrapperClass, focusWrapperTheme)}
                 data-testid="window"
               >
                 {props.children}
