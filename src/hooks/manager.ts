@@ -35,8 +35,9 @@ export function useWindowManager<K extends number | string = any>(parent?: Windo
   );
 
   const close = useCallback(
-    (id: WindowId = parent) => {
-      dispatch(closeWindow(id));
+    async (id: WindowId = parent) => {
+      await dispatch(closeWindow(id));
+      return id;
     },
     [dispatch, parent],
   );
@@ -44,10 +45,10 @@ export function useWindowManager<K extends number | string = any>(parent?: Windo
   const windows = useMemo(() => getWindowsWithOrder(state), [state]);
 
   const closeAll = useCallback(
-    (w = windows) => {
-      w.forEach(({ id }) => dispatch(closeWindow(id)));
+    async (w = windows) => {
+      return await Promise.all(w.map(({ id }) => close(id)));
     },
-    [dispatch, windows],
+    [close, windows],
   );
 
   return { windows, open, focus, close, closeAll };
