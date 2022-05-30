@@ -115,7 +115,7 @@
     "react-focus-lock": "^2.8.1",
     "react-hotkeys-hook": "^3.4.6",
     "react-inspector": "^5.1.1",
-    "react-rnd": "^10.3.5",
+    "react-rnd": "^10.3.7",
     "react-transition-group": "^4.4.2",
     "reselect": "^4.1.5",
     "rooks": "^5.11.2"
