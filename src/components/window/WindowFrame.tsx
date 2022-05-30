@@ -111,12 +111,13 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   // setup position correction for screen egdes
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
+      const { height, width } = size || box;
       return roundCoords({
-        x: calcCoord(windowMargin, box.x + box.width, viewport.width, box.x),
-        y: calcCoord(windowMargin, box.y + box.height, viewport.height, box.y),
+        x: calcCoord(box.x, box.x + box.width, width, viewport.width, windowMargin),
+        y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
       });
     },
-    [windowMargin],
+    [size, windowMargin],
   );
 
   useLayoutEffect(() => {
