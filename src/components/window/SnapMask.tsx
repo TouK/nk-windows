@@ -23,7 +23,7 @@ export const SnapMask = ({ previewBox }: { previewBox: Box }) => {
               boxSizing: "border-box",
               position: "fixed",
               zIndex: 10,
-              background: rgba(colors.focusColor, 0.1),
+              background: rgba(colors.focusColor, 0.25),
               border: `${Math.round(baseUnit / 3)}px solid ${colors?.focusColor}`,
               top: previewBox.y,
               left: previewBox.x,

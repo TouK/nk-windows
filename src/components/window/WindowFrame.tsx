@@ -18,9 +18,9 @@ import { useSnapSide } from "./useSnapSide";
 export enum Side {
   none,
   top = 1 << 0,
-  bottom = 1 << 1,
-  left = 1 << 2,
-  right = 1 << 3,
+  right = 1 << 1,
+  bottom = 1 << 2,
+  left = 1 << 3,
   topLeft = top | left,
   topRight = top | right,
   bottomLeft = bottom | left,
@@ -36,6 +36,7 @@ interface WindowFrameProps {
   resizable?: boolean;
   maximized?: boolean;
   onEscape?: () => void;
+  onEdgeSnap?: (e: { name: string; code: Side }) => void;
 }
 
 const zoomAnimation = {
@@ -43,8 +44,8 @@ const zoomAnimation = {
   exit: css({ transition: "all 150ms" }),
 };
 
-function calcCoord(padding: number, end: number, viewportSize: number, current: number) {
-  return Math.max(padding, end >= viewportSize - padding / 2 ? current - Math.max(padding, end - viewportSize) : current);
+function calcCoord(start: number, end: number, size: number, viewportSize: number, padding: number) {
+  return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
 }
 
 export interface Coords {
@@ -76,7 +77,17 @@ function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContent
 }
 
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
-  const { focusGroup, zIndex, randomizePosition, onFocus, onEscape, maximized = false, resizable = false, moveable = false } = props;
+  const {
+    focusGroup,
+    zIndex,
+    randomizePosition,
+    onFocus,
+    onEscape,
+    onEdgeSnap: onSnapCallback,
+    maximized = false,
+    resizable = false,
+    moveable = false,
+  } = props;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
@@ -132,13 +143,13 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const [side, setSide] = useState<Side>(Side.none);
   const getSnapSide = useSnapSide(ref);
 
-  const onSnap = useCallback((box) => {
+  const setFrameBox = useCallback((box: Box) => {
     const { y, height, width, x } = box;
     setSize({ width, height });
     setPosition({ x, y });
   }, []);
 
-  const [snapPreviewBox, onSideSnap] = useSnapAreas(windowMargin, onSnap);
+  const [snapPreviewBox, onSideSnap] = useSnapAreas(windowMargin, setFrameBox);
 
   useEffect(() => {
     onSideSnap?.(side, !dragging.current);
@@ -154,7 +165,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       return;
     }
 
-    const side = getSnapSide(windowMargin / 3);
+    const side = getSnapSide(1);
 
     if (side) {
       timeout.current = setTimeout(() => {
@@ -172,9 +183,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       dragging.current = false;
       savePosition(position);
       onSideSnap?.(side, true);
+      onSnapCallback?.({ name: Side[side], code: side });
       setSide(Side.none);
     },
-    [onSideSnap, savePosition, side],
+    [onSideSnap, onSnapCallback, savePosition, side],
   );
 
   const onEnter = useCallback(() => {
@@ -189,10 +201,9 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const onResizeStop = useCallback(
     (e, dir, el, delta, position) => {
       const { width, height } = el.getBoundingClientRect();
-      savePosition(position);
-      setSize({ width, height });
+      setFrameBox({ ...position, width, height });
     },
-    [savePosition],
+    [setFrameBox],
   );
   const [focused, setFocused] = useState(false);
 
