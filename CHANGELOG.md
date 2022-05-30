@@ -1,3 +1,16 @@
+# [1.5.0-beta.1](https://github.com/touk/nk-windows/compare/v1.4.1...v1.5.0-beta.1) (2022-05-30)
+
+
+### Bug Fixes
+
+* setState loop on viewport resize ([455c8cf](https://github.com/touk/nk-windows/commit/455c8cf40e8755999a6ba3d26d9744c9b50f4098))
+* snap mask tweaks ([5ffd348](https://github.com/touk/nk-windows/commit/5ffd34842c8b0ae919e8a10ee929c2728023e588))
+
+
+### Features
+
+* return promise from close ([28205c2](https://github.com/touk/nk-windows/commit/28205c271a192fd5549fd2be084771998a5541cd))
+
 ## [1.4.1](https://github.com/touk/nk-windows/compare/v1.4.0...v1.4.1) (2022-05-11)
 
 
