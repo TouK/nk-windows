@@ -1,3 +1,10 @@
+# [1.5.0-beta.5](https://github.com/touk/nk-windows/compare/v1.5.0-beta.4...v1.5.0-beta.5) (2022-05-31)
+
+
+### Bug Fixes
+
+* emotion theme ([6eaa173](https://github.com/touk/nk-windows/commit/6eaa1733cd744b8a19e7bf7937a9b77ee66a98ba))
+
 # [1.5.0-beta.4](https://github.com/touk/nk-windows/compare/v1.5.0-beta.3...v1.5.0-beta.4) (2022-05-30)
 
 # [1.5.0-beta.3](https://github.com/touk/nk-windows/compare/v1.5.0-beta.2...v1.5.0-beta.3) (2022-05-30)
