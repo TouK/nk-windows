@@ -1,7 +1,6 @@
 import { css, cx } from "@emotion/css";
-import { useTheme } from "emotion-theming";
+import { useTheme } from "@emotion/react";
 import React, { useCallback, useState } from "react";
-import { AppTheme } from "../../../AppTheme";
 import { buttonReset } from "./ButtonReset";
 
 export interface FooterButtonProps {
@@ -12,7 +11,7 @@ export interface FooterButtonProps {
 }
 
 const useButtonTheme = () => {
-  const { spacing = {}, colors } = useTheme<AppTheme>();
+  const { spacing = {}, colors } = useTheme();
   const { baseUnit = 2 } = spacing;
   return css({
     textTransform: "uppercase",

@@ -1,13 +1,12 @@
 import { css, cx } from "@emotion/css";
-import { useTheme } from "emotion-theming";
+import { useTheme } from "@emotion/react";
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef } from "react";
-import { AppTheme } from "../../../AppTheme";
 import { buttonReset } from "../footer/ButtonReset";
 
 export type HeaderButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 const useStyles = () => {
-  const { colors } = useTheme<AppTheme>();
+  const { colors } = useTheme();
   return css({
     lineHeight: 0,
     svg: {

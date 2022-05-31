@@ -38,6 +38,6 @@ export function closeWindow(id: string = null): WMAction {
         .filter(({ parent }) => parent === id)
         .map(({ id }) => dispatch(closeWindow(id))),
     );
-    dispatch({ type: "CLOSE_WINDOW", id });
+    return await dispatch({ type: "CLOSE_WINDOW", id });
   };
 }

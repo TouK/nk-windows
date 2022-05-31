@@ -8,7 +8,7 @@ function box(x: number, y: number, w: number, h: number): Box {
 
 export interface Box extends Coords, Size {}
 
-export function useSnapAreas(margin = 0, onSnap?: (box: Box) => void): [Box, (side: Side, isDropped: boolean) => void] {
+export function useSnapAreas(margin = 0, onSnapCallback?: (box: Box, side: Side) => void): [Box, (side: Side, isDropped: boolean) => void] {
   const { width, height } = useViewportSize();
   const [previewBox, setPreviewBox] = useState<Box | null>(null);
 
@@ -58,14 +58,14 @@ export function useSnapAreas(margin = 0, onSnap?: (box: Box) => void): [Box, (si
       const bBox = getBBox(side);
       if (isDropped) {
         if (bBox) {
-          onSnap?.(bBox);
+          onSnapCallback?.(bBox, side);
         }
         setPreviewBox(null);
       } else {
         setPreviewBox(bBox);
       }
     },
-    [getBBox, onSnap],
+    [getBBox, onSnapCallback],
   );
   return [previewBox, onSideEdgeSnap];
 }
