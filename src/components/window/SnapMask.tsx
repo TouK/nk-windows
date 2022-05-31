@@ -1,7 +1,6 @@
-import { useTheme } from "emotion-theming";
+import { useTheme } from "@emotion/react";
 import React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { AppTheme } from "../../AppTheme";
 import { rgba } from "../../rgba";
 import { getFadeInAnimation } from "../getFadeInAnimation";
 import { Box } from "./useSnapAreas";
@@ -12,7 +11,7 @@ export const SnapMask = ({ previewBox }: { previewBox: Box }) => {
   const {
     colors,
     spacing: { baseUnit },
-  } = useTheme<AppTheme>();
+  } = useTheme();
 
   return (
     <TransitionGroup>

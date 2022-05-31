@@ -1,11 +1,10 @@
 import { css, cx } from "@emotion/css";
-import { useTheme } from "emotion-theming";
+import { useTheme } from "@emotion/react";
 import React, { useMemo } from "react";
-import { AppTheme } from "./AppTheme";
 import { rgba } from "./rgba";
 
 export function useFrameTheme() {
-  const { colors, spacing = {}, backgroundOpacity, backdropFilter } = useTheme<AppTheme>();
+  const { colors, spacing = {}, backgroundOpacity, backdropFilter } = useTheme();
   const { baseUnit = 0 } = spacing;
   const focusWrapperTheme = css({
     border: `${Math.round(baseUnit / 2)}px solid ${colors?.borderColor}`,
@@ -28,7 +27,7 @@ export function useFrameTheme() {
 }
 
 export function useModalMaskTheme() {
-  const theme = useTheme<any>();
+  const theme = useTheme();
   const modalMaskTheme = css({
     background: rgba(theme.colors.borderColor, 0.6),
   });

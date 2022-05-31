@@ -1,4 +1,4 @@
-import { ThemeProvider } from "emotion-theming";
+import { ThemeProvider } from "@emotion/react";
 import { defaultsDeep } from "lodash";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 import { AppTheme } from "../AppTheme";
@@ -36,7 +36,7 @@ export function WindowManager<K extends number | string = any>({
     <WindowManagerContextProvider>
       <div {...props}>
         {children}
-        <ThemeProvider<AppTheme> theme={(outerTheme = {}) => defaultsDeep(theme, outerTheme, defaultTheme)}>
+        <ThemeProvider theme={(outerTheme = {}) => defaultsDeep(theme, outerTheme, defaultTheme)}>
           <WindowsContainer contentGetter={contentGetter} />
         </ThemeProvider>
       </div>
