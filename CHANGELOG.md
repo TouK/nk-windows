@@ -1,3 +1,5 @@
+# [1.5.0-beta.6](https://github.com/touk/nk-windows/compare/v1.5.0-beta.5...v1.5.0-beta.6) (2022-05-31)
+
 # [1.5.0-beta.5](https://github.com/touk/nk-windows/compare/v1.5.0-beta.4...v1.5.0-beta.5) (2022-05-31)
 
 
