@@ -1,3 +1,10 @@
+# [1.6.0-beta.1](https://github.com/touk/nk-windows/compare/v1.5.0...v1.6.0-beta.1) (2022-09-07)
+
+
+### Features
+
+* move zIndex to theme ([a0c2b77](https://github.com/touk/nk-windows/commit/a0c2b772c766047249d077ac3d208e9c1e347c18))
+
 # [1.5.0](https://github.com/touk/nk-windows/compare/v1.4.1...v1.5.0) (2022-05-31)
 
 
