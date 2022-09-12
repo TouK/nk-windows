@@ -1,3 +1,10 @@
+# [1.6.0-beta.3](https://github.com/touk/nk-windows/compare/v1.6.0-beta.2...v1.6.0-beta.3) (2022-09-12)
+
+
+### Bug Fixes
+
+* initial position on subtree changes ([173ada3](https://github.com/touk/nk-windows/commit/173ada3d0d196bfe64cb0362071d41399bfaff4e))
+
 # [1.6.0-beta.2](https://github.com/touk/nk-windows/compare/v1.6.0-beta.1...v1.6.0-beta.2) (2022-09-12)
 
 
