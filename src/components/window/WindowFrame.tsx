@@ -67,9 +67,13 @@ function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContent
   }
 
   // support lazy loaded content with different size fallback
-  useMutationObserver(ref, () => {
-    setFirstChild(ref.current?.children[0]);
-  });
+  useMutationObserver(
+    ref,
+    () => {
+      setFirstChild(ref.current?.children[0]);
+    },
+    { childList: true, subtree: true },
+  );
 
   useLayoutEffect(() => firstChild && onContentChange?.(), [onContentChange, firstChild]);
 
@@ -97,7 +101,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
 
-  const centerWindow = useCallback(() => {
+  const [touched, _setTouched] = useState(false);
+  const touch = useCallback(() => _setTouched(true), []);
+
+  const forceCenterWindow = useCallback(() => {
     if (ref.current) {
       const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
@@ -107,15 +114,21 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [randomizePosition, viewport.height, viewport.width]);
 
+  const centerWindow = useCallback(() => {
+    if (!touched) {
+      forceCenterWindow();
+    }
+  }, [forceCenterWindow, touched]);
+
   const contentAvailable = useContentVisibiliy(ref, centerWindow);
 
   // set initial position
   useEffect(() => {
     if (dragging.current) return;
     if (contentAvailable && !position) {
-      centerWindow();
+      forceCenterWindow();
     }
-  }, [contentAvailable, maximized, position, centerWindow]);
+  }, [contentAvailable, maximized, position, forceCenterWindow]);
 
   const wasMaximized = usePreviousImmediate(maximized);
 
@@ -259,6 +272,9 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             maxWidth={maxSize.width}
             onResizeStop={onResizeStop}
             onDrag={onDrag}
+            onMouseDown={touch}
+            onDragStart={touch}
+            onResizeStart={touch}
             onDragStop={onDragStop}
             dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
             data-testid="window-frame"
