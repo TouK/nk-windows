@@ -60,7 +60,7 @@ export interface Size {
 
 const roundCoords = mapValues<Coords, number>(Math.round);
 
-function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: () => void) {
+function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: HTMLCollection) => void) {
   const [firstChild, setFirstChild] = useState<Element>();
   if (firstChild !== ref.current?.children[0]) {
     setFirstChild(ref.current?.children[0]);
@@ -70,12 +70,10 @@ function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContent
   useMutationObserver(
     ref,
     () => {
-      setFirstChild(ref.current?.children[0]);
+      onContentChange?.(ref.current.children);
     },
-    { childList: true, subtree: true },
+    { childList: true, subtree: true, attributes: true },
   );
-
-  useLayoutEffect(() => firstChild && onContentChange?.(), [onContentChange, firstChild]);
 
   return !!firstChild;
 }
@@ -114,13 +112,13 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [randomizePosition, viewport.height, viewport.width]);
 
-  const centerWindow = useCallback(() => {
+  const onContentChanged = useCallback(() => {
     if (!touched) {
       forceCenterWindow();
     }
   }, [forceCenterWindow, touched]);
 
-  const contentAvailable = useContentVisibiliy(ref, centerWindow);
+  const contentAvailable = useContentVisibiliy(ref, onContentChanged);
 
   // set initial position
   useEffect(() => {
@@ -285,7 +283,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
                 ref={ref}
                 onFocus={focus}
                 onBlur={blur}
-                onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
+                onKeyDown={(event) => {
+                  event.key === "Escape" && onEscape?.();
+                  touch();
+                }}
                 tabIndex={-1}
                 className={cx(focusWrapperClass, focusWrapperTheme)}
                 data-testid="window"
