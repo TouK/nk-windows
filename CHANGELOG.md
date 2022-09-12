@@ -1,3 +1,10 @@
+# [1.6.0-beta.4](https://github.com/touk/nk-windows/compare/v1.6.0-beta.3...v1.6.0-beta.4) (2022-09-12)
+
+
+### Features
+
+* expose WindowContext ([11b5271](https://github.com/touk/nk-windows/commit/11b5271d55f7ef3db312eca9a9a6fe77f9c34e31))
+
 # [1.6.0-beta.3](https://github.com/touk/nk-windows/compare/v1.6.0-beta.2...v1.6.0-beta.3) (2022-09-12)
 
 
