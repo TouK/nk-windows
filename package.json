@@ -50,7 +50,7 @@
     "@cypress/code-coverage": "^3.10.0",
     "@loadable/component": "^5.15.2",
     "@rollup/plugin-commonjs": "^24.0.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@semantic-release/changelog": "6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.1",
     "@semantic-release/git": "10.0.1",
