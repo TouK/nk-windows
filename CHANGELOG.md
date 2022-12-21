@@ -1,3 +1,17 @@
+# [1.6.0-beta.1](https://github.com/touk/nk-windows/compare/v1.5.0...v1.6.0-beta.1) (2022-12-21)
+
+
+### Bug Fixes
+
+* initial position on subtree changes ([f328bd4](https://github.com/touk/nk-windows/commit/f328bd43a4416fba689047636d45c323d86a1f1f))
+* initial position on subtree changes ([3c693ab](https://github.com/touk/nk-windows/commit/3c693ab60e0d70fdc3f339520f3c78b6568777d1))
+
+
+### Features
+
+* expose WindowContext ([08a6c68](https://github.com/touk/nk-windows/commit/08a6c68dbc67243ea2051bafc6aac91e541a2b55))
+* move zIndex to theme ([d3b1b84](https://github.com/touk/nk-windows/commit/d3b1b8434a723926475c5caa5ba1b8b78e05ba7f))
+
 # [1.6.0-beta.6](https://github.com/touk/nk-windows/compare/v1.6.0-beta.5...v1.6.0-beta.6) (2022-12-21)
 
 # [1.6.0-beta.5](https://github.com/touk/nk-windows/compare/v1.6.0-beta.4...v1.6.0-beta.5) (2022-12-21)
