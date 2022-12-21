@@ -57,7 +57,7 @@ jobs:
         id: snapshots_diffs
         shell: bash
         run: |
-          echo ::set-output name=found::$(ls cypress/integration/__image_snapshots__/*.diff.png | wc -l)
+          echo ::set-output name=found::$(find . -iname '*.diff.png' | wc -l)
       - name: update snapshots
         if: ${{ always() && steps.snapshots_diffs.outputs.found > 0 }}
         run: npm run test:cypress:ci:update
@@ -89,7 +89,8 @@ jobs:
         with:
           name: test-results
           path: |
-            cypress/**/__image_snapshots__/
+            cypress/**/__image_snapshots__/**/*.diff.*
+            cypress/**/__image_snapshots__/**/*.actual.*
             cypress/screenshots/
             cypress/videos/
           if-no-files-found: ignore
