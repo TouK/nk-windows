@@ -11,7 +11,6 @@ export type AppTheme = Partial<{
     primaryBackground: string;
     secondaryBackground: string;
   }>;
-  zIndex: number;
 }>;
 
 declare module "@emotion/react" {

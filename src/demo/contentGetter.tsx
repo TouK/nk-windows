@@ -17,6 +17,6 @@ export function ContentGetter(props: Omit<DefaultContentProps, "buttons">) {
     case DemoWindowKind.lazy:
       return <LazyDemoContent {...props} />;
     default:
-      return <DemoContent />;
+      return <DemoContent {...props} />;
   }
 }
