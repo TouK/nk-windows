@@ -1,23 +1,24 @@
 import React from "react";
 import Inspector from "react-inspector";
-import { WindowContentProps } from "../index";
+import { useWindowContext } from "../index";
 import { DebugButtons } from "./DebugButtons";
 import { DemoDefaultContent } from "./demoDefaultContent";
 import { OverflowDebug } from "./overflowDebug";
 
-function DemoContent(props: WindowContentProps) {
+function DemoContent() {
+  const ctx = useWindowContext();
   return (
     <DemoDefaultContent
-      {...props}
+      {...ctx}
       buttons={[
-        { title: "Cancel", action: () => props.close() },
+        { title: "Cancel", action: () => ctx.close() },
         {
           title: "Success",
           action: async () => {
             await new Promise((resolve, reject) => {
               setTimeout(resolve, 2000);
             });
-            props.close();
+            ctx.close();
           },
         },
         {
@@ -26,13 +27,13 @@ function DemoContent(props: WindowContentProps) {
             await new Promise((resolve, reject) => {
               setTimeout(reject, 2000);
             });
-            props.close();
+            ctx.close();
           },
         },
       ]}
     >
-      <Inspector expandLevel={1} data={props.data} />
-      <DebugButtons currentId={props.data.id} />
+      <Inspector expandLevel={1} data={ctx.data} />
+      <DebugButtons currentId={ctx.data.id} />
       <OverflowDebug />
     </DemoDefaultContent>
   );

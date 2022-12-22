@@ -60,18 +60,20 @@ export interface Size {
 
 const roundCoords = mapValues<Coords, number>(Math.round);
 
-function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: () => void) {
+function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: HTMLCollection) => void) {
   const [firstChild, setFirstChild] = useState<Element>();
   if (firstChild !== ref.current?.children[0]) {
     setFirstChild(ref.current?.children[0]);
   }
 
   // support lazy loaded content with different size fallback
-  useMutationObserver(ref, () => {
-    setFirstChild(ref.current?.children[0]);
-  });
-
-  useLayoutEffect(() => firstChild && onContentChange?.(), [onContentChange, firstChild]);
+  useMutationObserver(
+    ref,
+    () => {
+      onContentChange?.(ref.current.children);
+    },
+    { childList: true, subtree: true, attributes: true },
+  );
 
   return !!firstChild;
 }
@@ -97,7 +99,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
 
-  const centerWindow = useCallback(() => {
+  const [touched, _setTouched] = useState(false);
+  const touch = useCallback(() => _setTouched(true), []);
+
+  const forceCenterWindow = useCallback(() => {
     if (ref.current) {
       const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
@@ -107,15 +112,21 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [randomizePosition, viewport.height, viewport.width]);
 
-  const contentAvailable = useContentVisibiliy(ref, centerWindow);
+  const onContentChanged = useCallback(() => {
+    if (!touched) {
+      forceCenterWindow();
+    }
+  }, [forceCenterWindow, touched]);
+
+  const contentAvailable = useContentVisibiliy(ref, onContentChanged);
 
   // set initial position
   useEffect(() => {
     if (dragging.current) return;
     if (contentAvailable && !position) {
-      centerWindow();
+      forceCenterWindow();
     }
-  }, [contentAvailable, maximized, position, centerWindow]);
+  }, [contentAvailable, maximized, position, forceCenterWindow]);
 
   const wasMaximized = usePreviousImmediate(maximized);
 
@@ -259,6 +270,9 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             maxWidth={maxSize.width}
             onResizeStop={onResizeStop}
             onDrag={onDrag}
+            onMouseDown={touch}
+            onDragStart={touch}
+            onResizeStart={touch}
             onDragStop={onDragStop}
             dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
             data-testid="window-frame"
@@ -269,7 +283,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
                 ref={ref}
                 onFocus={focus}
                 onBlur={blur}
-                onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
+                onKeyDown={(event) => {
+                  event.key === "Escape" && onEscape?.();
+                  touch();
+                }}
                 tabIndex={-1}
                 className={cx(focusWrapperClass, focusWrapperTheme)}
                 data-testid="window"

@@ -1,3 +1,35 @@
+# [1.6.0-beta.6](https://github.com/touk/nk-windows/compare/v1.6.0-beta.5...v1.6.0-beta.6) (2022-12-21)
+
+# [1.6.0-beta.5](https://github.com/touk/nk-windows/compare/v1.6.0-beta.4...v1.6.0-beta.5) (2022-12-21)
+
+# [1.6.0-beta.4](https://github.com/touk/nk-windows/compare/v1.6.0-beta.3...v1.6.0-beta.4) (2022-09-12)
+
+
+### Features
+
+* expose WindowContext ([11b5271](https://github.com/touk/nk-windows/commit/11b5271d55f7ef3db312eca9a9a6fe77f9c34e31))
+
+# [1.6.0-beta.3](https://github.com/touk/nk-windows/compare/v1.6.0-beta.2...v1.6.0-beta.3) (2022-09-12)
+
+
+### Bug Fixes
+
+* initial position on subtree changes ([173ada3](https://github.com/touk/nk-windows/commit/173ada3d0d196bfe64cb0362071d41399bfaff4e))
+
+# [1.6.0-beta.2](https://github.com/touk/nk-windows/compare/v1.6.0-beta.1...v1.6.0-beta.2) (2022-09-12)
+
+
+### Bug Fixes
+
+* initial position on subtree changes ([96a96a5](https://github.com/touk/nk-windows/commit/96a96a5098cf6823c2fd167c4f9e539c49b84c03))
+
+# [1.6.0-beta.1](https://github.com/touk/nk-windows/compare/v1.5.0...v1.6.0-beta.1) (2022-09-07)
+
+
+### Features
+
+* move zIndex to theme ([a0c2b77](https://github.com/touk/nk-windows/commit/a0c2b772c766047249d077ac3d208e9c1e347c18))
+
 # [1.5.0](https://github.com/touk/nk-windows/compare/v1.4.1...v1.5.0) (2022-05-31)
 
 

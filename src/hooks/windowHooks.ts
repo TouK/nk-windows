@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+export { useWindowContext } from "../components/window/WindowContent";
 
 export function useWindowZoom({
   isMaximized,
