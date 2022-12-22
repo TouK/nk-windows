@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           GIT_SOURCE_BRANCH=`([ "${GITHUB_HEAD_REF}" != "" ] && echo "${GITHUB_HEAD_REF}" || echo "${GITHUB_REF}") | sed 's/refs\/heads\///g'`
-          echo "::set-output name=git_source_branch::$GIT_SOURCE_BRANCH"
+          echo "git_source_branch=$GIT_SOURCE_BRANCH" >> $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
@@ -57,7 +57,7 @@ jobs:
         id: snapshots_diffs
         shell: bash
         run: |
-          echo ::set-output name=found::$(ls cypress/integration/__image_snapshots__/*.diff.png | wc -l)
+          echo "found=$(ls cypress/integration/__image_snapshots__/*.diff.png | wc -l)" >> $GITHUB_OUTPUT
       - name: update snapshots
         if: ${{ always() && steps.snapshots_diffs.outputs.found > 0 }}
         run: npm run test:cypress:ci:update
