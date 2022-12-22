@@ -1,3 +1,10 @@
+# [1.6.0-beta.11](https://github.com/touk/nk-windows/compare/v1.6.0-beta.10...v1.6.0-beta.11) (2022-12-22)
+
+
+### Bug Fixes
+
+* externals ([9d4e54b](https://github.com/touk/nk-windows/commit/9d4e54bf849b588b75098873c55d4f7ea16f4f89))
+
 # [1.6.0-beta.10](https://github.com/touk/nk-windows/compare/v1.6.0-beta.9...v1.6.0-beta.10) (2022-12-22)
 
 
