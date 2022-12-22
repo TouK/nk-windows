@@ -1,3 +1,10 @@
+# [1.6.0-beta.10](https://github.com/touk/nk-windows/compare/v1.6.0-beta.9...v1.6.0-beta.10) (2022-12-22)
+
+
+### Features
+
+* ability to set the initial/minimal size of the window ([62e36d9](https://github.com/touk/nk-windows/commit/62e36d90d3338819e30881ca46cc88e4613a0593))
+
 # [1.6.0-beta.9](https://github.com/touk/nk-windows/compare/v1.6.0-beta.8...v1.6.0-beta.9) (2022-12-22)
 
 # [1.6.0-beta.8](https://github.com/touk/nk-windows/compare/v1.6.0-beta.7...v1.6.0-beta.8) (2022-12-22)
