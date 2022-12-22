@@ -24,5 +24,5 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import "cypress-plugin-snapshots/commands";
+import "@frsource/cypress-plugin-visual-regression-diff/dist/support";
 import "./overrides";
