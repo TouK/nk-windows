@@ -79,6 +79,23 @@ function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContent
   return !!firstChild;
 }
 
+const focusWrapperClass = css({
+  boxSizing: "border-box",
+  overflow: "auto",
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  outline: "none",
+});
+
+const windowClass = css({
+  boxSizing: "border-box",
+  overflow: "visible",
+  backfaceVisibility: "hidden",
+  perspective: "1000",
+  willChange: "transform, top, left, minWidth, minHeight, width, height",
+});
+
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
   const {
     focusGroup,
@@ -222,25 +239,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     },
     [setFrameBox],
   );
+
   const [focused, setFocused] = useState(false);
-
-  const focusWrapperClass = css({
-    boxSizing: "border-box",
-    overflow: "auto",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    outline: "none",
-  });
-
-  const windowClass = css({
-    boxSizing: "border-box",
-    overflow: "visible",
-    backfaceVisibility: "hidden",
-    perspective: "1000",
-    willChange: "transform, top, left, minWidth, minHeight, width, height",
-  });
-
   const focus = useCallback(() => {
     onFocus();
     setFocused(true);
@@ -273,8 +273,15 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     [contentAvailable, maximized],
   );
 
-  const currentMinWidth = normalizeMinSize(minWidth, viewport.width - windowMargin * 2);
-  const currentMinHeight = normalizeMinSize(minHeight, viewport.height - windowMargin * 2);
+  const currentMinWidth = useMemo(
+    () => normalizeMinSize(minWidth, viewport.width - windowMargin * 2),
+    [normalizeMinSize, windowMargin, viewport.width, minWidth],
+  );
+
+  const currentMinHeight = useMemo(
+    () => normalizeMinSize(minHeight, viewport.height - windowMargin * 2),
+    [normalizeMinSize, windowMargin, viewport.height, minHeight],
+  );
 
   return (
     <>
