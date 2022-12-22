@@ -1,5 +1,5 @@
 import React from "react";
-import Inspector from "react-inspector";
+import { ObjectInspector } from "react-inspector";
 import { useWindowContext } from "../index";
 import { DebugButtons } from "./DebugButtons";
 import { DemoDefaultContent } from "./demoDefaultContent";
@@ -32,7 +32,7 @@ function DemoContent() {
         },
       ]}
     >
-      <Inspector expandLevel={1} data={ctx.data} />
+      <ObjectInspector expandLevel={1} data={ctx.data} />
       <DebugButtons currentId={ctx.data.id} />
       <OverflowDebug />
     </DemoDefaultContent>
