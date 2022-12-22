@@ -33,6 +33,18 @@ context("WM", () => {
     cy.document().matchImage({ screenshotConfig });
   });
 
+  it("should prevent window from going offscreen (minimal size)", () => {
+    cy.contains("minimal size").click();
+    cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.document().matchImage({ screenshotConfig });
+    cy.viewport(500, 500);
+    cy.wait(200);
+    cy.document().matchImage({ screenshotConfig });
+    cy.viewport("macbook-13");
+    cy.wait(200);
+    cy.document().matchImage({ screenshotConfig });
+  });
+
   it("should round translation coords", () => {
     cy.contains("not modal").click();
     cy.get("[data-testid='window-frame']")

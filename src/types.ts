@@ -1,4 +1,7 @@
-export interface WindowType<Kind extends string | number = any, Meta = any> {
+import { Size } from "./components/window/WindowFrame";
+import { CamelCasedProperties } from "type-fest";
+
+export interface WindowType<Kind extends string | number = any, Meta = any> extends WithPrefixedProperties<Partial<Size>, "min"> {
   id: string;
   title?: string;
   isModal?: boolean; // blocks access to everything under
@@ -22,3 +25,9 @@ export interface WindowManagerState<K extends number | string = any> {
   windows: WindowType<K, any>[];
   order: WindowId[];
 }
+
+type WithPrefix<T, P extends string> = {
+  [K in keyof T as K extends string ? `${P}-${K}` : never]: T[K];
+};
+
+export type WithPrefixedProperties<T, P extends string> = CamelCasedProperties<T & WithPrefix<T, P>>;

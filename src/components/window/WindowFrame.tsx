@@ -14,6 +14,7 @@ import { fadeInAnimation } from "../WindowsContainer";
 import { SnapMask } from "./SnapMask";
 import { Box, useSnapAreas } from "./useSnapAreas";
 import { useSnapSide } from "./useSnapSide";
+import { WithPrefixedProperties } from "../../types";
 
 export enum Side {
   none,
@@ -27,7 +28,7 @@ export enum Side {
   bottomRight = bottom | right,
 }
 
-interface WindowFrameProps {
+interface WindowFrameProps extends WithPrefixedProperties<Partial<Size>, "min"> {
   focusGroup?: string;
   zIndex?: number;
   randomizePosition?: number;
@@ -78,6 +79,23 @@ function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContent
   return !!firstChild;
 }
 
+const focusWrapperClass = css({
+  boxSizing: "border-box",
+  overflow: "auto",
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  outline: "none",
+});
+
+const windowClass = css({
+  boxSizing: "border-box",
+  overflow: "visible",
+  backfaceVisibility: "hidden",
+  perspective: "1000",
+  willChange: "transform, top, left, minWidth, minHeight, width, height",
+});
+
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
   const {
     focusGroup,
@@ -89,11 +107,15 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     maximized = false,
     resizable = false,
     moveable = false,
+    height,
+    width,
+    minWidth = 400,
+    minHeight = 140,
   } = props;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
-  const [size, setSize] = useState<Size>(null);
+  const [size, setSize] = useState<Size>(() => ({ height, width }));
   const prevSize = usePreviousImmediate(size);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
@@ -133,7 +155,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   // setup position correction for screen egdes
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
-      const { height, width } = size || box;
+      const width = size?.width || box?.width || 0;
+      const height = size?.height || box?.height || 0;
       return roundCoords({
         x: calcCoord(box.x, box.x + box.width, width, viewport.width, windowMargin),
         y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
@@ -216,25 +239,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     },
     [setFrameBox],
   );
+
   const [focused, setFocused] = useState(false);
-
-  const focusWrapperClass = css({
-    boxSizing: "border-box",
-    overflow: "auto",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    outline: "none",
-  });
-
-  const windowClass = css({
-    boxSizing: "border-box",
-    overflow: "visible",
-    backfaceVisibility: "hidden",
-    perspective: "1000",
-    willChange: "transform, top, left, minWidth, minHeight, width, height",
-  });
-
   const focus = useCallback(() => {
     onFocus();
     setFocused(true);
@@ -251,6 +257,32 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     [windowMargin, position],
   );
 
+  const normalizeMinSize = useCallback(
+    (size, maxSize) => {
+      if (!contentAvailable) {
+        return 0;
+      }
+      if (maximized) {
+        return "100%";
+      }
+      if (size >= maxSize) {
+        return maxSize;
+      }
+      return size;
+    },
+    [contentAvailable, maximized],
+  );
+
+  const currentMinWidth = useMemo(
+    () => normalizeMinSize(minWidth, viewport.width - windowMargin * 2),
+    [normalizeMinSize, windowMargin, viewport.width, minWidth],
+  );
+
+  const currentMinHeight = useMemo(
+    () => normalizeMinSize(minHeight, viewport.height - windowMargin * 2),
+    [normalizeMinSize, windowMargin, viewport.height, minHeight],
+  );
+
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
@@ -264,8 +296,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             bounds="parent"
             size={size}
             position={maximized ? { x: 0, y: 0 } : position}
-            minWidth={contentAvailable ? (maximized ? "100%" : 400) : 0}
-            minHeight={contentAvailable ? (maximized ? "100%" : 140) : 0}
+            minWidth={currentMinWidth}
+            minHeight={currentMinHeight}
             maxHeight={maxSize.height}
             maxWidth={maxSize.width}
             onResizeStop={onResizeStop}
