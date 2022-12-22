@@ -15,7 +15,7 @@ jobs:
     outputs:
       git_source_branch: ${{ steps.variables.outputs.git_source_branch }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout
         with:
           fetch-depth: 100
       - name: Define variables
@@ -35,11 +35,11 @@ jobs:
 
     steps:
       - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.8.0
+        uses: styfle/cancel-workflow-action
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout
+      - uses: actions/cache
         with:
           path: |
             **/node_modules
@@ -99,10 +99,10 @@ jobs:
     needs: [ "build" ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout
         with:
           fetch-depth: 0
-      - uses: actions/cache@v2
+      - uses: actions/cache
         with:
           path: |
             **/node_modules
@@ -123,11 +123,11 @@ jobs:
     needs: [ "build", "release" ]
     if: ${{ github.ref == 'refs/heads/master' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout
       - uses: actions/setup-node@v2
         with:
           node-version: 14
-      - uses: actions/cache@v2
+      - uses: actions/cache
         with:
           path: |
             **/node_modules
