@@ -16,6 +16,7 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
       { title: "danger, non-resizable", kind: DemoWindowKind.danger, isResizable: false },
       { title: "not modal", isModal: false },
       { title: "lazy loaded content", kind: DemoWindowKind.lazy },
+      { title: "initial size", kind: DemoWindowKind.lazy, minWidth: 700, height: 2500 },
     ],
     [],
   );
