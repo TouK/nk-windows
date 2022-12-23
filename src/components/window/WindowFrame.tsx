@@ -14,7 +14,6 @@ import { fadeInAnimation } from "../WindowsContainer";
 import { SnapMask } from "./SnapMask";
 import { Box, useSnapAreas } from "./useSnapAreas";
 import { useSnapSide } from "./useSnapSide";
-import { WithPrefixedProperties } from "../../types";
 
 export enum Side {
   none,
@@ -28,7 +27,7 @@ export enum Side {
   bottomRight = bottom | right,
 }
 
-interface WindowFrameProps extends WithPrefixedProperties<Partial<Size>, "min"> {
+interface WindowFrameProps {
   focusGroup?: string;
   zIndex?: number;
   randomizePosition?: number;
@@ -38,6 +37,10 @@ interface WindowFrameProps extends WithPrefixedProperties<Partial<Size>, "min"> 
   maximized?: boolean;
   onEscape?: () => void;
   onEdgeSnap?: (e: { name: string; code: Side }) => void;
+  width?: number;
+  height?: number;
+  minWidth?: number;
+  minHeight?: number;
 }
 
 const zoomAnimation = {
