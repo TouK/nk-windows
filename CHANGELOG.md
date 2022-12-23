@@ -1,3 +1,5 @@
+# [1.6.0-beta.13](https://github.com/touk/nk-windows/compare/v1.6.0-beta.12...v1.6.0-beta.13) (2022-12-23)
+
 # [1.6.0-beta.12](https://github.com/touk/nk-windows/compare/v1.6.0-beta.11...v1.6.0-beta.12) (2022-12-23)
 
 # [1.6.0-beta.11](https://github.com/touk/nk-windows/compare/v1.6.0-beta.10...v1.6.0-beta.11) (2022-12-22)
