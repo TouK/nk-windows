@@ -23,6 +23,6 @@ export default [
         sourcemap: true,
       },
     ],
-    plugins: [externals(), resolve(), commonjs(), svgr(), typescript()],
+    plugins: [externals({ builtinsPrefix: "strip" }), resolve(), commonjs(), svgr(), typescript()],
   },
 ];
