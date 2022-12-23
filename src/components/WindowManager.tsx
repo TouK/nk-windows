@@ -19,7 +19,6 @@ const defaultTheme = {
   spacing: {
     baseUnit: 5,
   },
-  zIndex: 1500,
 };
 
 interface WindowManagerProps<K extends number | string = any> extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

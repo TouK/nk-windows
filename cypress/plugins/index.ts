@@ -18,22 +18,22 @@
 
 import browserify from "@cypress/browserify-preprocessor";
 import coverageTask from "@cypress/code-coverage/task";
-import { initPlugin } from "@frsource/cypress-plugin-visual-regression-diff/dist/plugins";
+import { initPlugin } from "cypress-plugin-snapshots/plugin";
 
 module.exports = (on, config) => {
-  if (process.env.CYPRESS_SNAPSHOT_UPDATE === "true") {
-    config.env.pluginVisualRegressionUpdateImages = true;
-    config.video = false;
-  }
-
   initPlugin(on, config);
   coverageTask(on, config);
 
   const options = browserify.defaultOptions;
   // transform[1][1] is "babelify"
   // so we just add our code instrumentation plugin to the list
-  options.browserifyOptions.transform[1][1].plugins.push("babel-plugin-istanbul");
+  options.browserifyOptions.transform[1][1].plugins.push(
+    "babel-plugin-istanbul",
+  );
 
-  on("file:preprocessor", browserify({ ...options, typescript: require.resolve("typescript") }));
+  on(
+    "file:preprocessor",
+    browserify({ ...options, typescript: require.resolve("typescript") }),
+  );
   return config;
 };
