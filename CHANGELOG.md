@@ -1,3 +1,24 @@
+# [1.6.0](https://github.com/touk/nk-windows/compare/v1.5.0...v1.6.0) (2022-12-23)
+
+
+### Bug Fixes
+
+* externals ([9d4e54b](https://github.com/touk/nk-windows/commit/9d4e54bf849b588b75098873c55d4f7ea16f4f89))
+* initial position on subtree changes ([173ada3](https://github.com/touk/nk-windows/commit/173ada3d0d196bfe64cb0362071d41399bfaff4e))
+* initial position on subtree changes ([96a96a5](https://github.com/touk/nk-windows/commit/96a96a5098cf6823c2fd167c4f9e539c49b84c03))
+
+
+### Features
+
+* ability to set the initial/minimal size of the window ([62e36d9](https://github.com/touk/nk-windows/commit/62e36d90d3338819e30881ca46cc88e4613a0593))
+* expose WindowContext ([11b5271](https://github.com/touk/nk-windows/commit/11b5271d55f7ef3db312eca9a9a6fe77f9c34e31))
+* move zIndex to theme ([a0c2b77](https://github.com/touk/nk-windows/commit/a0c2b772c766047249d077ac3d208e9c1e347c18))
+
+
+### Reverts
+
+* Revert "dev > master (#472)" (#473) ([f14350f](https://github.com/touk/nk-windows/commit/f14350f374230cb5c80778f34054f2f184bcd422)), closes [#472](https://github.com/touk/nk-windows/issues/472) [#473](https://github.com/touk/nk-windows/issues/473)
+
 # [1.6.0-beta.14](https://github.com/touk/nk-windows/compare/v1.6.0-beta.13...v1.6.0-beta.14) (2022-12-23)
 
 
