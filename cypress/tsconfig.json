@@ -8,7 +8,7 @@
     "types": [
       "node",
       "cypress",
-      "@frsource/cypress-plugin-visual-regression-diff"
+      "cypress-plugin-snapshots"
     ],
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,

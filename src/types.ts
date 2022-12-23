@@ -10,10 +10,6 @@ export interface WindowType<Kind extends string | number = any, Meta = any> {
   focusParent?: string; // modal is focusParent for self and for windows opened since this modal is visible
   kind?: Kind;
   meta?: Meta;
-  width?: number;
-  height?: number;
-  minWidth?: number;
-  minHeight?: number;
 }
 
 export type WindowId = WindowType["id"];

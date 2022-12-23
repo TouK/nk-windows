@@ -27,10 +27,6 @@ export function Window({ data, contentGetter }: WindowProps): JSX.Element {
       moveable={!isStatic}
       randomizePosition={data.isModal ? 0 : 100}
       onEscape={onEscKey}
-      width={data.width}
-      height={data.height}
-      minWidth={data.minWidth}
-      minHeight={data.minHeight}
     >
       <WindowContent contentGetter={contentGetter} data={data} close={onClose} zoom={onToggleZoom} isMaximized={zoom} />
     </WindowFrame>
