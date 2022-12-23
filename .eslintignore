@@ -11,6 +11,3 @@ coverage
 cypress/videos
 cypress/screenshots
 cypress/**/__image_snapshots__/*
-!cypress/**/__image_snapshots__/*\[Linux\]*
-cypress/**/__image_snapshots__/*.diff.*
-cypress/**/__image_snapshots__/*.actual.*

@@ -37,6 +37,10 @@ interface WindowFrameProps {
   maximized?: boolean;
   onEscape?: () => void;
   onEdgeSnap?: (e: { name: string; code: Side }) => void;
+  width?: number;
+  height?: number;
+  minWidth?: number;
+  minHeight?: number;
 }
 
 const zoomAnimation = {
@@ -60,21 +64,40 @@ export interface Size {
 
 const roundCoords = mapValues<Coords, number>(Math.round);
 
-function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: () => void) {
+function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: HTMLCollection) => void) {
   const [firstChild, setFirstChild] = useState<Element>();
   if (firstChild !== ref.current?.children[0]) {
     setFirstChild(ref.current?.children[0]);
   }
 
   // support lazy loaded content with different size fallback
-  useMutationObserver(ref, () => {
-    setFirstChild(ref.current?.children[0]);
-  });
-
-  useLayoutEffect(() => firstChild && onContentChange?.(), [onContentChange, firstChild]);
+  useMutationObserver(
+    ref,
+    () => {
+      onContentChange?.(ref.current.children);
+    },
+    { childList: true, subtree: true, attributes: true },
+  );
 
   return !!firstChild;
 }
+
+const focusWrapperClass = css({
+  boxSizing: "border-box",
+  overflow: "auto",
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  outline: "none",
+});
+
+const windowClass = css({
+  boxSizing: "border-box",
+  overflow: "visible",
+  backfaceVisibility: "hidden",
+  perspective: "1000",
+  willChange: "transform, top, left, minWidth, minHeight, width, height",
+});
 
 export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
   const {
@@ -87,17 +110,24 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     maximized = false,
     resizable = false,
     moveable = false,
+    height,
+    width,
+    minWidth = 400,
+    minHeight = 140,
   } = props;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
-  const [size, setSize] = useState<Size>(null);
+  const [size, setSize] = useState<Size>(() => ({ height, width }));
   const prevSize = usePreviousImmediate(size);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
 
-  const centerWindow = useCallback(() => {
+  const [touched, _setTouched] = useState(false);
+  const touch = useCallback(() => _setTouched(true), []);
+
+  const forceCenterWindow = useCallback(() => {
     if (ref.current) {
       const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
@@ -107,22 +137,29 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [randomizePosition, viewport.height, viewport.width]);
 
-  const contentAvailable = useContentVisibiliy(ref, centerWindow);
+  const onContentChanged = useCallback(() => {
+    if (!touched) {
+      forceCenterWindow();
+    }
+  }, [forceCenterWindow, touched]);
+
+  const contentAvailable = useContentVisibiliy(ref, onContentChanged);
 
   // set initial position
   useEffect(() => {
     if (dragging.current) return;
     if (contentAvailable && !position) {
-      centerWindow();
+      forceCenterWindow();
     }
-  }, [contentAvailable, maximized, position, centerWindow]);
+  }, [contentAvailable, maximized, position, forceCenterWindow]);
 
   const wasMaximized = usePreviousImmediate(maximized);
 
   // setup position correction for screen egdes
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
-      const { height, width } = size || box;
+      const width = size?.width || box?.width || 0;
+      const height = size?.height || box?.height || 0;
       return roundCoords({
         x: calcCoord(box.x, box.x + box.width, width, viewport.width, windowMargin),
         y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
@@ -205,25 +242,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     },
     [setFrameBox],
   );
+
   const [focused, setFocused] = useState(false);
-
-  const focusWrapperClass = css({
-    boxSizing: "border-box",
-    overflow: "auto",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    outline: "none",
-  });
-
-  const windowClass = css({
-    boxSizing: "border-box",
-    overflow: "visible",
-    backfaceVisibility: "hidden",
-    perspective: "1000",
-    willChange: "transform, top, left, minWidth, minHeight, width, height",
-  });
-
   const focus = useCallback(() => {
     onFocus();
     setFocused(true);
@@ -240,6 +260,32 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     [windowMargin, position],
   );
 
+  const normalizeMinSize = useCallback(
+    (size, maxSize) => {
+      if (!contentAvailable) {
+        return 0;
+      }
+      if (maximized) {
+        return "100%";
+      }
+      if (size >= maxSize) {
+        return maxSize;
+      }
+      return size;
+    },
+    [contentAvailable, maximized],
+  );
+
+  const currentMinWidth = useMemo(
+    () => normalizeMinSize(minWidth, viewport.width - windowMargin * 2),
+    [normalizeMinSize, windowMargin, viewport.width, minWidth],
+  );
+
+  const currentMinHeight = useMemo(
+    () => normalizeMinSize(minHeight, viewport.height - windowMargin * 2),
+    [normalizeMinSize, windowMargin, viewport.height, minHeight],
+  );
+
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
@@ -253,12 +299,15 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             bounds="parent"
             size={size}
             position={maximized ? { x: 0, y: 0 } : position}
-            minWidth={contentAvailable ? (maximized ? "100%" : 400) : 0}
-            minHeight={contentAvailable ? (maximized ? "100%" : 140) : 0}
+            minWidth={currentMinWidth}
+            minHeight={currentMinHeight}
             maxHeight={maxSize.height}
             maxWidth={maxSize.width}
             onResizeStop={onResizeStop}
             onDrag={onDrag}
+            onMouseDown={touch}
+            onDragStart={touch}
+            onResizeStart={touch}
             onDragStop={onDragStop}
             dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
             data-testid="window-frame"
@@ -269,7 +318,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
                 ref={ref}
                 onFocus={focus}
                 onBlur={blur}
-                onKeyDown={(event) => event.key === "Escape" && onEscape?.()}
+                onKeyDown={(event) => {
+                  event.key === "Escape" && onEscape?.();
+                  touch();
+                }}
                 tabIndex={-1}
                 className={cx(focusWrapperClass, focusWrapperTheme)}
                 data-testid="window"

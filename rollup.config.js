@@ -1,7 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
+import externals from "rollup-plugin-node-externals";
 import svgr from "@svgr/rollup";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import typescript from "rollup-plugin-typescript2";
 
 export default [
@@ -23,6 +23,6 @@ export default [
         sourcemap: true,
       },
     ],
-    plugins: [peerDepsExternal(), resolve(), commonjs(), svgr(), typescript()],
+    plugins: [externals({ builtinsPrefix: "strip" }), resolve(), commonjs(), svgr(), typescript()],
   },
 ];
