@@ -64,20 +64,16 @@ export interface Size {
 
 const roundCoords = mapValues<Coords, number>(Math.round);
 
-function useContentVisibiliy(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: HTMLCollection) => void) {
+function useContentVisibility(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: Element) => void) {
   const [firstChild, setFirstChild] = useState<Element>();
   if (firstChild !== ref.current?.children[0]) {
     setFirstChild(ref.current?.children[0]);
   }
 
   // support lazy loaded content with different size fallback
-  useMutationObserver(
-    ref,
-    () => {
-      onContentChange?.(ref.current.children);
-    },
-    { childList: true, subtree: true, attributes: true },
-  );
+  useMutationObserver(ref, () => setFirstChild(ref.current?.children[0]));
+
+  useLayoutEffect(() => firstChild && onContentChange?.(firstChild), [onContentChange, firstChild]);
 
   return !!firstChild;
 }
@@ -143,7 +139,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [forceCenterWindow, touched]);
 
-  const contentAvailable = useContentVisibiliy(ref, onContentChanged);
+  const contentAvailable = useContentVisibility(ref, onContentChanged);
 
   // set initial position
   useEffect(() => {
