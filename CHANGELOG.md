@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/touk/nk-windows/compare/v1.6.0...v1.6.1) (2023-01-19)
+
+
+### Bug Fixes
+
+* delayed window centering ([2045b19](https://github.com/touk/nk-windows/commit/2045b19264d35b568fc588ccb7cf520649e6cec3))
+
 ## [1.6.1-beta.1](https://github.com/touk/nk-windows/compare/v1.6.0...v1.6.1-beta.1) (2023-01-18)
 
 
