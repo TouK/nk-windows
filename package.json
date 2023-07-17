@@ -50,7 +50,7 @@
     "@cypress/code-coverage": "3.10.0",
     "@frsource/cypress-plugin-visual-regression-diff": "3.2.8",
     "@loadable/component": "5.15.3",
-    "@rollup/plugin-commonjs": "24.0.0",
+    "@rollup/plugin-commonjs": "25.0.3",
     "@rollup/plugin-node-resolve": "15.0.1",
     "@semantic-release/changelog": "6.0.2",
     "@semantic-release/commit-analyzer": "9.0.2",
