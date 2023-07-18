@@ -63,7 +63,7 @@
     "@storybook/addons": "6.5.15",
     "@storybook/builder-webpack5": "6.5.15",
     "@storybook/manager-webpack5": "6.5.16",
-    "@storybook/react": "6.5.15",
+    "@storybook/react": "7.1.0",
     "@storybook/react-docgen-typescript-plugin": "1.0.1",
     "@storybook/storybook-deployer": "2.8.16",
     "@svgr/rollup": "6.5.1",
