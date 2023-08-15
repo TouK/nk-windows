@@ -59,7 +59,7 @@
     "@semantic-release/npm": "9.0.2",
     "@semantic-release/release-notes-generator": "10.0.3",
     "@storybook/addon-essentials": "6.5.15",
-    "@storybook/addon-links": "6.5.15",
+    "@storybook/addon-links": "7.3.0",
     "@storybook/addons": "6.5.15",
     "@storybook/builder-webpack5": "6.5.15",
     "@storybook/manager-webpack5": "6.5.16",
