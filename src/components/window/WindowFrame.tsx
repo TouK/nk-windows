@@ -251,35 +251,36 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const maxSize = useMemo(
     () => ({
       width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
-      height: `calc(100% - ${position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0}px)`,
+      height: viewport.height - (position?.y >= windowMargin ? windowMargin * 2 : position?.y || 0),
     }),
-    [windowMargin, position],
+    [windowMargin, position, viewport.height],
   );
 
   const normalizeMinSize = useCallback(
-    (size, maxSize) => {
+    (size: number, viewportSize: number) => {
       if (!contentAvailable) {
         return 0;
       }
       if (maximized) {
-        return "100%";
+        return viewportSize;
       }
+      const maxSize = viewportSize - windowMargin * 2;
       if (size >= maxSize) {
         return maxSize;
       }
       return size;
     },
-    [contentAvailable, maximized],
+    [contentAvailable, maximized, windowMargin],
   );
 
   const currentMinWidth = useMemo(
-    () => normalizeMinSize(minWidth, viewport.width - windowMargin * 2),
-    [normalizeMinSize, windowMargin, viewport.width, minWidth],
+    () => normalizeMinSize(minWidth, viewport.width),
+    [normalizeMinSize, viewport.width, minWidth],
   );
 
   const currentMinHeight = useMemo(
-    () => normalizeMinSize(minHeight, viewport.height - windowMargin * 2),
-    [normalizeMinSize, windowMargin, viewport.height, minHeight],
+    () => normalizeMinSize(minHeight, viewport.height),
+    [normalizeMinSize, viewport.height, minHeight],
   );
 
   return (
