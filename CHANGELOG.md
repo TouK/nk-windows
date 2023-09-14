@@ -1,3 +1,10 @@
+## [1.6.2-beta.1](https://github.com/touk/nk-windows/compare/v1.6.1...v1.6.2-beta.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* events in header buttons ([fbb3287](https://github.com/touk/nk-windows/commit/fbb3287c34cb32d548fccb90c584e0a7ef202442))
+
 ## [1.6.1-beta.4](https://github.com/touk/nk-windows/compare/v1.6.1-beta.3...v1.6.1-beta.4) (2023-09-14)
 
 
