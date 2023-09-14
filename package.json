@@ -48,7 +48,7 @@
     "@babel/core": "7.20.12",
     "@cypress/browserify-preprocessor": "3.0.2",
     "@cypress/code-coverage": "3.12.1",
-    "@frsource/cypress-plugin-visual-regression-diff": "3.2.8",
+    "@frsource/cypress-plugin-visual-regression-diff": "3.3.10",
     "@loadable/component": "5.15.3",
     "@rollup/plugin-commonjs": "25.0.4",
     "@rollup/plugin-node-resolve": "15.2.1",
