@@ -12,6 +12,7 @@ context("WM", () => {
   });
 
   it("should maximize/restore window", () => {
+    cy.viewport("macbook-15");
     cy.contains("with title").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
     cy.document().matchImage({ screenshotConfig });
