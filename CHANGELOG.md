@@ -1,3 +1,16 @@
+# [1.7.0-beta.1](https://github.com/touk/nk-windows/compare/v1.6.2-beta.2...v1.7.0-beta.1) (2023-09-15)
+
+
+### Bug Fixes
+
+* focus after window size adjust on ios ([84d4c4a](https://github.com/touk/nk-windows/commit/84d4c4aea991794ca84fa4b82db480199375f382))
+* input on test snapshots ([d7ada5a](https://github.com/touk/nk-windows/commit/d7ada5a57626f699ea4955bc1818688c9cd298bc))
+
+
+### Features
+
+* adjust window size and position to onscreen keyboard on touch devices ([cffdcc2](https://github.com/touk/nk-windows/commit/cffdcc2aaaac87ec6da5c6fd15a618dcb2fc872f))
+
 ## [1.6.2-beta.2](https://github.com/touk/nk-windows/compare/v1.6.2-beta.1...v1.6.2-beta.2) (2023-09-14)
 
 ## [1.6.2-beta.1](https://github.com/touk/nk-windows/compare/v1.6.1...v1.6.2-beta.1) (2023-09-14)
