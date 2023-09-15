@@ -35,7 +35,6 @@ function DemoContent() {
       ]}
     >
       <ObjectInspector expandLevel={1} data={ctx.data} />
-      <input type="text" placeholder="test focus and onscreen keyboard" />
       <DebugButtons currentId={ctx.data.id} />
       <OverflowDebug />
     </DemoDefaultContent>
