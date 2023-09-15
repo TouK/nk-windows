@@ -6,9 +6,9 @@ export function useVisualHeight() {
     const listener = () => {
       setVisualHeight(window.visualViewport?.height);
     };
-    visualViewport?.addEventListener("resize", listener);
+    window.visualViewport?.addEventListener("resize", listener);
     return () => {
-      visualViewport?.removeEventListener("resize", listener);
+      window.visualViewport?.removeEventListener("resize", listener);
     };
   }, []);
   return visualHeight;

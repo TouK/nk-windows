@@ -23,7 +23,7 @@ export function useScrollFix(el: EventTarget) {
 
   useEffect(() => {
     const listener = (e) => {
-      if (window.visualViewport.height !== window.innerHeight) {
+      if ("visualViewport" in window && window.visualViewport.height !== window.innerHeight) {
         focused.current?.scrollIntoView();
         if (scrollTop !== null) {
           window.document.documentElement.scrollTop = scrollTop.current;
