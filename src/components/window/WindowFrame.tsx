@@ -10,6 +10,7 @@ import { DRAG_HANDLE_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
 import { random } from "../../utils";
+import { useScrollFix } from "../../hooks/useScrollFix";
 import { fadeInAnimation } from "../WindowsContainer";
 import { SnapMask } from "./SnapMask";
 import { Box, useSnapAreas } from "./useSnapAreas";
@@ -282,6 +283,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     () => normalizeMinSize(minHeight, viewport.height),
     [normalizeMinSize, viewport.height, minHeight],
   );
+
+  useScrollFix(ref.current)
 
   return (
     <>

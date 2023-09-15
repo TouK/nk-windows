@@ -1,7 +1,8 @@
 import { css, cx } from "@emotion/css";
 import { useTheme } from "@emotion/react";
-import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
+import React, { PropsWithChildren, useMemo } from "react";
 import { useSize } from "../hooks";
+import { useVisualHeight } from "../hooks/useVisualHeight";
 import { ViewportContext } from "../ViewportContext";
 
 const ignorePointerEvents = css({
@@ -20,17 +21,8 @@ const fullscreenFixed = css({
 });
 
 export function WindowsViewport({ children }: PropsWithChildren<unknown>): JSX.Element {
-  const { observe, height, width } = useSize();
-
-  const [visualHeight, setVisualHeight] = useState(visualViewport?.height || window.innerHeight);
-
-  useEffect(() => {
-    const listener = () => setVisualHeight(visualViewport?.height);
-    visualViewport?.addEventListener("resize", listener);
-    return () => {
-      visualViewport?.removeEventListener("resize", listener);
-    };
-  }, []);
+  const { observe, height, width, entry } = useSize();
+  const visualHeight = useVisualHeight();
 
   const value = useMemo(() => ({ width, height: Math.min(height, visualHeight) }), [height, width, visualHeight]);
 
