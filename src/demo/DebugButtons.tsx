@@ -38,7 +38,8 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
         close
       </button>
       <div>
-        <input type="text" placeholder="test focus and onscreen keyboard" />
+        <p>test focus and onscreen keyboard</p>
+        <input type="text" />
       </div>
     </div>
   );
