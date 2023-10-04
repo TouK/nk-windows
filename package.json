@@ -60,7 +60,7 @@
     "@semantic-release/release-notes-generator": "10.0.3",
     "@storybook/addon-essentials": "7.4.2",
     "@storybook/addon-links": "6.5.15",
-    "@storybook/addons": "7.4.2",
+    "@storybook/addons": "7.4.6",
     "@storybook/builder-webpack5": "6.5.15",
     "@storybook/manager-webpack5": "6.5.16",
     "@storybook/react": "6.5.15",
