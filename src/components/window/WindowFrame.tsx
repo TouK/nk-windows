@@ -252,7 +252,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const maxSize = useMemo(
     () => ({
       width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
-      height: viewport.height - (position?.y >= windowMargin ? windowMargin * 2 : position?.y || 0),
+      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0),
     }),
     [windowMargin, position, viewport.height],
   );
