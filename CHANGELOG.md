@@ -1,3 +1,10 @@
+# [1.7.0-beta.2](https://github.com/touk/nk-windows/compare/v1.7.0-beta.1...v1.7.0-beta.2) (2023-10-17)
+
+
+### Bug Fixes
+
+* max window height ([58d65ec](https://github.com/touk/nk-windows/commit/58d65ec53a3bd6d56b0caeec2f406b55ba5e0b6e))
+
 # [1.7.0-beta.1](https://github.com/touk/nk-windows/compare/v1.6.2-beta.2...v1.7.0-beta.1) (2023-09-15)
 
 
