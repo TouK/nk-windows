@@ -13,6 +13,7 @@
   ],
   "author": "Julian Wielga",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "npm run storybook",
     "build": "rollup -c",
