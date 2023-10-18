@@ -1,9 +1,13 @@
-import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 import Demo from "./demo";
 
-export default {
-  title: "demo",
+const meta = {
+  title: "Demo",
   component: Demo,
-};
+} satisfies Meta<typeof Demo>;
 
-export const Default = (): React.ReactNode => <Demo />;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Defult: Story = {};

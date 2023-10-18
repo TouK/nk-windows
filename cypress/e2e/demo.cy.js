@@ -2,7 +2,7 @@ context("WM", () => {
   const screenshotConfig = { blackout: ["ol[role='tree']"] };
 
   beforeEach(() => {
-    cy.visit("iframe.html?id=demo--default");
+    cy.visit("iframe.html?args=&id=demo--defult&viewMode=story");
   });
 
   it("should open window", () => {
