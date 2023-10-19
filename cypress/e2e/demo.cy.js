@@ -26,10 +26,10 @@ context("WM", () => {
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
-    cy.wait(200);
+    cy.wait(300);
     cy.document().matchImage({ screenshotConfig });
     cy.viewport("macbook-13");
-    cy.wait(200);
+    cy.wait(500);
     cy.document().matchImage({ screenshotConfig });
   });
 
@@ -38,10 +38,10 @@ context("WM", () => {
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
-    cy.wait(200);
+    cy.wait(300);
     cy.document().matchImage({ screenshotConfig });
     cy.viewport("macbook-13");
-    cy.wait(200);
+    cy.wait(500);
     cy.document().matchImage({ screenshotConfig });
   });
 
