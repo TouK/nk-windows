@@ -112,7 +112,7 @@
     "webpack": "5.89.0"
   },
   "dependencies": {
-    "@emotion/css": "11.10.5",
+    "@emotion/css": "11.11.2",
     "@emotion/react": "11.11.1",
     "@juggle/resize-observer": "3.4.0",
     "color-alpha": "1.1.3",
