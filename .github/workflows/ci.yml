@@ -31,7 +31,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 18.x ]
+        node-version: [ 14, 16, 18 ]
 
     steps:
       - name: Cancel previous runs
@@ -110,7 +110,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
       - run: npm ci
       - run: npm run build
       - name: Release
