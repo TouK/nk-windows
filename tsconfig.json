@@ -16,7 +16,8 @@
     "esModuleInterop": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "rollup.config.mjs"
   ],
   "exclude": [
     "node_modules",
