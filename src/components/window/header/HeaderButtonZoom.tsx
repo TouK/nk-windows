@@ -11,7 +11,7 @@ export interface HeaderButtonZoomProps {
 
 export function HeaderButtonZoom({ zoomDialog, isMaximized, keepFocus }: HeaderButtonZoomProps): JSX.Element {
   const ref = useRef<HTMLButtonElement>();
-  const onClick = useCallback(() => {
+  const onPointerDown = useCallback(() => {
     zoomDialog();
     if (!keepFocus) {
       ref.current?.blur();
@@ -19,7 +19,7 @@ export function HeaderButtonZoom({ zoomDialog, isMaximized, keepFocus }: HeaderB
   }, [keepFocus, zoomDialog]);
 
   return (
-    <HeaderButton name="zoom" ref={ref} onClick={onClick}>
+    <HeaderButton name="zoom" ref={ref} onPointerDown={onPointerDown}>
       {isMaximized ? <RestoreIcon /> : <ZoomIcon />}
     </HeaderButton>
   );

@@ -1,5 +1,48 @@
-## [1.6.1](https://github.com/touk/nk-windows/compare/v1.6.0...v1.6.1) (2023-01-19)
+# [1.7.0-beta.5](https://github.com/touk/nk-windows/compare/v1.7.0-beta.4...v1.7.0-beta.5) (2023-10-19)
 
+# [1.7.0-beta.4](https://github.com/touk/nk-windows/compare/v1.7.0-beta.3...v1.7.0-beta.4) (2023-10-19)
+
+# [1.7.0-beta.3](https://github.com/touk/nk-windows/compare/v1.7.0-beta.2...v1.7.0-beta.3) (2023-10-17)
+
+# [1.7.0-beta.2](https://github.com/touk/nk-windows/compare/v1.7.0-beta.1...v1.7.0-beta.2) (2023-10-17)
+
+
+### Bug Fixes
+
+* max window height ([58d65ec](https://github.com/touk/nk-windows/commit/58d65ec53a3bd6d56b0caeec2f406b55ba5e0b6e))
+
+# [1.7.0-beta.1](https://github.com/touk/nk-windows/compare/v1.6.2-beta.2...v1.7.0-beta.1) (2023-09-15)
+
+
+### Bug Fixes
+
+* focus after window size adjust on ios ([84d4c4a](https://github.com/touk/nk-windows/commit/84d4c4aea991794ca84fa4b82db480199375f382))
+* input on test snapshots ([d7ada5a](https://github.com/touk/nk-windows/commit/d7ada5a57626f699ea4955bc1818688c9cd298bc))
+
+
+### Features
+
+* adjust window size and position to onscreen keyboard on touch devices ([cffdcc2](https://github.com/touk/nk-windows/commit/cffdcc2aaaac87ec6da5c6fd15a618dcb2fc872f))
+
+## [1.6.2-beta.2](https://github.com/touk/nk-windows/compare/v1.6.2-beta.1...v1.6.2-beta.2) (2023-09-14)
+
+## [1.6.2-beta.1](https://github.com/touk/nk-windows/compare/v1.6.1...v1.6.2-beta.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* events in header buttons ([fbb3287](https://github.com/touk/nk-windows/commit/fbb3287c34cb32d548fccb90c584e0a7ef202442))
+
+## [1.6.1-beta.4](https://github.com/touk/nk-windows/compare/v1.6.1-beta.3...v1.6.1-beta.4) (2023-09-14)
+
+
+### Bug Fixes
+
+* events in header buttons ([fbb3287](https://github.com/touk/nk-windows/commit/fbb3287c34cb32d548fccb90c584e0a7ef202442))
+
+## [1.6.1-beta.3](https://github.com/touk/nk-windows/compare/v1.6.1-beta.2...v1.6.1-beta.3) (2023-09-14)
+
+## [1.6.1-beta.2](https://github.com/touk/nk-windows/compare/v1.6.1-beta.1...v1.6.1-beta.2) (2023-07-14)
 
 ### Bug Fixes
 

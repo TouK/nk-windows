@@ -37,6 +37,10 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
       <button style={{ margin: ".5em" }} disabled={!currentId} onClick={() => close()}>
         close
       </button>
+      <div>
+        <p>test focus and onscreen keyboard</p>
+        <input type="text" />
+      </div>
     </div>
   );
 }

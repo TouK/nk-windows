@@ -2,7 +2,7 @@ context("WM", () => {
   const screenshotConfig = { blackout: ["ol[role='tree']"] };
 
   beforeEach(() => {
-    cy.visit("iframe.html?id=demo--default");
+    cy.visit("iframe.html?args=&id=demo--defult&viewMode=story");
   });
 
   it("should open window", () => {
@@ -24,24 +24,34 @@ context("WM", () => {
   it("should prevent window from going offscreen", () => {
     cy.contains("danger").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.contains("to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
-    cy.wait(200);
+    cy.wait(300);
     cy.document().matchImage({ screenshotConfig });
+    cy.contains("to bottom").should("be.enabled");
     cy.viewport("macbook-13");
-    cy.wait(200);
+    cy.wait(300);
+    cy.contains("to bottom").should("be.disabled");
+    cy.contains("add line").should("be.visible").click().click().click();
+    cy.contains("to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
   });
 
   it("should prevent window from going offscreen (minimal size)", () => {
     cy.contains("minimal size").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.contains("to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
-    cy.wait(200);
+    cy.wait(300);
     cy.document().matchImage({ screenshotConfig });
+    cy.contains("to bottom").should("be.enabled");
     cy.viewport("macbook-13");
-    cy.wait(200);
+    cy.wait(300);
+    cy.contains("to bottom").should("be.disabled");
+    cy.contains("add line").should("be.visible").click().click().click();
+    cy.contains("to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
   });
 

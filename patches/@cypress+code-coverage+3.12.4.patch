@@ -1,0 +1,13 @@
+diff --git a/node_modules/@cypress/code-coverage/support.js b/node_modules/@cypress/code-coverage/support.js
+index 25249f5..0264b23 100644
+--- a/node_modules/@cypress/code-coverage/support.js
++++ b/node_modules/@cypress/code-coverage/support.js
+@@ -60,7 +60,7 @@ const registerHooks = () => {
+     })
+   })
+ 
+-  beforeEach(() => {
++  afterEach(() => {
+     // each object will have the coverage and url pathname
+     // to let the user know the coverage has been collected
+     windowCoverageObjects = []

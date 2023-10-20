@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ObjectInspector } from "react-inspector";
+import { useViewportSize } from "../hooks";
 import { useWindowContext } from "../index";
 import { DebugButtons } from "./DebugButtons";
 import { DemoDefaultContent } from "./demoDefaultContent";
@@ -7,6 +8,7 @@ import { OverflowDebug } from "./overflowDebug";
 
 function DemoContent() {
   const ctx = useWindowContext();
+  const v = useViewportSize();
   return (
     <DemoDefaultContent
       {...ctx}
