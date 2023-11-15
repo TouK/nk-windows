@@ -51,7 +51,7 @@
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "7.23.2",
     "@cypress/browserify-preprocessor": "3.0.2",
-    "@cypress/code-coverage": "3.12.4",
+    "@cypress/code-coverage": "3.12.10",
     "@frsource/cypress-plugin-visual-regression-diff": "3.3.10",
     "@loadable/component": "5.15.3",
     "@rollup/plugin-commonjs": "25.0.7",
