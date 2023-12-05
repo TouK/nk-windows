@@ -106,7 +106,7 @@
     "rollup": "4.1.4",
     "rollup-plugin-node-externals": "6.1.2",
     "rollup-plugin-typescript2": "0.36.0",
-    "semantic-release": "22.0.5",
+    "semantic-release": "22.0.9",
     "start-server-and-test": "2.0.1",
     "storybook": "7.5.1",
     "ts-jest": "29.1.1",
