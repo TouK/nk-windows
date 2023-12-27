@@ -8,11 +8,15 @@ export function withoutId<T extends { id: I }, I = string>(arr: T[], id: T["id"]
   return arr.filter((el) => id !== el.id);
 }
 
-const windows: Reducer<WindowType<any, any>[], Action> = (windows = [], action) => {
+const windows: Reducer<WindowType[], Action> = (windows = [], action) => {
   switch (action.type) {
     case "CLEAR_WINDOWS":
       return [];
     case "OPEN_WINDOW":
+      const existingWindow = windows.find((w) => w.id === action.windowData.id);
+      if (existingWindow) {
+        return windows.map((window) => (window === existingWindow ? action.windowData : window));
+      }
       return [...windows, action.windowData];
     case "CLOSE_WINDOW":
       return withoutId(windows, action.id);
@@ -26,13 +30,11 @@ const order: Reducer<WindowId[], Action> = (state = [], action) => {
     case "CLEAR_WINDOWS":
       return [];
     case "OPEN_WINDOW":
-      return uniq([action.windowData.id, ...state]);
+      return state.includes(action.windowData.id) ? state : uniq([action.windowData.id, ...state]);
     case "CLOSE_WINDOW":
       return without(state, action.id);
     case "FOCUS_WINDOW":
-      if (action.id !== state[0]) {
-        return uniq([action.id, ...state]);
-      }
+      return action.id !== state[0] ? uniq([action.id, ...state]) : state;
     default:
       return state;
   }
