@@ -14,6 +14,7 @@ context("WM", () => {
   it("should maximize/restore window", () => {
     cy.contains("with title").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.get("@window").contains("scroll to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.get("@window").contains("with title").dblclick();
     cy.document().matchImage({ screenshotConfig });
