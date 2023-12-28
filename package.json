@@ -46,10 +46,10 @@
     "url": "https://github.com/touk/nk-windows.git"
   },
   "devDependencies": {
-    "@babel/core": "7.23.2",
-    "@babel/preset-env": "7.23.2",
-    "@babel/preset-react": "7.22.15",
-    "@babel/preset-typescript": "7.23.2",
+    "@babel/core": "7.23.6",
+    "@babel/preset-env": "7.23.6",
+    "@babel/preset-react": "7.23.3",
+    "@babel/preset-typescript": "7.23.3",
     "@cypress/browserify-preprocessor": "3.0.2",
     "@cypress/code-coverage": "3.12.15",
     "@frsource/cypress-plugin-visual-regression-diff": "3.3.10",
