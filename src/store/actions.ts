@@ -33,11 +33,11 @@ export function openWindow<Kind extends number | string = any, Meta = never>({
 export function closeWindow(id: string = null): WMAction {
   return async (dispatch, getState) => {
     const state = getState();
+    dispatch({ type: "CLOSE_WINDOW", id });
     await Promise.all(
       getWindows(state)
-        .filter(({ parent }) => parent === id)
+        .filter((w) => w.parent === id && w.id !== id && w.id !== w.parent)
         .map(({ id }) => dispatch(closeWindow(id))),
     );
-    return await dispatch({ type: "CLOSE_WINDOW", id });
   };
 }
