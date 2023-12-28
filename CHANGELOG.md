@@ -3,6 +3,13 @@
 
 ### Bug Fixes
 
+* replace window data ([0ee38b4](https://github.com/touk/nk-windows/commit/0ee38b4b361a615cd8e2214edf32ad1c8631ddeb))
+
+## [1.7.1-beta.1](https://github.com/touk/nk-windows/compare/v1.7.0...v1.7.1-beta.1) (2023-12-28)
+
+
+### Bug Fixes
+
 * replace window data ([468cc69](https://github.com/touk/nk-windows/commit/468cc69e8de5d54401c17e661b4db90846373cb4))
 
 # [1.7.0](https://github.com/touk/nk-windows/compare/v1.6.1...v1.7.0) (2023-10-20)
