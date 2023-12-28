@@ -14,11 +14,13 @@ context("WM", () => {
   it("should maximize/restore window", () => {
     cy.contains("with title").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.get("@window").contains("scroll to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.get("@window").contains("with title").dblclick();
     cy.document().matchImage({ screenshotConfig });
     cy.get("button[name='zoom']").click();
     cy.document().matchImage({ screenshotConfig });
+    cy.get("@window").contains("close all").click();
   });
 
   it("should prevent window from going offscreen", () => {

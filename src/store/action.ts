@@ -4,7 +4,7 @@ import { ThunkAction } from "./reducerWithThunk";
 
 export type Action =
   | { type: "CLEAR_WINDOWS" }
-  | { type: "OPEN_WINDOW"; windowData: WindowType<any, any> }
+  | { type: "OPEN_WINDOW"; windowData: WindowType }
   | { type: "CLOSE_WINDOW"; id: WindowId }
   | { type: "FOCUS_WINDOW"; id: WindowId };
 
