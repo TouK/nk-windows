@@ -20,6 +20,7 @@ context("WM", () => {
     cy.document().matchImage({ screenshotConfig });
     cy.get("button[name='zoom']").click();
     cy.document().matchImage({ screenshotConfig });
+    cy.get("@window").contains("close all").click();
   });
 
   it("should prevent window from going offscreen", () => {
