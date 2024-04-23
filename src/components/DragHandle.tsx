@@ -20,7 +20,7 @@ function getDragHandleClass(isStatic: boolean) {
 }
 
 export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Element {
-  const { children, className, disabled, el = <div />, ignoredChildren = `textarea, input, select, button` } = props;
+  const { children, className, disabled, el = <div />, ignoredChildren = `a, textarea, input, select, button` } = props;
   const onMouseDown = useCallback(
     (e: MouseEvent<HTMLElement>) => {
       const targets = e.nativeEvent.composedPath();
