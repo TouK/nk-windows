@@ -1,3 +1,10 @@
+## [1.7.2-beta.1](https://github.com/touk/nk-windows/compare/v1.7.1...v1.7.2-beta.1) (2024-04-23)
+
+
+### Bug Fixes
+
+* filter anchors from DragHandle ([8fd02da](https://github.com/touk/nk-windows/commit/8fd02da5afa162094018d35abac359855eb0f8ae))
+
 ## [1.7.1](https://github.com/touk/nk-windows/compare/v1.7.0...v1.7.1) (2023-12-28)
 
 
