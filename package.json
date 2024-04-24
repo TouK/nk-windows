@@ -73,7 +73,7 @@
     "@storybook/blocks": "7.6.6",
     "@storybook/react": "7.6.6",
     "@storybook/react-docgen-typescript-plugin": "1.0.1",
-    "@storybook/react-webpack5": "7.6.6",
+    "@storybook/react-webpack5": "8.0.9",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.2.2",
     "@svgr/rollup": "8.1.0",
