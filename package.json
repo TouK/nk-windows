@@ -14,6 +14,7 @@
   "author": "Julian Wielga",
   "license": "MIT",
   "scripts": {
+    "prebuild": "rimraf cjs/* esm/* storybook-static",
     "postinstall": "patch-package",
     "start": "npm run storybook",
     "build": "rollup -c",

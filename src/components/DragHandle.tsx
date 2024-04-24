@@ -9,16 +9,6 @@ type DragHandleProps = {
   el?: ReactElement;
 };
 
-function getDragHandleClass(isStatic: boolean) {
-  return cx(
-    css({
-      userSelect: isStatic ? "none" : "auto",
-      cursor: isStatic ? "auto" : "move",
-    }),
-    DRAG_HANDLE_CLASS_NAME,
-  );
-}
-
 export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Element {
   const { children, className, disabled, el = <div />, ignoredChildren = `a, textarea, input, select, button` } = props;
   const onMouseDown = useCallback(
@@ -35,7 +25,12 @@ export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Eleme
   const element = React.Children.only(el);
   return React.cloneElement(element, {
     ...element.props,
-    className: cx(className, element.props.className, getDragHandleClass(disabled)),
+    className: cx([
+      css({ cursor: disabled ? "inherit" : "move" }),
+      !disabled && DRAG_HANDLE_CLASS_NAME,
+      element.props.className,
+      className,
+    ]),
     children: children || element.props.children,
     onMouseDown,
   });

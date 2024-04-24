@@ -7,7 +7,11 @@ export interface FooterButtonProps {
   title: string;
   action: () => void | Promise<void>;
   disabled?: boolean;
+  /**
+   * @deprecated use className instead
+   * */
   classname?: string;
+  className?: string;
 }
 
 const useButtonTheme = () => {
@@ -38,7 +42,7 @@ const useButtonTheme = () => {
   });
 };
 
-export function FooterButton({ action, disabled, classname, ...props }: FooterButtonProps): JSX.Element {
+export function FooterButton({ action, disabled, classname, className = classname, ...props }: FooterButtonProps): JSX.Element {
   const [working, setWorking] = useState(false);
   const [error, setError] = useState(false);
   const onClick = useCallback(async () => {
@@ -56,7 +60,7 @@ export function FooterButton({ action, disabled, classname, ...props }: FooterBu
   return (
     <button
       type="button"
-      className={cx(buttonReset, buttonTheme, { "action-failed": error }, classname)}
+      className={cx(buttonReset, buttonTheme, { "action-failed": error }, className)}
       onClick={onClick}
       disabled={isDisabled}
       {...props}

@@ -5,3 +5,4 @@ export { WindowId, WindowType } from "./types";
 export { useWindowManager, useOverflow, useWindowContext } from "./hooks";
 export { WindowManager as WindowManagerProvider } from "./components/WindowManager";
 export { DefaultContent, DefaultContentProps } from "./components/window/DefaultContent";
+export * as DefaultComponents from "./components/window/defaultComponents";
