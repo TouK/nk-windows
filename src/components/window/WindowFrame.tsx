@@ -274,17 +274,11 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     [contentAvailable, maximized, windowMargin],
   );
 
-  const currentMinWidth = useMemo(
-    () => normalizeMinSize(minWidth, viewport.width),
-    [normalizeMinSize, viewport.width, minWidth],
-  );
+  const currentMinWidth = useMemo(() => normalizeMinSize(minWidth, viewport.width), [normalizeMinSize, viewport.width, minWidth]);
 
-  const currentMinHeight = useMemo(
-    () => normalizeMinSize(minHeight, viewport.height),
-    [normalizeMinSize, viewport.height, minHeight],
-  );
+  const currentMinHeight = useMemo(() => normalizeMinSize(minHeight, viewport.height), [normalizeMinSize, viewport.height, minHeight]);
 
-  useScrollFix(ref.current)
+  useScrollFix(ref.current);
 
   return (
     <>
