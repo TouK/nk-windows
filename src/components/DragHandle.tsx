@@ -1,26 +1,19 @@
 import { css, cx } from "@emotion/css";
-import React, { MouseEvent, PropsWithChildren, ReactElement, useCallback } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 import { DRAG_HANDLE_CLASS_NAME } from "../consts";
 
 type DragHandleProps = {
   disabled?: boolean;
+  /**
+   * @deprecated this is ignored now - use DRAG_PREVENT_CLASS_NAME ("no-drag")
+   */
   ignoredChildren?: string;
   className?: string;
   el?: ReactElement;
 };
 
 export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Element {
-  const { children, className, disabled, el = <div />, ignoredChildren = `a, textarea, input, select, button` } = props;
-  const onMouseDown = useCallback(
-    (e: MouseEvent<HTMLElement>) => {
-      const targets = e.nativeEvent.composedPath();
-      const childTargets = targets.slice(0, targets.indexOf(e.currentTarget));
-      if (childTargets.some((el: HTMLElement) => el.matches(ignoredChildren))) {
-        e.stopPropagation();
-      }
-    },
-    [ignoredChildren],
-  );
+  const { children, className, disabled, el = <div /> } = props;
 
   const element = React.Children.only(el);
   return React.cloneElement(element, {
@@ -32,6 +25,5 @@ export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Eleme
       className,
     ]),
     children: children || element.props.children,
-    onMouseDown,
   });
 }
