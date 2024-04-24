@@ -1,3 +1,15 @@
+# [1.8.0-beta.1](https://github.com/touk/nk-windows/compare/v1.7.2-beta.1...v1.8.0-beta.1) (2024-04-24)
+
+
+### Bug Fixes
+
+* touch inside DragHandle ([b3da832](https://github.com/touk/nk-windows/commit/b3da8329974171f09aef5e3dbeec8eec6bff842d))
+
+
+### Features
+
+* expose DefaultComponents for styled (with className prop) ([0b84de6](https://github.com/touk/nk-windows/commit/0b84de691a0cf1d38d24d8f6dec29c4f14b7d16e))
+
 ## [1.7.2-beta.1](https://github.com/touk/nk-windows/compare/v1.7.1...v1.7.2-beta.1) (2024-04-23)
 
 
