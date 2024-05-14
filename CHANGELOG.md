@@ -1,3 +1,5 @@
+# [1.8.0-beta.2](https://github.com/touk/nk-windows/compare/v1.8.0-beta.1...v1.8.0-beta.2) (2024-05-14)
+
 # [1.8.0-beta.1](https://github.com/touk/nk-windows/compare/v1.7.2-beta.1...v1.8.0-beta.1) (2024-04-24)
 
 
