@@ -80,7 +80,7 @@
     "@svgr/webpack": "8.1.0",
     "@testing-library/jest-dom": "6.4.5",
     "@testing-library/react": "12.1.5",
-    "@types/jest": "29.5.11",
+    "@types/jest": "29.5.12",
     "@types/lodash": "4.14.202",
     "@types/node": "20.12.12",
     "@types/react": "18.2.31",
