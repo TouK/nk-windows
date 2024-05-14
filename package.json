@@ -67,7 +67,7 @@
     "@storybook/addon-coverage": "1.0.0",
     "@storybook/addon-essentials": "7.6.6",
     "@storybook/addon-interactions": "7.6.6",
-    "@storybook/addon-links": "7.6.6",
+    "@storybook/addon-links": "8.1.0",
     "@storybook/addon-onboarding": "1.0.10",
     "@storybook/addons": "7.6.17",
     "@storybook/blocks": "7.6.6",
