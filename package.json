@@ -111,7 +111,7 @@
     "start-server-and-test": "2.0.3",
     "storybook": "7.6.6",
     "ts-jest": "29.1.1",
-    "typescript": "5.3.3",
+    "typescript": "5.4.5",
     "ua-parser-js": "1.0.37",
     "webpack": "5.89.0"
   },
