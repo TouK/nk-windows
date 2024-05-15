@@ -1,3 +1,4 @@
+/** @type {import("ts-jest").JestConfigWithTsJest} */
 module.exports = {
   testEnvironment: "jsdom",
   roots: ["<rootDir>/src"],
@@ -10,6 +11,7 @@ module.exports = {
   moduleNameMapper: {
     "\\.svg": "<rootDir>/mocks/svgrMock.ts",
     "\\.css": "<rootDir>/mocks/cssMock.ts",
+    "color-alpha": "<rootDir>/mocks/color-alpha.ts",
   },
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.stories.*", "!src/**/*.d.ts"],
