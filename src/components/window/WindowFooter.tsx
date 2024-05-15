@@ -10,6 +10,7 @@ export type WindowFooterProps = PropsWithChildren<{
   disabled?: boolean;
   classnames?: Pick<ContentClasses, "footer" | "footerButton">;
   components?: Partial<typeof defaultFooterComponents>;
+  className?: string;
 }>;
 
 export function WindowFooter({
@@ -18,6 +19,7 @@ export function WindowFooter({
   children,
   classnames = {},
   components = {},
+  className,
 }: WindowFooterProps): JSX.Element {
   const uniqButtons = uniqBy(buttons, (b) => b.title);
   const flexClass = css({
@@ -36,11 +38,17 @@ export function WindowFooter({
   );
 
   return (
-    <footer className={cx(flexClass, css({ justifyContent: "center" }), classnames.footer)}>
+    <footer className={cx(flexClass, css({ justifyContent: "center" }), classnames.footer, className)}>
       {children}
       <div>
-        {uniqButtons.map(({ disabled, classname, ...props }) => (
-          <Button key={props.title} disabled={allDisabled || disabled} {...props} classname={cx(classname, classnames.footerButton)} />
+        {uniqButtons.map(({ disabled, classname, className = classname, title, ...props }) => (
+          <Button
+            key={title}
+            title={title}
+            disabled={allDisabled || disabled}
+            {...props}
+            className={cx(className, classnames.footerButton)}
+          />
         ))}
       </div>
     </footer>

@@ -13,6 +13,7 @@ export interface WindowHeaderProps {
   isStatic?: boolean;
   classnames?: Pick<ContentClasses, "header" | "headerButtons">;
   components?: Partial<typeof defaultHeaderComponents>;
+  className?: string;
 }
 
 const flexRow = css({
@@ -29,8 +30,9 @@ export function WindowHeader({
   isStatic,
   isMaximized,
   components = {},
+  ...props
 }: WindowHeaderProps): JSX.Element {
-  const el = useMemo(
+  const header = useMemo(
     () => <header className={cx(flexRow, css({ justifyContent: "space-between" }))} onDoubleClick={() => zoomDialog?.()} />,
     [zoomDialog],
   );
@@ -48,7 +50,7 @@ export function WindowHeader({
   );
 
   return (
-    <DragHandle el={el} disabled={isStatic}>
+    <DragHandle el={header} disabled={isStatic || isMaximized} {...props}>
       {title ? <Title className={classnames.header}>{title}</Title> : <div />}
       <HeaderButtons className={cx(flexRow, classnames.headerButtons)}>
         {zoomDialog && <Zoom zoomDialog={zoomDialog} isMaximized={isMaximized} />}

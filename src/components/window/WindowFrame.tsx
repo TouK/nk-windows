@@ -6,7 +6,7 @@ import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
 import { useMutationObserver, usePreviousImmediate } from "rooks";
-import { DRAG_HANDLE_CLASS_NAME } from "../../consts";
+import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
 import { random } from "../../utils";
@@ -274,17 +274,11 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     [contentAvailable, maximized, windowMargin],
   );
 
-  const currentMinWidth = useMemo(
-    () => normalizeMinSize(minWidth, viewport.width),
-    [normalizeMinSize, viewport.width, minWidth],
-  );
+  const currentMinWidth = useMemo(() => normalizeMinSize(minWidth, viewport.width), [normalizeMinSize, viewport.width, minWidth]);
 
-  const currentMinHeight = useMemo(
-    () => normalizeMinSize(minHeight, viewport.height),
-    [normalizeMinSize, viewport.height, minHeight],
-  );
+  const currentMinHeight = useMemo(() => normalizeMinSize(minHeight, viewport.height), [normalizeMinSize, viewport.height, minHeight]);
 
-  useScrollFix(ref.current)
+  useScrollFix(ref.current);
 
   return (
     <>
@@ -310,6 +304,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             onResizeStart={touch}
             onDragStop={onDragStop}
             dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+            cancel={`a[href], textarea, input, select, button, ${DRAG_PREVENT_CLASS_NAME}`}
             data-testid="window-frame"
           >
             {/* trap keyboard focus within group (windows opened since last modal) */}

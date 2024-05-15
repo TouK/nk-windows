@@ -2,7 +2,14 @@ import type { StorybookConfig } from "@storybook/react-webpack5";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [ "@storybook/addon-coverage", "@storybook/addon-links", "@storybook/addon-essentials", "@storybook/addon-onboarding", "@storybook/addon-interactions"],
+  addons: [
+    "@storybook/addon-coverage",
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "@storybook/addon-onboarding",
+    "@storybook/addon-interactions",
+    "@storybook/addon-webpack5-compiler-babel"
+  ],
   framework: {
     name: "@storybook/react-webpack5",
     options: {}
@@ -32,8 +39,6 @@ const config: StorybookConfig = {
 
     return config;
   },
-  docs: {
-    autodocs: "tag"
-  }
+  docs: {}
 };
 export default config;
