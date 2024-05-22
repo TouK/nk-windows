@@ -1,5 +1,5 @@
 import { flatMap } from "lodash";
-import React from "react";
+import React, { useRef } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useWindowManager } from "../hooks";
@@ -18,15 +18,17 @@ interface WindowsContainerProps {
 
 export function WindowsContainer({ container = document.body, contentGetter }: WindowsContainerProps): JSX.Element {
   const { windows } = useWindowManager();
+  const nodeRef = useRef(null);
+
   return createPortal(
     <TransitionGroup component={WindowsViewport}>
       {flatMap(windows, (d, index) => [
         d.isModal && (
-          <CSSTransition key={`${d.id}/mask`} timeout={250} classNames={fadeInAnimation}>
+          <CSSTransition nodeRef={nodeRef} key={`${d.id}/mask`} timeout={250} classNames={fadeInAnimation}>
             <ModalMask key={`${d.id}/mask`} zIndex={index} />
           </CSSTransition>
         ),
-        <CSSTransition key={d.id} timeout={250} classNames={fadeInAnimation}>
+        <CSSTransition nodeRef={nodeRef} key={d.id} timeout={250} classNames={fadeInAnimation}>
           <Window data={d} contentGetter={contentGetter} />
         </CSSTransition>,
       ]).filter(Boolean)}

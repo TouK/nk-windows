@@ -1,7 +1,15 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
-import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
@@ -132,7 +140,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       const y = (viewport.height * 0.75 - height) / 2;
       setPosition(roundCoords(randomize({ x, y })));
     }
-  }, [randomizePosition, viewport.height, viewport.width]);
+  }, [randomizePosition, ref, viewport.height, viewport.width]);
 
   const onContentChanged = useCallback(() => {
     if (!touched) {
@@ -162,7 +170,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
       });
     },
-    [size, windowMargin],
+    [ref, size?.height, size?.width, windowMargin],
   );
 
   useLayoutEffect(() => {
@@ -170,7 +178,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
+  }, [calcEdgePosition, contentAvailable, maximized, viewport, wasMaximized]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
@@ -283,7 +291,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
-      <CSSTransition in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
           <Rnd
             disableDragging={maximized || !moveable}
