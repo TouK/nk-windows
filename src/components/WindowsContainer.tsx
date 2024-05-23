@@ -1,5 +1,5 @@
 import { flatMap } from "lodash";
-import React, { useRef } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useWindowManager } from "../hooks";
@@ -18,7 +18,6 @@ interface WindowsContainerProps {
 
 export function WindowsContainer({ container = document.body, contentGetter }: WindowsContainerProps): JSX.Element {
   const { windows } = useWindowManager();
-
   return createPortal(
     <TransitionGroup component={WindowsViewport}>
       {flatMap(windows, (d, index) => [
