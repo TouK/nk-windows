@@ -152,7 +152,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   const wasMaximized = usePreviousImmediate(maximized);
 
-  // setup position correction for screen egdes
+  // setup position correction for screen edges
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
       const width = size?.width || box?.width || 0;
