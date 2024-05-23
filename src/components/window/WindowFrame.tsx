@@ -113,6 +113,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     minHeight = 140,
   } = props;
   const ref = useRef<HTMLDivElement>();
+  const nodeRef = useRef<HTMLDivElement>(null);
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
   const [size, setSize] = useState<Size>(() => ({ height, width }));
@@ -152,7 +153,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   const wasMaximized = usePreviousImmediate(maximized);
 
-  // setup position correction for screen edges
+  // setup position correction for screen egdes
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
       const width = size?.width || box?.width || 0;
@@ -162,15 +163,15 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
       });
     },
-    [ref, size?.height, size?.width, windowMargin],
+    [size, windowMargin],
   );
 
   useLayoutEffect(() => {
-    if (contentAvailable && position && !(maximized || wasMaximized)) {
+    if (contentAvailable && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [calcEdgePosition, contentAvailable, maximized, position, viewport, wasMaximized]);
+  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
@@ -283,7 +284,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
-      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition nodeRef={nodeRef} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
           <Rnd
             disableDragging={maximized || !moveable}
@@ -308,7 +309,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             data-testid="window-frame"
           >
             {/* trap keyboard focus within group (windows opened since last modal) */}
-            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+            <FocusLock ref={nodeRef} className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
               <div
                 ref={ref}
                 onFocus={focus}
