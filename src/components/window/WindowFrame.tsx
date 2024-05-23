@@ -1,15 +1,7 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
-import React, {
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from "react";
+import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
@@ -136,11 +128,11 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     if (ref.current) {
       const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
-      const x = (viewport.width - width) / 2;
-      const y = (viewport.height * 0.75 - height) / 2;
+      const x = (viewport.width - width) / 2 + windowMargin;
+      const y = (viewport.height - height) / 2 + windowMargin;
       setPosition(roundCoords(randomize({ x, y })));
     }
-  }, [randomizePosition, ref, viewport.height, viewport.width]);
+  }, [randomizePosition, viewport.height, viewport.width, windowMargin]);
 
   const onContentChanged = useCallback(() => {
     if (!touched) {
