@@ -18,17 +18,16 @@ interface WindowsContainerProps {
 
 export function WindowsContainer({ container = document.body, contentGetter }: WindowsContainerProps): JSX.Element {
   const { windows } = useWindowManager();
-  const nodeRef = useRef(null);
 
   return createPortal(
     <TransitionGroup component={WindowsViewport}>
       {flatMap(windows, (d, index) => [
         d.isModal && (
-          <CSSTransition nodeRef={nodeRef} key={`${d.id}/mask`} timeout={250} classNames={fadeInAnimation}>
+          <CSSTransition key={`${d.id}/mask`} timeout={250} classNames={fadeInAnimation}>
             <ModalMask key={`${d.id}/mask`} zIndex={index} />
           </CSSTransition>
         ),
-        <CSSTransition nodeRef={nodeRef} key={d.id} timeout={250} classNames={fadeInAnimation}>
+        <CSSTransition key={d.id} timeout={250} classNames={fadeInAnimation}>
           <Window data={d} contentGetter={contentGetter} />
         </CSSTransition>,
       ]).filter(Boolean)}
