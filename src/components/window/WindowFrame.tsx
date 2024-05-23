@@ -128,7 +128,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     if (ref.current) {
       const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
-      const x = (viewport.width - width) / 2 + windowMargin;
+      const x = (viewport.width - width) / 2;
       const y = (viewport.height - height) / 2 + windowMargin;
       setPosition(roundCoords(randomize({ x, y })));
     }
