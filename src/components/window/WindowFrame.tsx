@@ -113,7 +113,6 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     minHeight = 140,
   } = props;
   const ref = useRef<HTMLDivElement>();
-  const nodeRef = useRef<HTMLDivElement>(null);
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
   const [size, setSize] = useState<Size>(() => ({ height, width }));
@@ -284,7 +283,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
-      <CSSTransition nodeRef={nodeRef} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
           <Rnd
             disableDragging={maximized || !moveable}
@@ -309,7 +308,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             data-testid="window-frame"
           >
             {/* trap keyboard focus within group (windows opened since last modal) */}
-            <FocusLock ref={nodeRef} className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
               <div
                 ref={ref}
                 onFocus={focus}
