@@ -129,10 +129,10 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
       const { height, width } = ref.current.getBoundingClientRect();
       const x = (viewport.width - width) / 2;
-      const y = (viewport.height - height) / 2 + windowMargin;
+      const y = (viewport.height * 0.75 - height) / 2;
       setPosition(roundCoords(randomize({ x, y })));
     }
-  }, [randomizePosition, viewport.height, viewport.width, windowMargin]);
+  }, [randomizePosition, viewport.height, viewport.width]);
 
   const onContentChanged = useCallback(() => {
     if (!touched) {
@@ -166,11 +166,11 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   );
 
   useLayoutEffect(() => {
-    if (contentAvailable && !(maximized || wasMaximized)) {
+    if (contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [calcEdgePosition, contentAvailable, maximized, viewport, wasMaximized]);
+  }, [calcEdgePosition, contentAvailable, maximized, position, viewport, wasMaximized]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
