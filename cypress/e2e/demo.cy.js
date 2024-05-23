@@ -19,6 +19,7 @@ context("WM", () => {
     cy.get("@window").contains("with title").dblclick();
     cy.document().matchImage({ screenshotConfig });
     cy.get("button[name='zoom']").click();
+    cy.wait(500)
     cy.document().matchImage({ screenshotConfig });
     cy.get("@window").contains("close all").click();
   });
