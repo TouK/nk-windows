@@ -166,7 +166,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   );
 
   useLayoutEffect(() => {
-    if (contentAvailable && !(maximized || wasMaximized)) {
+    if (contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
