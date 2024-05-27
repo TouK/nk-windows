@@ -1,5 +1,4 @@
 import { css, cx } from "@emotion/css";
-import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
 import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
@@ -48,10 +47,6 @@ const zoomAnimation = {
   enter: css({ transition: "all 150ms" }),
   exit: css({ transition: "all 150ms" }),
 };
-
-function calcCoord(start: number, end: number, size: number, viewportSize: number, padding: number) {
-  return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
-}
 
 export interface Coords {
   x: number;
@@ -150,28 +145,6 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
       forceCenterWindow();
     }
   }, [contentAvailable, maximized, position, forceCenterWindow]);
-
-  const wasMaximized = usePreviousImmediate(maximized);
-
-  // setup position correction for screen egdes
-  const calcEdgePosition = useCallback(
-    (viewport, box: Box = ref.current.getBoundingClientRect()) => {
-      const width = size?.width || box?.width || 0;
-      const height = size?.height || box?.height || 0;
-      return roundCoords({
-        x: calcCoord(box.x, box.x + box.width, width, viewport.width, windowMargin),
-        y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
-      });
-    },
-    [size, windowMargin],
-  );
-
-  useLayoutEffect(() => {
-    if (contentAvailable && position && !(maximized || wasMaximized)) {
-      const newValue = calcEdgePosition(viewport);
-      setPosition((current) => (isEqual(newValue, current) ? current : newValue));
-    }
-  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
@@ -285,7 +258,6 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   useScrollFix(ref.current);
 
-  console.log(maximized);
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
