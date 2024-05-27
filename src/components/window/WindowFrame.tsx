@@ -214,9 +214,13 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, [getSnapSide, maximized, resizable]);
 
   const onDragStop = useCallback(
-    (e, position) => {
+    (e, { x, y }) => {
+      if (!dragging.current) {
+        return;
+      }
+
       dragging.current = false;
-      savePosition(position);
+      savePosition({ x, y });
       onSideSnap?.(side, true);
       onSnapCallback?.({ name: Side[side], code: side });
       setSide(Side.none);
@@ -281,6 +285,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   useScrollFix(ref.current);
 
+  console.log(maximized);
   return (
     <>
       {/*fallback animation for lazy loaded content*/}
