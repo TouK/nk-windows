@@ -14,7 +14,7 @@ export function HeaderButtonZoom({ zoomDialog, isMaximized, keepFocus }: HeaderB
   const onPointerDown = useCallback(() => {
     zoomDialog();
     if (!keepFocus) {
-      ref.current?.blur();
+      // ref.current?.blur();
     }
   }, [keepFocus, zoomDialog]);
 
