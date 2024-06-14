@@ -5,7 +5,7 @@ import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useM
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { useMutationObserver, usePreviousImmediate } from "rooks";
+import { useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useFrameTheme } from "../../themeHooks";
@@ -151,7 +151,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     }
   }, [contentAvailable, maximized, position, forceCenterWindow]);
 
-  const wasMaximized = usePreviousImmediate(maximized);
+  const wasMaximized = usePreviousDifferent(maximized);
 
   // setup position correction for screen egdes
   const calcEdgePosition = useCallback(
