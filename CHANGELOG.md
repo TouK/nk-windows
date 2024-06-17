@@ -1,3 +1,15 @@
+# [1.9.0-beta.1](https://github.com/touk/nk-windows/compare/v1.8.0...v1.9.0-beta.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* position of a window after full-screen zoom via title double click and zoom out via header icon ([1d4b2e1](https://github.com/touk/nk-windows/commit/1d4b2e1c1b19e12a23ced0bb22703e055de923ad))
+
+
+### Features
+
+* react 18 support ([d4ad55d](https://github.com/touk/nk-windows/commit/d4ad55d918ed73e039ae28edeb670b50860af691))
+
 # [1.8.0](https://github.com/touk/nk-windows/compare/v1.7.1...v1.8.0) (2024-05-15)
 
 
