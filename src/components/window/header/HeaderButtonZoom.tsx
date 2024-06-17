@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, PointerEvent } from "react";
 import { HeaderButton } from "./HeaderButton";
 import RestoreIcon from "./restore.svg";
 import ZoomIcon from "./zoom.svg";
@@ -11,12 +11,17 @@ export interface HeaderButtonZoomProps {
 
 export function HeaderButtonZoom({ zoomDialog, isMaximized, keepFocus }: HeaderButtonZoomProps): JSX.Element {
   const ref = useRef<HTMLButtonElement>();
-  const onPointerDown = useCallback(() => {
-    zoomDialog();
-    if (!keepFocus) {
-      ref.current?.blur();
-    }
-  }, [keepFocus, zoomDialog]);
+  const onPointerDown = useCallback(
+    (event: PointerEvent) => {
+      event.preventDefault();
+
+      zoomDialog();
+      if (!keepFocus) {
+        ref.current?.blur();
+      }
+    },
+    [keepFocus, zoomDialog],
+  );
 
   return (
     <HeaderButton name="zoom" ref={ref} onPointerDown={onPointerDown}>
