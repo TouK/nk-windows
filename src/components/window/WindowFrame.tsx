@@ -143,17 +143,9 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
-  // set initial position
-  useEffect(() => {
-    if (dragging.current) return;
-    if (contentAvailable && !position) {
-      forceCenterWindow();
-    }
-  }, [contentAvailable, maximized, position, forceCenterWindow]);
-
   const wasMaximized = usePreviousDifferent(maximized);
 
-  // setup position correction for screen egdes
+  // setup position correction for screen edges
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
       const width = size?.width || box?.width || 0;
