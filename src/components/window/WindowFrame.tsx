@@ -1,7 +1,7 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
-import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
@@ -96,7 +96,7 @@ const windowClass = css({
   willChange: "transform, top, left, minWidth, minHeight, width, height",
 });
 
-export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
+export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps>, windowRef: RefObject<HTMLDivElement>): JSX.Element => {
   const {
     focusGroup,
     zIndex,
@@ -278,7 +278,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   useScrollFix(ref.current);
 
   return (
-    <>
+    <div ref={windowRef}>
       {/*fallback animation for lazy loaded content*/}
       <CSSTransition nodeRef={nodeRef} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
@@ -305,7 +305,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
             data-testid="window-frame"
           >
             {/* trap keyboard focus within group (windows opened since last modal) */}
-            <FocusLock ref={nodeRef} className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
               <div
                 ref={ref}
                 onFocus={focus}
@@ -325,6 +325,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         </CSSTransition>
       </CSSTransition>
       <SnapMask previewBox={snapPreviewBox} />
-    </>
+    </div>
   );
-}
+});
+
+WindowFrame.displayName = "WindowFrame";

@@ -1,9 +1,9 @@
 import { css, cx } from "@emotion/css";
-import React from "react";
+import React, { forwardRef, RefObject } from "react";
 import { rgba } from "../rgba";
 import { useModalMaskTheme } from "../themeHooks";
 
-export function ModalMask({ zIndex }: { zIndex?: number }): JSX.Element {
+export const ModalMask = forwardRef(({ zIndex }: { zIndex?: number }, ref: RefObject<HTMLDivElement>): JSX.Element => {
   const modalMaskTheme = useModalMaskTheme();
   const modalMaskClass = css({
     top: 0,
@@ -13,5 +13,7 @@ export function ModalMask({ zIndex }: { zIndex?: number }): JSX.Element {
     position: "fixed",
     background: rgba("black", 0.6),
   });
-  return <div className={cx(modalMaskClass, modalMaskTheme)} style={{ zIndex }} />;
-}
+  return <div ref={ref} className={cx(modalMaskClass, modalMaskTheme)} style={{ zIndex }} />;
+});
+
+ModalMask.displayName = "ModalMask";
