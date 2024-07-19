@@ -1,3 +1,11 @@
+# [1.9.0-beta.2](https://github.com/touk/nk-windows/compare/v1.9.0-beta.1...v1.9.0-beta.2) (2024-07-19)
+
+
+### Bug Fixes
+
+* Add nodeRef and fix Warning: findDOMNode is deprecated and will be removed for react-transition-group ([6683e24](https://github.com/touk/nk-windows/commit/6683e24558307003cf839eb48c58662773848b4e))
+* position when a window is full height ([b822c7b](https://github.com/touk/nk-windows/commit/b822c7b832210b02d0631c11ec774368a932ca3e))
+
 # [1.9.0-beta.1](https://github.com/touk/nk-windows/compare/v1.8.0...v1.9.0-beta.1) (2024-06-17)
 
 
