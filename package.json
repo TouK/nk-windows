@@ -111,7 +111,7 @@
     "rollup-plugin-typescript2": "0.36.0",
     "semantic-release": "23.1.1",
     "start-server-and-test": "2.0.3",
-    "storybook": "^8.1.0",
+    "storybook": "^8.2.5",
     "ts-jest": "29.1.2",
     "typescript": "5.4.5",
     "ua-parser-js": "1.0.37",
