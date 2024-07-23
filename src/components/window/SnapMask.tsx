@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import React from "react";
+import React, { useRef } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { rgba } from "../../rgba";
 import { getFadeInAnimation } from "../getFadeInAnimation";
@@ -8,6 +8,7 @@ import { Box } from "./useSnapAreas";
 const fadeInAnimation = getFadeInAnimation(0.15);
 
 export const SnapMask = ({ previewBox }: { previewBox: Box }) => {
+  const nodeRef = useRef<HTMLDivElement>(null);
   const {
     colors,
     spacing: { baseUnit },
@@ -16,8 +17,9 @@ export const SnapMask = ({ previewBox }: { previewBox: Box }) => {
   return (
     <TransitionGroup>
       {previewBox && (
-        <CSSTransition timeout={250} classNames={fadeInAnimation}>
+        <CSSTransition nodeRef={nodeRef} timeout={250} classNames={fadeInAnimation}>
           <div
+            ref={nodeRef}
             style={{
               boxSizing: "border-box",
               position: "fixed",

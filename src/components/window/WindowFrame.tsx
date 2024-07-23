@@ -113,7 +113,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     minHeight = 140,
   } = props;
   const ref = useRef<HTMLDivElement>();
-  const nodeRef = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
   const [size, setSize] = useState<Size>(() => ({ height, width }));
@@ -278,54 +277,55 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   useScrollFix(ref.current);
 
   return (
-    <div ref={windowRef}>
+    <>
       {/*fallback animation for lazy loaded content*/}
-      <CSSTransition nodeRef={nodeRef} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
-          <Rnd
-            disableDragging={maximized || !moveable}
-            enableResizing={resizable && !maximized}
-            className={cx(windowClass, windowTheme)}
-            style={{ display: "flex", zIndex }} // override default inline-block
-            bounds="parent"
-            size={size}
-            position={maximized ? { x: 0, y: 0 } : position}
-            minWidth={currentMinWidth}
-            minHeight={currentMinHeight}
-            maxHeight={maxSize.height}
-            maxWidth={maxSize.width}
-            onResizeStop={onResizeStop}
-            onDrag={onDrag}
-            onMouseDown={touch}
-            onDragStart={touch}
-            onResizeStart={touch}
-            onDragStop={onDragStop}
-            dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
-            cancel={`a[href], textarea, input, select, button, ${DRAG_PREVENT_CLASS_NAME}`}
-            data-testid="window-frame"
-          >
-            {/* trap keyboard focus within group (windows opened since last modal) */}
-            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
-              <div
-                ref={ref}
-                onFocus={focus}
-                onBlur={blur}
-                onKeyDown={(event) => {
-                  event.key === "Escape" && onEscape?.();
-                  touch();
-                }}
-                tabIndex={-1}
-                className={cx(focusWrapperClass, focusWrapperTheme)}
-                data-testid="window"
-              >
-                {props.children}
-              </div>
-            </FocusLock>
-          </Rnd>
+            <Rnd
+              disableDragging={maximized || !moveable}
+              enableResizing={resizable && !maximized}
+              className={cx(windowClass, windowTheme)}
+              style={{ display: "flex", zIndex }} // override default inline-block
+              bounds="parent"
+              size={size}
+              position={maximized ? { x: 0, y: 0 } : position}
+              minWidth={currentMinWidth}
+              minHeight={currentMinHeight}
+              maxHeight={maxSize.height}
+              maxWidth={maxSize.width}
+              onResizeStop={onResizeStop}
+              onDrag={onDrag}
+              onMouseDown={touch}
+              onDragStart={touch}
+              onResizeStart={touch}
+              onDragStop={onDragStop}
+              dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+              cancel={`a[href], textarea, input, select, button, ${DRAG_PREVENT_CLASS_NAME}`}
+              data-testid="window-frame"
+            >
+              {/* trap keyboard focus within group (windows opened since last modal) */}
+              <FocusLock ref={windowRef} className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup}
+                         returnFocus autoFocus>
+                <div
+                  ref={ref}
+                  onFocus={focus}
+                  onBlur={blur}
+                  onKeyDown={(event) => {
+                    event.key === "Escape" && onEscape?.();
+                    touch();
+                  }}
+                  tabIndex={-1}
+                  className={cx(focusWrapperClass, focusWrapperTheme)}
+                  data-testid="window"
+                >
+                  {props.children}
+                </div>
+              </FocusLock>
+            </Rnd>
         </CSSTransition>
-      </CSSTransition>
-      <SnapMask previewBox={snapPreviewBox} />
-    </div>
+    </CSSTransition>
+  <SnapMask previewBox={snapPreviewBox} />
+    </>
   );
 });
 
