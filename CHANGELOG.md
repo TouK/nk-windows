@@ -1,3 +1,10 @@
+# [1.9.0-beta.3](https://github.com/touk/nk-windows/compare/v1.9.0-beta.2...v1.9.0-beta.3) (2024-07-23)
+
+
+### Bug Fixes
+
+* window move issue ([2f3bde5](https://github.com/touk/nk-windows/commit/2f3bde55a27ceca59bd8e0b031a3a9375cea2c6b))
+
 # [1.9.0-beta.2](https://github.com/touk/nk-windows/compare/v1.9.0-beta.1...v1.9.0-beta.2) (2024-07-19)
 
 
