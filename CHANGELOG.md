@@ -1,3 +1,10 @@
+# [1.9.0-beta.4](https://github.com/touk/nk-windows/compare/v1.9.0-beta.3...v1.9.0-beta.4) (2024-07-25)
+
+
+### Bug Fixes
+
+* window lazy loading animation ([5a14fcf](https://github.com/touk/nk-windows/commit/5a14fcf478d55f9cbbb2c8e2d974dbad0c57aceb))
+
 # [1.9.0-beta.3](https://github.com/touk/nk-windows/compare/v1.9.0-beta.2...v1.9.0-beta.3) (2024-07-23)
 
 
