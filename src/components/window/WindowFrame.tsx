@@ -277,7 +277,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   useScrollFix(ref.current);
 
   return (
-    <div ref={windowRef} style={{ height: "100%" }}>
+    <div ref={windowRef}>
       {/*fallback animation for lazy loaded content*/}
       <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
@@ -286,7 +286,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
             enableResizing={resizable && !maximized}
             className={cx(windowClass, windowTheme)}
             style={{ display: "flex", zIndex }} // override default inline-block
-            bounds="parent"
+            bounds="#windowsViewport"
             size={size}
             position={maximized ? { x: 0, y: 0 } : position}
             minWidth={currentMinWidth}

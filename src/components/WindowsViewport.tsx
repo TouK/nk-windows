@@ -28,7 +28,7 @@ export function WindowsViewport({ children }: PropsWithChildren<unknown>): JSX.E
 
   const { zIndex } = useTheme();
   return (
-    <div className={cx(fullscreenFixed, ignorePointerEvents, css({ zIndex }))} ref={observe}>
+    <div id={"windowsViewport"} className={cx(fullscreenFixed, ignorePointerEvents, css({ zIndex }))} ref={observe}>
       <ViewportContext.Provider value={value}>{children}</ViewportContext.Provider>
     </div>
   );
