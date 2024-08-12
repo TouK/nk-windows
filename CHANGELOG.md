@@ -1,3 +1,10 @@
+# [1.9.0-beta.5](https://github.com/touk/nk-windows/compare/v1.9.0-beta.4...v1.9.0-beta.5) (2024-08-12)
+
+
+### Bug Fixes
+
+* clicking outside when modal mode is disabled ([7ed67fb](https://github.com/touk/nk-windows/commit/7ed67fb7d20a653a3d2b725567829e8557049360))
+
 # [1.9.0-beta.4](https://github.com/touk/nk-windows/compare/v1.9.0-beta.3...v1.9.0-beta.4) (2024-07-25)
 
 
