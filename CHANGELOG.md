@@ -1,3 +1,11 @@
+# [1.9.0-beta.6](https://github.com/touk/nk-windows/compare/v1.9.0-beta.5...v1.9.0-beta.6) (2024-08-13)
+
+
+### Features
+
+* moved window size props to layoutData ([d2e94c7](https://github.com/touk/nk-windows/commit/d2e94c7f4931b4ffa5ba5c49a7124805552d6088))
+* set initial position with layoutData ([c59adf7](https://github.com/touk/nk-windows/commit/c59adf7fa5631e85730a4f8e3d92873e4eba3573))
+
 # [1.9.0-beta.5](https://github.com/touk/nk-windows/compare/v1.9.0-beta.4...v1.9.0-beta.5) (2024-08-12)
 
 
