@@ -123,7 +123,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     needs: [ "build", "release" ]
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -135,6 +135,18 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
-      - run: npm run deploy-storybook -- --ci --host-token-env-variable=GITHUB_TOKEN
-        env:
-          GITHUB_TOKEN: JulianWielga:${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          VERSION=$(npm pkg get version | tr -d '"')
+          echo "version=$VERSION" >> $GITHUB_ENV
+      - run: npm run build-storybook -- -o docs
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          destination_dir: v${{ env.version }}
+      - uses: peaceiris/actions-gh-pages@v4
+        if: ${{ github.ref == 'refs/heads/master' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          destination_dir: latest
