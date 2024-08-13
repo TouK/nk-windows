@@ -8,9 +8,10 @@ import { CSSTransition } from "react-transition-group";
 import { useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
-import { useFrameTheme } from "../../themeHooks";
-import { random } from "../../utils";
 import { useScrollFix } from "../../hooks/useScrollFix";
+import { useFrameTheme } from "../../themeHooks";
+import { LayoutData } from "../../types";
+import { random } from "../../utils";
 import { fadeInAnimation } from "../WindowsContainer";
 import { SnapMask } from "./SnapMask";
 import { Box, useSnapAreas } from "./useSnapAreas";
@@ -38,10 +39,23 @@ interface WindowFrameProps {
   maximized?: boolean;
   onEscape?: () => void;
   onEdgeSnap?: (e: { name: string; code: Side }) => void;
+  /**
+   * @deprecated use layoutData
+   */
   width?: number;
+  /**
+   * @deprecated use layoutData
+   */
   height?: number;
+  /**
+   * @deprecated use layoutData
+   */
   minWidth?: number;
+  /**
+   * @deprecated use layoutData
+   */
   minHeight?: number;
+  layoutData?: LayoutData;
 }
 
 const zoomAnimation = {
@@ -107,11 +121,9 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     maximized = false,
     resizable = false,
     moveable = false,
-    height,
-    width,
-    minWidth = 400,
-    minHeight = 140,
+    layoutData = {},
   } = props;
+  const { width = props.width, height = props.height, minWidth = props.minWidth ?? 400, minHeight = props.minHeight ?? 140 } = layoutData;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();

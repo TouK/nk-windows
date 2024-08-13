@@ -32,6 +32,13 @@ export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: Ref
       minWidth={data.minWidth}
       minHeight={data.minHeight}
       ref={ref}
+      layoutData={{
+        width: data.width,
+        height: data.height,
+        minWidth: data.minWidth,
+        minHeight: data.minHeight,
+        ...data.layoutData,
+      }}
     >
       <WindowContent contentGetter={contentGetter} data={data} close={onClose} zoom={onToggleZoom} isMaximized={zoom} />
     </WindowFrame>
