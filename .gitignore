@@ -1,0 +1,16 @@
+node_modules
+cjs
+esm
+storybook-static
+.idea
+*.iml
+*.tgz
+
+.nyc_output
+coverage
+cypress/videos
+cypress/screenshots
+.DS_Store
+
+src
+cypress
