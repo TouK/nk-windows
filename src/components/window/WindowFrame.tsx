@@ -193,7 +193,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   useLayoutEffect(() => {
     if (contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
-      console.log("layoutEffect");
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
   }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
@@ -206,7 +205,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const setFrameBox = useCallback((box: Box) => {
     const { y, height, width, x } = box;
     setSize({ width, height });
-    console.log("setFrameBox");
     setPosition({ x, y });
   }, []);
 
