@@ -1,9 +1,6 @@
-export type LayoutData = {
-  width?: number;
-  height?: number;
-  minWidth?: number;
-  minHeight?: number;
-};
+export type WindowSize = Partial<Record<"width" | "height" | "minWidth" | "minHeight", number>>;
+export type WindowPosition = Partial<Record<"top" | "left" | "right" | "bottom", number>>;
+export type LayoutData = WindowSize & WindowPosition;
 
 export interface WindowType<Kind extends string | number = any, Meta = any> {
   id: string;

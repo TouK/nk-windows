@@ -18,6 +18,7 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
       { title: "lazy loaded content", kind: DemoWindowKind.lazy },
       { title: "initial size", kind: DemoWindowKind.lazy, layoutData: { width: 700, height: 700 } },
       { title: "minimal size (overflow fixed)", kind: DemoWindowKind.danger, layoutData: { width: 7000, height: 7000 } },
+      { title: `initial position`, layoutData: { top: 50, left: 200, right: 50, bottom: 200 } },
       { title: `fixed id`, id: "fixed", parent: null },
     ],
     [],

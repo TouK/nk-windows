@@ -123,11 +123,17 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     moveable = false,
     layoutData = {},
   } = props;
-  const { width = props.width, height = props.height, minWidth = props.minWidth ?? 400, minHeight = props.minHeight ?? 140 } = layoutData;
+  const { minWidth = props.minWidth ?? 400, minHeight = props.minHeight ?? 140 } = layoutData;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
-  const [size, setSize] = useState<Size>(() => ({ height, width }));
+  const [size, setSize] = useState<Size>(() => {
+    const { right, bottom, left, top, width, height } = layoutData;
+    return {
+      height: top >= 0 && bottom >= 0 ? viewport.height - top - bottom : height ?? props.height,
+      width: left >= 0 && right >= 0 ? viewport.width - left - right : width ?? props.width,
+    };
+  });
   const prevSize = usePreviousImmediate(size);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
@@ -136,21 +142,36 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const [touched, _setTouched] = useState(false);
   const touch = useCallback(() => _setTouched(true), []);
 
-  const forceCenterWindow = useCallback(() => {
-    if (ref.current) {
-      const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
-      const { height, width } = ref.current.getBoundingClientRect();
-      const x = (viewport.width - width) / 2;
-      const y = (viewport.height * 0.75 - height) / 2;
-      setPosition(roundCoords(randomize({ x, y })));
-    }
-  }, [randomizePosition, viewport.height, viewport.width]);
+  const forceCenterWindow = useCallback(
+    (initialPosition: Coords) => {
+      if (ref.current) {
+        const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
+        const { height, width } = ref.current.getBoundingClientRect();
+        const x = (viewport.width - width) / 2;
+        const y = (viewport.height * 0.75 - height) / 2;
+        const center = randomize({ x, y });
+
+        setPosition(
+          roundCoords({
+            x: initialPosition.x ?? center.x,
+            y: initialPosition.y ?? center.y,
+          }),
+        );
+      }
+    },
+    [randomizePosition, viewport.height, viewport.width],
+  );
 
   const onContentChanged = useCallback(() => {
     if (!touched) {
-      forceCenterWindow();
+      const { height, width } = ref.current.getBoundingClientRect();
+      const { right, bottom, left, top } = layoutData;
+      forceCenterWindow({
+        x: !(left >= 0) && right >= 0 ? viewport.width - right - width : left,
+        y: !(top >= 0) && bottom >= 0 ? viewport.height - bottom - height : top,
+      });
     }
-  }, [forceCenterWindow, touched]);
+  }, [forceCenterWindow, layoutData, touched, viewport.height, viewport.width]);
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
@@ -172,6 +193,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   useLayoutEffect(() => {
     if (contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
+      console.log("layoutEffect");
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
   }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
@@ -184,6 +206,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const setFrameBox = useCallback((box: Box) => {
     const { y, height, width, x } = box;
     setSize({ width, height });
+    console.log("setFrameBox");
     setPosition({ x, y });
   }, []);
 
