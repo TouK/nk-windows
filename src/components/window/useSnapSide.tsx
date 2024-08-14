@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useCallback } from "react";
 import { useViewportSize } from "../../hooks";
-import { Side } from "./WindowFrame";
+import { Side } from "./types";
 
 export function useSnapSide(ref: MutableRefObject<HTMLDivElement | undefined>) {
   const viewport = useViewportSize();

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useViewportSize } from "../../hooks";
-import { Coords, Side, Size } from "./WindowFrame";
+import { Coords, Side, Size } from "./types";
 
 function box(x: number, y: number, w: number, h: number): Box {
   return { x: Math.round(x), y: Math.round(y), width: Math.round(w), height: Math.round(h) };

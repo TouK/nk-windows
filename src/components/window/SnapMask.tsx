@@ -2,10 +2,8 @@ import { useTheme } from "@emotion/react";
 import React, { useRef } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { rgba } from "../../rgba";
-import { getFadeInAnimation } from "../getFadeInAnimation";
+import { fastFadeAnimation } from "../getFadeInAnimation";
 import { Box } from "./useSnapAreas";
-
-const fadeInAnimation = getFadeInAnimation(0.15);
 
 export const SnapMask = ({ previewBox }: { previewBox: Box }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -17,7 +15,7 @@ export const SnapMask = ({ previewBox }: { previewBox: Box }) => {
   return (
     <TransitionGroup>
       {previewBox && (
-        <CSSTransition nodeRef={nodeRef} timeout={250} classNames={fadeInAnimation}>
+        <CSSTransition nodeRef={nodeRef} timeout={250} classNames={fastFadeAnimation}>
           <div
             ref={nodeRef}
             style={{

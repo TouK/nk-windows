@@ -12,22 +12,11 @@ import { useScrollFix } from "../../hooks/useScrollFix";
 import { useFrameTheme } from "../../themeHooks";
 import { LayoutData } from "../../types";
 import { random } from "../../utils";
-import { fadeInAnimation } from "../WindowsContainer";
+import { defaultFadeAnimation } from "../getFadeInAnimation";
 import { SnapMask } from "./SnapMask";
+import { Coords, Side, Size } from "./types";
 import { Box, useSnapAreas } from "./useSnapAreas";
 import { useSnapSide } from "./useSnapSide";
-
-export enum Side {
-  none,
-  top = 1 << 0,
-  right = 1 << 1,
-  bottom = 1 << 2,
-  left = 1 << 3,
-  topLeft = top | left,
-  topRight = top | right,
-  bottomLeft = bottom | left,
-  bottomRight = bottom | right,
-}
 
 interface WindowFrameProps {
   focusGroup?: string;
@@ -65,16 +54,6 @@ const zoomAnimation = {
 
 function calcCoord(start: number, end: number, size: number, viewportSize: number, padding: number) {
   return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
-}
-
-export interface Coords {
-  x: number;
-  y: number;
-}
-
-export interface Size {
-  width: number;
-  height: number;
 }
 
 const roundCoords = mapValues<Coords, number>(Math.round);
@@ -312,7 +291,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   return (
     <div ref={windowRef}>
       {/*fallback animation for lazy loaded content*/}
-      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={defaultFadeAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
           <Rnd
             disableDragging={maximized || !moveable}
