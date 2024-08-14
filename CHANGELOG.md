@@ -1,3 +1,10 @@
+# [1.9.0-beta.8](https://github.com/touk/nk-windows/compare/v1.9.0-beta.7...v1.9.0-beta.8) (2024-08-14)
+
+
+### Bug Fixes
+
+* type definitions ([e30bbc9](https://github.com/touk/nk-windows/commit/e30bbc92122706996bbfe0dbb0a21f3ab7f96e47))
+
 # [1.9.0-beta.7](https://github.com/touk/nk-windows/compare/v1.9.0-beta.6...v1.9.0-beta.7) (2024-08-14)
 
 
