@@ -1,3 +1,10 @@
+# [1.9.0-beta.7](https://github.com/touk/nk-windows/compare/v1.9.0-beta.6...v1.9.0-beta.7) (2024-08-14)
+
+
+### Bug Fixes
+
+* support keyboard in header buttons ([66755de](https://github.com/touk/nk-windows/commit/66755de530939e7b7820b14adcc841dc2337ec42))
+
 # [1.9.0-beta.6](https://github.com/touk/nk-windows/compare/v1.9.0-beta.5...v1.9.0-beta.6) (2024-08-13)
 
 
