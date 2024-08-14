@@ -1,9 +1,18 @@
 import { css, cx } from "@emotion/css";
 import { useTheme } from "@emotion/react";
-import React, { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  forwardRef,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  PointerEventHandler,
+} from "react";
 import { buttonReset } from "../footer/ButtonReset";
 
-export type HeaderButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+export type HeaderButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+  action?: PointerEventHandler<HTMLButtonElement> & KeyboardEventHandler<HTMLButtonElement>;
+};
 
 const useStyles = () => {
   const { colors } = useTheme();
@@ -25,10 +34,25 @@ const useStyles = () => {
   });
 };
 
+function filterByKeys<T = Element>(action: KeyboardEventHandler<T>, keys: KeyboardEvent["key"][]): KeyboardEventHandler<T> {
+  return (e: KeyboardEvent<T>) => {
+    if (!keys.includes(e.key)) return;
+    return action(e);
+  };
+}
+
 export const HeaderButton = forwardRef(function HeaderButton(
-  { className, ...props }: HeaderButtonProps,
+  { className, action, ...props }: HeaderButtonProps,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ): JSX.Element {
   const headerButtonTheme = useStyles();
-  return <button className={cx(buttonReset, headerButtonTheme, className)} {...props} ref={ref} />;
+  return (
+    <button
+      className={cx(buttonReset, headerButtonTheme, className)}
+      onPointerDown={action}
+      onKeyDown={filterByKeys(action, ["Enter", " "])}
+      {...props}
+      ref={ref}
+    />
+  );
 });

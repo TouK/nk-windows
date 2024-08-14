@@ -8,7 +8,7 @@ export interface HeaderButtonCloseProps {
 
 export function HeaderButtonClose({ closeDialog }: HeaderButtonCloseProps): JSX.Element {
   return (
-    <HeaderButton name="close" onPointerDown={() => closeDialog()}>
+    <HeaderButton name="close" action={() => closeDialog()}>
       <CloseIcon />
     </HeaderButton>
   );
