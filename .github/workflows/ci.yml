@@ -142,14 +142,28 @@ jobs:
           VERSION=$(npm pkg get version | tr -d '"')
           echo "version=$VERSION" >> $GITHUB_ENV
       - run: npm run build-storybook -- -o docs
-      - uses: peaceiris/actions-gh-pages@v4
+      - name: publish version
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           destination_dir: v${{ env.version }}
-      - uses: peaceiris/actions-gh-pages@v4
+      - name: publish latest
+        uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.ref == 'refs/heads/master' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           destination_dir: latest
+      - uses: actions/checkout@v4
+        with:
+         fetch-depth: 0
+         ref: gh-pages
+      - name: generate index.html
+        run: node .scripts/generateIndex.js
+      - name: update index.html
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./.out
+          keep_files: true
