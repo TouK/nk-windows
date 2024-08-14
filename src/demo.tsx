@@ -1,5 +1,4 @@
 import React from "react";
-import { name, version } from "../package.json";
 import { ContentGetter } from "./demo/contentGetter";
 import { DebugButtons } from "./demo/DebugButtons";
 import { DemoWindowKind } from "./demo/DemoWindowKind";
@@ -7,6 +6,10 @@ import { WindowManagerProvider } from "./index";
 
 const Header: React.FC = () => {
   if (window["Cypress"]) return null;
+
+  // TODO: investigate why `resolveJsonModule` breaks type definition generation
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { name, version } = require("../package.json");
 
   return (
     <header style={{ fontFamily: "monospace" }}>
