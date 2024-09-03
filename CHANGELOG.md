@@ -1,3 +1,10 @@
+# [1.9.0-beta.9](https://github.com/touk/nk-windows/compare/v1.9.0-beta.8...v1.9.0-beta.9) (2024-09-03)
+
+
+### Bug Fixes
+
+* safari pinch-to-zoom crash ([1ebc843](https://github.com/touk/nk-windows/commit/1ebc843ad318166d2558672de67c223818408901))
+
 # [1.9.0-beta.8](https://github.com/touk/nk-windows/compare/v1.9.0-beta.7...v1.9.0-beta.8) (2024-08-14)
 
 
