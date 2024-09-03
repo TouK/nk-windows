@@ -1,5 +1,4 @@
-import { MutableRefObject, useCallback, useMemo } from "react";
-import useDimensions, { Options } from "react-cool-dimensions";
+import useDimensions from "react-cool-dimensions";
 
 (async () => {
   if (!("ResizeObserver" in window)) {
@@ -12,19 +11,3 @@ import useDimensions, { Options } from "react-cool-dimensions";
 export const useSize: typeof useDimensions = (options) => {
   return useDimensions(options);
 };
-
-export function useSizeWithRef<T extends HTMLElement | null = HTMLElement>(
-  ref: MutableRefObject<T>,
-  options?: Options<T>,
-): ReturnType<typeof useSize> {
-  const dimensions = useSize<T>(options);
-  const { observe } = dimensions;
-  const observeWithRef = useCallback(
-    (el: T) => {
-      observe(el);
-      ref.current = el;
-    },
-    [observe, ref],
-  );
-  return useMemo(() => ({ ...dimensions, observe: observeWithRef }), [dimensions, observeWithRef]);
-}
