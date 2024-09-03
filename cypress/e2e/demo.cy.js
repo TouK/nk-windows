@@ -31,13 +31,14 @@ context("WM", () => {
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
     cy.wait(defaultWait);
-    cy.document().matchImage({ screenshotConfig });
+    cy.get("[data-testid='window-frame']").matchImage({ screenshotConfig });
     cy.contains("to bottom").should("be.enabled");
     cy.viewport(1280, 815);
     cy.wait(defaultWait);
     cy.contains("to bottom").should("be.disabled");
     cy.contains("add line").should("be.visible").click().click().click();
     cy.contains("to bottom").should("be.enabled");
+    cy.get("[role=tree]").scrollIntoView();
     cy.document().matchImage({ screenshotConfig });
   });
 
@@ -48,13 +49,14 @@ context("WM", () => {
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
     cy.wait(defaultWait);
-    cy.document().matchImage({ screenshotConfig });
+    cy.get("[data-testid='window-frame']").matchImage({ screenshotConfig });
     cy.contains("to bottom").should("be.enabled");
-    cy.viewport(1280, 850);
+    cy.viewport(1280, 830);
     cy.wait(defaultWait);
     cy.contains("to bottom").should("be.disabled");
     cy.contains("add line").should("be.visible").click().click().click();
     cy.contains("to bottom").should("be.enabled");
+    cy.get("[role=tree]").scrollIntoView();
     cy.document().matchImage({ screenshotConfig });
   });
 
