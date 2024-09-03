@@ -27,11 +27,11 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
   return (
     <div>
       {buttons.map((props, index) => (
-        <div key={index}>
+        <span key={index}>
           <button onClick={() => open(props)} style={{ fontWeight: "bold", color: "black", margin: ".5em" }}>
             add({JSON.stringify(props)})
           </button>
-        </div>
+        </span>
       ))}
       <button style={{ margin: ".5em" }} onClick={() => closeAll()}>
         close all

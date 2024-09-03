@@ -16,7 +16,7 @@ export const OverflowDebug = () => {
       <button className={cx(className1, className2)} disabled={!scrollToBottom} onClick={scrollToBottom}>
         scroll to bottom
       </button>
-      <button className={cx(className1)} onClick={() => setData((s) => [...s, Math.random().toString()])}>
+      <button className={cx(className1)} onClick={() => setData((s) => [...s, "line"])}>
         add line
       </button>
       <button className={cx(className1)} onClick={() => setData([])}>
@@ -24,7 +24,9 @@ export const OverflowDebug = () => {
       </button>
 
       {data.map((e) => (
-        <p key={e}>{e}</p>
+        <div className={css({ fontSize: "3em", margin: "1em" })} key={e}>
+          {e}
+        </div>
       ))}
     </>
   );

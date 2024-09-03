@@ -15,7 +15,6 @@ context("WM", () => {
   it("should maximize/restore window", () => {
     cy.contains("with title").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
-    cy.get("@window").contains("scroll to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.get("@window").contains("with title").dblclick();
     cy.document().matchImage({ screenshotConfig });
@@ -27,36 +26,34 @@ context("WM", () => {
   it("should prevent window from going offscreen", () => {
     cy.contains("danger").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
-    cy.contains("to bottom").should("be.enabled");
+    cy.contains("to bottom").should("be.disabled");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
     cy.wait(defaultWait);
     cy.get("[data-testid='window-frame']").matchImage({ screenshotConfig });
     cy.contains("to bottom").should("be.enabled");
-    cy.viewport(1280, 815);
+    cy.viewport(1280, 720);
     cy.wait(defaultWait);
     cy.contains("to bottom").should("be.disabled");
     cy.contains("add line").should("be.visible").click().click().click();
     cy.contains("to bottom").should("be.enabled");
-    cy.get("[role=tree]").scrollIntoView();
     cy.document().matchImage({ screenshotConfig });
   });
 
   it("should prevent window from going offscreen (minimal size)", () => {
     cy.contains("minimal size").click();
     cy.get("[data-testid='window-frame']").should("be.visible").as("window");
-    cy.contains("to bottom").should("be.enabled");
+    cy.contains("to bottom").should("be.disabled");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
     cy.wait(defaultWait);
     cy.get("[data-testid='window-frame']").matchImage({ screenshotConfig });
     cy.contains("to bottom").should("be.enabled");
-    cy.viewport(1280, 830);
+    cy.viewport(1280, 720);
     cy.wait(defaultWait);
     cy.contains("to bottom").should("be.disabled");
     cy.contains("add line").should("be.visible").click().click().click();
     cy.contains("to bottom").should("be.enabled");
-    cy.get("[role=tree]").scrollIntoView();
     cy.document().matchImage({ screenshotConfig });
   });
 
