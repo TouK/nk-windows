@@ -1,5 +1,6 @@
 context("WM", () => {
   const screenshotConfig = { blackout: ["ol[role='tree']"] };
+  const defaultWait = 800;
 
   beforeEach(() => {
     cy.visit("iframe.html?args=&id=demo--defult&viewMode=story");
@@ -29,11 +30,11 @@ context("WM", () => {
     cy.contains("to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
-    cy.wait(300);
+    cy.wait(defaultWait);
     cy.document().matchImage({ screenshotConfig });
     cy.contains("to bottom").should("be.enabled");
     cy.viewport(1280, 815);
-    cy.wait(300);
+    cy.wait(defaultWait);
     cy.contains("to bottom").should("be.disabled");
     cy.contains("add line").should("be.visible").click().click().click();
     cy.contains("to bottom").should("be.enabled");
@@ -46,11 +47,11 @@ context("WM", () => {
     cy.contains("to bottom").should("be.enabled");
     cy.document().matchImage({ screenshotConfig });
     cy.viewport(500, 500);
-    cy.wait(300);
+    cy.wait(defaultWait);
     cy.document().matchImage({ screenshotConfig });
     cy.contains("to bottom").should("be.enabled");
     cy.viewport(1280, 850);
-    cy.wait(300);
+    cy.wait(defaultWait);
     cy.contains("to bottom").should("be.disabled");
     cy.contains("add line").should("be.visible").click().click().click();
     cy.contains("to bottom").should("be.enabled");
