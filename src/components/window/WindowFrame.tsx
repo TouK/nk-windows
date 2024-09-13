@@ -55,7 +55,6 @@ function calcCoord(start: number, end: number, size: number, viewportSize: numbe
   return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
 }
 
-
 const roundCoords = mapValues<Coords, number>(Math.round);
 
 function useContentVisibility(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: Element) => void) {
@@ -125,12 +124,16 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const forceCenterWindow = useCallback(
     (initialPosition: Coords) => {
       if (ref.current && !wasMaximized) {
-        const { x, y, height, width } = ref.current.getBoundingClientRect();
+        const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
+        const { height, width } = ref.current.getBoundingClientRect();
+        const x = (viewport.width - width) / 2;
+        const y = (viewport.height * 0.75 - height) / 2;
+        const center = randomize({ x, y });
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? calcCoord(x, x - width, width, viewport.width, windowMargin),
-            y: initialPosition.y ?? calcCoord(y, x - height, height, viewport.height, windowMargin),
+            x: initialPosition.x ?? calcCoord(center.x, center.x + width, width, viewport.width, windowMargin),
+            y: initialPosition.y ?? calcCoord(center.y, center.y + height, height, viewport.height, windowMargin),
           }),
         );
       }
@@ -235,7 +238,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const maxSize = useMemo(
     () => ({
       width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
-      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0),
+      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y + windowMargin || 0),
     }),
     [windowMargin, position, viewport.height],
   );
