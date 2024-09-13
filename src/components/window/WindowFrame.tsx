@@ -155,6 +155,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
   const wasMaximized = usePreviousDifferent(maximized);
+  const previousPosition = usePreviousDifferent(position);
 
   // setup position correction for screen edges
   const calcEdgePosition = useCallback(
@@ -170,7 +171,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   );
 
   useEffect(() => {
-    if (contentAvailable && position && !(maximized || wasMaximized)) {
+    if (!isEqual(previousPosition, position) && contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
