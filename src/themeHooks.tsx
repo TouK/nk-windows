@@ -1,6 +1,6 @@
 import { css, cx } from "@emotion/css";
 import { useTheme } from "@emotion/react";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { rgba } from "./rgba";
 
 export function useFrameTheme() {
