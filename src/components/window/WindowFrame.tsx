@@ -128,13 +128,13 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? center.x,
-            y: initialPosition.y ?? center.y,
+            x: initialPosition.x ?? center.x + windowMargin,
+            y: initialPosition.y ?? center.y + windowMargin,
           }),
         );
       }
     },
-    [randomizePosition, viewport.height, viewport.width, wasMaximized],
+    [randomizePosition, viewport.height, viewport.width, wasMaximized, windowMargin],
   );
 
   const onContentChanged = useCallback(() => {
