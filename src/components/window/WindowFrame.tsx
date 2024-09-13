@@ -170,9 +170,10 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     [size, windowMargin],
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isEqual(previousPosition, position) && contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
+      console.log('rerender')
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
   }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport, previousPosition]);
