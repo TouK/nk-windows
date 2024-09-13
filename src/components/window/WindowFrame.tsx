@@ -51,6 +51,11 @@ const zoomAnimation = {
   exit: css({ transition: "all 150ms" }),
 };
 
+function calcCoord(start: number, end: number, size: number, viewportSize: number, padding: number) {
+  return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
+}
+
+
 const roundCoords = mapValues<Coords, number>(Math.round);
 
 function useContentVisibility(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: Element) => void) {
@@ -128,8 +133,8 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? center.x + windowMargin,
-            y: initialPosition.y ?? center.y + windowMargin,
+            x: initialPosition.x ?? calcCoord(center.x, center.x - width, width, viewport.width, windowMargin),
+            y: initialPosition.y ?? calcCoord(center.y, center.x - height, height, viewport.height, windowMargin),
           }),
         );
       }
