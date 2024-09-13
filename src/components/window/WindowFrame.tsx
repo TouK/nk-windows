@@ -154,8 +154,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
-  const isInit = useRef(false);
-
   const wasMaximized = usePreviousDifferent(maximized);
 
   // setup position correction for screen edges
@@ -170,6 +168,13 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     },
     [size, windowMargin],
   );
+
+  useEffect(() => {
+    if (contentAvailable && position && !(maximized || wasMaximized)) {
+      const newValue = calcEdgePosition(viewport);
+      setPosition((current) => (isEqual(newValue, current) ? current : newValue));
+    }
+  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
@@ -281,21 +286,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
   const currentMinHeight = useMemo(() => normalizeMinSize(minHeight, viewport.height), [normalizeMinSize, viewport.height, minHeight]);
 
-  const adjustedPosition = useMemo(() => {
-    if (!isInit && contentAvailable && position && !(maximized || wasMaximized)) {
-      const newValue = calcEdgePosition(viewport);
-
-      if (isEqual(newValue, position)) {
-        return position;
-      }
-
-      return newValue;
-    }
-
-    isInit.current = true;
-    return position;
-  }, [calcEdgePosition, contentAvailable, maximized, position, viewport, wasMaximized]);
-
   useScrollFix(ref.current);
 
   return (
@@ -310,7 +300,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
             style={{ display: "flex", zIndex }} // override default inline-block
             bounds="#windowsViewport"
             size={size}
-            position={maximized ? { x: 0, y: 0 } : adjustedPosition}
+            position={maximized ? { x: 0, y: 0 } : position}
             minWidth={currentMinWidth}
             minHeight={currentMinHeight}
             maxHeight={maxSize.height}
