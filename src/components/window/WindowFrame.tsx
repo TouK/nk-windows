@@ -125,16 +125,12 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const forceCenterWindow = useCallback(
     (initialPosition: Coords) => {
       if (ref.current && !wasMaximized) {
-        const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
-        const { height, width } = ref.current.getBoundingClientRect();
-        const x = (viewport.width - width) / 2;
-        const y = (viewport.height * 0.75 - height) / 2;
-        const center = randomize({ x, y });
+        const { x, y, height, width } = ref.current.getBoundingClientRect();
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? calcCoord(center.x, center.x - width, width, viewport.width, windowMargin),
-            y: initialPosition.y ?? calcCoord(center.y, center.x - height, height, viewport.height, windowMargin),
+            x: initialPosition.x ?? calcCoord(x, x - width, width, viewport.width, windowMargin),
+            y: initialPosition.y ?? calcCoord(y, x - height, height, viewport.height, windowMargin),
           }),
         );
       }
