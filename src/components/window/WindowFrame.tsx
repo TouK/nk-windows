@@ -175,7 +175,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
+  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport, previousPosition]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
