@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { forwardRef, RefObject, useCallback } from "react";
 import { useWindowManager, useWindowZoom } from "../../hooks";
 import { WindowWithOrder } from "../../types";
 import { ContentGetter, WindowContent } from "./WindowContent";
@@ -9,7 +9,7 @@ export interface WindowProps {
   contentGetter: ContentGetter;
 }
 
-export function Window({ data, contentGetter }: WindowProps): JSX.Element {
+export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: RefObject<HTMLDivElement>): JSX.Element => {
   const { isResizable, isStatic, focusParent, id, order, shouldCloseOnEsc } = data;
 
   const { focus: onFocus, close: onClose } = useWindowManager(id);
@@ -31,8 +31,18 @@ export function Window({ data, contentGetter }: WindowProps): JSX.Element {
       height={data.height}
       minWidth={data.minWidth}
       minHeight={data.minHeight}
+      ref={ref}
+      layoutData={{
+        width: data.width,
+        height: data.height,
+        minWidth: data.minWidth,
+        minHeight: data.minHeight,
+        ...data.layoutData,
+      }}
     >
       <WindowContent contentGetter={contentGetter} data={data} close={onClose} zoom={onToggleZoom} isMaximized={zoom} />
     </WindowFrame>
   );
-}
+});
+
+Window.displayName = "Window";

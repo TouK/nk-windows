@@ -1,3 +1,7 @@
+export type WindowSize = Partial<Record<"width" | "height" | "minWidth" | "minHeight", number>>;
+export type WindowPosition = Partial<Record<"top" | "left" | "right" | "bottom", number>>;
+export type LayoutData = WindowSize & WindowPosition;
+
 export interface WindowType<Kind extends string | number = any, Meta = any> {
   id: string;
   title?: string;
@@ -10,10 +14,23 @@ export interface WindowType<Kind extends string | number = any, Meta = any> {
   focusParent?: string; // modal is focusParent for self and for windows opened since this modal is visible
   kind?: Kind;
   meta?: Meta;
+  /**
+   * @deprecated use layoutData
+   */
   width?: number;
+  /**
+   * @deprecated use layoutData
+   */
   height?: number;
+  /**
+   * @deprecated use layoutData
+   */
   minWidth?: number;
+  /**
+   * @deprecated use layoutData
+   */
   minHeight?: number;
+  layoutData?: LayoutData;
 }
 
 export type WindowId = WindowType["id"];

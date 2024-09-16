@@ -18,3 +18,6 @@ export const getFadeInAnimation = (t = 0.25) => ({
     pointerEvents: "none",
   }),
 });
+
+export const defaultFadeAnimation = getFadeInAnimation();
+export const fastFadeAnimation = getFadeInAnimation(0.15);

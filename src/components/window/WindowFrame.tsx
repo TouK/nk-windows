@@ -1,32 +1,22 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
-import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { useMutationObserver, usePreviousImmediate } from "rooks";
+import { useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
-import { useFrameTheme } from "../../themeHooks";
-import { random } from "../../utils";
 import { useScrollFix } from "../../hooks/useScrollFix";
-import { fadeInAnimation } from "../WindowsContainer";
+import { useFrameTheme } from "../../themeHooks";
+import { LayoutData } from "../../types";
+import { random } from "../../utils";
+import { defaultFadeAnimation } from "../getFadeInAnimation";
 import { SnapMask } from "./SnapMask";
+import { Coords, Side, Size } from "./types";
 import { Box, useSnapAreas } from "./useSnapAreas";
 import { useSnapSide } from "./useSnapSide";
-
-export enum Side {
-  none,
-  top = 1 << 0,
-  right = 1 << 1,
-  bottom = 1 << 2,
-  left = 1 << 3,
-  topLeft = top | left,
-  topRight = top | right,
-  bottomLeft = bottom | left,
-  bottomRight = bottom | right,
-}
 
 interface WindowFrameProps {
   focusGroup?: string;
@@ -38,10 +28,23 @@ interface WindowFrameProps {
   maximized?: boolean;
   onEscape?: () => void;
   onEdgeSnap?: (e: { name: string; code: Side }) => void;
+  /**
+   * @deprecated use layoutData
+   */
   width?: number;
+  /**
+   * @deprecated use layoutData
+   */
   height?: number;
+  /**
+   * @deprecated use layoutData
+   */
   minWidth?: number;
+  /**
+   * @deprecated use layoutData
+   */
   minHeight?: number;
+  layoutData?: LayoutData;
 }
 
 const zoomAnimation = {
@@ -51,16 +54,6 @@ const zoomAnimation = {
 
 function calcCoord(start: number, end: number, size: number, viewportSize: number, padding: number) {
   return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
-}
-
-export interface Coords {
-  x: number;
-  y: number;
-}
-
-export interface Size {
-  width: number;
-  height: number;
 }
 
 const roundCoords = mapValues<Coords, number>(Math.round);
@@ -96,7 +89,7 @@ const windowClass = css({
   willChange: "transform, top, left, minWidth, minHeight, width, height",
 });
 
-export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Element {
+export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps>, windowRef: RefObject<HTMLDivElement>): JSX.Element => {
   const {
     focusGroup,
     zIndex,
@@ -107,15 +100,19 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
     maximized = false,
     resizable = false,
     moveable = false,
-    height,
-    width,
-    minWidth = 400,
-    minHeight = 140,
+    layoutData = {},
   } = props;
+  const { minWidth = props.minWidth ?? 400, minHeight = props.minHeight ?? 140 } = layoutData;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
-  const [size, setSize] = useState<Size>(() => ({ height, width }));
+  const [size, setSize] = useState<Size>(() => {
+    const { right, bottom, left, top, width, height } = layoutData;
+    return {
+      height: top >= 0 && bottom >= 0 ? viewport.height - top - bottom : height ?? props.height,
+      width: left >= 0 && right >= 0 ? viewport.width - left - right : width ?? props.width,
+    };
+  });
   const prevSize = usePreviousImmediate(size);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
@@ -124,35 +121,42 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   const [touched, _setTouched] = useState(false);
   const touch = useCallback(() => _setTouched(true), []);
 
-  const forceCenterWindow = useCallback(() => {
-    if (ref.current) {
-      const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
-      const { height, width } = ref.current.getBoundingClientRect();
-      const x = (viewport.width - width) / 2;
-      const y = (viewport.height * 0.75 - height) / 2;
-      setPosition(roundCoords(randomize({ x, y })));
-    }
-  }, [randomizePosition, viewport.height, viewport.width]);
+  const forceCenterWindow = useCallback(
+    (initialPosition: Coords) => {
+      if (ref.current) {
+        const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
+        const { height, width } = ref.current.getBoundingClientRect();
+        const x = (viewport.width - width) / 2;
+        const y = (viewport.height * 0.75 - height) / 2;
+        const center = randomize({ x, y });
+
+        setPosition(
+          roundCoords({
+            x: initialPosition.x ?? center.x,
+            y: initialPosition.y ?? center.y,
+          }),
+        );
+      }
+    },
+    [randomizePosition, viewport.height, viewport.width],
+  );
 
   const onContentChanged = useCallback(() => {
     if (!touched) {
-      forceCenterWindow();
+      const { height, width } = ref.current.getBoundingClientRect();
+      const { right, bottom, left, top } = layoutData;
+      forceCenterWindow({
+        x: !(left >= 0) && right >= 0 ? viewport.width - right - width : left,
+        y: !(top >= 0) && bottom >= 0 ? viewport.height - bottom - height : top,
+      });
     }
-  }, [forceCenterWindow, touched]);
+  }, [forceCenterWindow, layoutData, touched, viewport.height, viewport.width]);
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
-  // set initial position
-  useEffect(() => {
-    if (dragging.current) return;
-    if (contentAvailable && !position) {
-      forceCenterWindow();
-    }
-  }, [contentAvailable, maximized, position, forceCenterWindow]);
+  const wasMaximized = usePreviousDifferent(maximized);
 
-  const wasMaximized = usePreviousImmediate(maximized);
-
-  // setup position correction for screen egdes
+  // setup position correction for screen edges
   const calcEdgePosition = useCallback(
     (viewport, box: Box = ref.current.getBoundingClientRect()) => {
       const width = size?.width || box?.width || 0;
@@ -166,7 +170,7 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   );
 
   useLayoutEffect(() => {
-    if (contentAvailable && !(maximized || wasMaximized)) {
+    if (contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
       setPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
@@ -213,9 +217,13 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   }, [getSnapSide, maximized, resizable]);
 
   const onDragStop = useCallback(
-    (e, position) => {
+    (e, { x, y }) => {
+      if (!dragging.current) {
+        return;
+      }
+
       dragging.current = false;
-      savePosition(position);
+      savePosition({ x, y });
       onSideSnap?.(side, true);
       onSnapCallback?.({ name: Side[side], code: side });
       setSide(Side.none);
@@ -281,16 +289,16 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
   useScrollFix(ref.current);
 
   return (
-    <>
+    <div ref={windowRef}>
       {/*fallback animation for lazy loaded content*/}
-      <CSSTransition in={contentAvailable} timeout={250} classNames={fadeInAnimation}>
+      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={defaultFadeAnimation}>
         <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
           <Rnd
             disableDragging={maximized || !moveable}
             enableResizing={resizable && !maximized}
             className={cx(windowClass, windowTheme)}
             style={{ display: "flex", zIndex }} // override default inline-block
-            bounds="parent"
+            bounds="#windowsViewport"
             size={size}
             position={maximized ? { x: 0, y: 0 } : position}
             minWidth={currentMinWidth}
@@ -328,6 +336,8 @@ export function WindowFrame(props: PropsWithChildren<WindowFrameProps>): JSX.Ele
         </CSSTransition>
       </CSSTransition>
       <SnapMask previewBox={snapPreviewBox} />
-    </>
+    </div>
   );
-}
+});
+
+WindowFrame.displayName = "WindowFrame";

@@ -1,3 +1,73 @@
+# [1.9.0-beta.9](https://github.com/touk/nk-windows/compare/v1.9.0-beta.8...v1.9.0-beta.9) (2024-09-03)
+
+
+### Bug Fixes
+
+* safari pinch-to-zoom crash ([1ebc843](https://github.com/touk/nk-windows/commit/1ebc843ad318166d2558672de67c223818408901))
+
+# [1.9.0-beta.8](https://github.com/touk/nk-windows/compare/v1.9.0-beta.7...v1.9.0-beta.8) (2024-08-14)
+
+
+### Bug Fixes
+
+* type definitions ([e30bbc9](https://github.com/touk/nk-windows/commit/e30bbc92122706996bbfe0dbb0a21f3ab7f96e47))
+
+# [1.9.0-beta.7](https://github.com/touk/nk-windows/compare/v1.9.0-beta.6...v1.9.0-beta.7) (2024-08-14)
+
+
+### Bug Fixes
+
+* support keyboard in header buttons ([66755de](https://github.com/touk/nk-windows/commit/66755de530939e7b7820b14adcc841dc2337ec42))
+
+# [1.9.0-beta.6](https://github.com/touk/nk-windows/compare/v1.9.0-beta.5...v1.9.0-beta.6) (2024-08-13)
+
+
+### Features
+
+* moved window size props to layoutData ([d2e94c7](https://github.com/touk/nk-windows/commit/d2e94c7f4931b4ffa5ba5c49a7124805552d6088))
+* set initial position with layoutData ([c59adf7](https://github.com/touk/nk-windows/commit/c59adf7fa5631e85730a4f8e3d92873e4eba3573))
+
+# [1.9.0-beta.5](https://github.com/touk/nk-windows/compare/v1.9.0-beta.4...v1.9.0-beta.5) (2024-08-12)
+
+
+### Bug Fixes
+
+* clicking outside when modal mode is disabled ([7ed67fb](https://github.com/touk/nk-windows/commit/7ed67fb7d20a653a3d2b725567829e8557049360))
+
+# [1.9.0-beta.4](https://github.com/touk/nk-windows/compare/v1.9.0-beta.3...v1.9.0-beta.4) (2024-07-25)
+
+
+### Bug Fixes
+
+* window lazy loading animation ([5a14fcf](https://github.com/touk/nk-windows/commit/5a14fcf478d55f9cbbb2c8e2d974dbad0c57aceb))
+
+# [1.9.0-beta.3](https://github.com/touk/nk-windows/compare/v1.9.0-beta.2...v1.9.0-beta.3) (2024-07-23)
+
+
+### Bug Fixes
+
+* window move issue ([2f3bde5](https://github.com/touk/nk-windows/commit/2f3bde55a27ceca59bd8e0b031a3a9375cea2c6b))
+
+# [1.9.0-beta.2](https://github.com/touk/nk-windows/compare/v1.9.0-beta.1...v1.9.0-beta.2) (2024-07-19)
+
+
+### Bug Fixes
+
+* Add nodeRef and fix Warning: findDOMNode is deprecated and will be removed for react-transition-group ([6683e24](https://github.com/touk/nk-windows/commit/6683e24558307003cf839eb48c58662773848b4e))
+* position when a window is full height ([b822c7b](https://github.com/touk/nk-windows/commit/b822c7b832210b02d0631c11ec774368a932ca3e))
+
+# [1.9.0-beta.1](https://github.com/touk/nk-windows/compare/v1.8.0...v1.9.0-beta.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* position of a window after full-screen zoom via title double click and zoom out via header icon ([1d4b2e1](https://github.com/touk/nk-windows/commit/1d4b2e1c1b19e12a23ced0bb22703e055de923ad))
+
+
+### Features
+
+* react 18 support ([d4ad55d](https://github.com/touk/nk-windows/commit/d4ad55d918ed73e039ae28edeb670b50860af691))
+
 # [1.8.0](https://github.com/touk/nk-windows/compare/v1.7.1...v1.8.0) (2024-05-15)
 
 

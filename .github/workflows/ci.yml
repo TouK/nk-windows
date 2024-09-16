@@ -123,9 +123,12 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     needs: [ "build", "release" ]
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
       - uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -135,6 +138,32 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
-      - run: npm run deploy-storybook -- --ci --host-token-env-variable=GITHUB_TOKEN
-        env:
-          GITHUB_TOKEN: JulianWielga:${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          VERSION=$(npm pkg get version | tr -d '"')
+          echo "version=$VERSION" >> $GITHUB_ENV
+      - run: npm run build-storybook -- -o docs
+      - name: publish version
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          destination_dir: v${{ env.version }}
+      - name: publish latest
+        uses: peaceiris/actions-gh-pages@v4
+        if: ${{ github.ref == 'refs/heads/master' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          destination_dir: latest
+      - uses: actions/checkout@v4
+        with:
+         fetch-depth: 0
+         ref: gh-pages
+      - name: generate index.html
+        run: node .scripts/generateIndex.js
+      - name: update index.html
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./.out
+          keep_files: true
