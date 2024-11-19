@@ -128,7 +128,7 @@
     "react-hotkeys-hook": "4.5.0",
     "react-inspector": "6.0.2",
     "react-rnd": "10.4.10",
-    "react-transition-group": "4.4.5",
+    "react-transition-state": "2.2.0",
     "reselect": "5.1.0",
     "rooks": "7.14.1"
   },
