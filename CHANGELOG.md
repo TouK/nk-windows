@@ -1,3 +1,10 @@
+## [1.9.1-beta.1](https://github.com/touk/nk-windows/compare/v1.9.0...v1.9.1-beta.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* issue with manually change window size ([9af367b](https://github.com/touk/nk-windows/commit/9af367b8a92fdfb47b7b267f26f57fb724e21f36))
+
 # [1.9.0](https://github.com/touk/nk-windows/compare/v1.8.0...v1.9.0) (2024-09-16)
 
 
