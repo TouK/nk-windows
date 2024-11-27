@@ -1,3 +1,10 @@
+## [1.9.1-beta.2](https://github.com/touk/nk-windows/compare/v1.9.1-beta.1...v1.9.1-beta.2) (2024-11-27)
+
+
+### Bug Fixes
+
+* revert change animation library ([13736c3](https://github.com/touk/nk-windows/commit/13736c3594bbfc340d0687b66a2fe0e58dbf4dc1))
+
 ## [1.9.1-beta.1](https://github.com/touk/nk-windows/compare/v1.9.0...v1.9.1-beta.1) (2024-11-25)
 
 
