@@ -1,24 +1,24 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
-import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
-import { CSSTransition } from "react-transition-group";
-import { useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
+import { useMutationObserver, usePreviousDifferent } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useScrollFix } from "../../hooks/useScrollFix";
 import { useFrameTheme } from "../../themeHooks";
 import { LayoutData } from "../../types";
 import { random } from "../../utils";
-import { defaultFadeAnimation } from "../getFadeInAnimation";
 import { SnapMask } from "./SnapMask";
 import { Coords, Side, Size } from "./types";
 import { Box, useSnapAreas } from "./useSnapAreas";
 import { useSnapSide } from "./useSnapSide";
+import { useTransition } from "../TransitionProvider";
 
 interface WindowFrameProps {
+  id: string;
   focusGroup?: string;
   zIndex?: number;
   randomizePosition?: number;
@@ -46,11 +46,6 @@ interface WindowFrameProps {
   minHeight?: number;
   layoutData?: LayoutData;
 }
-
-const zoomAnimation = {
-  enter: css({ transition: "all 150ms" }),
-  exit: css({ transition: "all 150ms" }),
-};
 
 function calcCoord(start: number, end: number, size: number, viewportSize: number, padding: number) {
   return Math.max(padding, end >= viewportSize - padding / 2 ? viewportSize - size - padding : start);
@@ -89,7 +84,8 @@ const windowClass = css({
   willChange: "transform, top, left, minWidth, minHeight, width, height",
 });
 
-export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps>, windowRef: RefObject<HTMLDivElement>): JSX.Element => {
+export const WindowFrame = (props: PropsWithChildren<WindowFrameProps>): JSX.Element => {
+  const { getTransitionStyle } = useTransition();
   const {
     focusGroup,
     zIndex,
@@ -101,7 +97,9 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     resizable = false,
     moveable = false,
     layoutData = {},
+    id,
   } = props;
+
   const { minWidth = props.minWidth ?? 400, minHeight = props.minHeight ?? 140 } = layoutData;
   const ref = useRef<HTMLDivElement>();
   const viewport = useViewportSize();
@@ -113,7 +111,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
       width: left >= 0 && right >= 0 ? viewport.width - left - right : width ?? props.width,
     };
   });
-  const prevSize = usePreviousImmediate(size);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
@@ -231,15 +228,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     [onSideSnap, onSnapCallback, savePosition, side],
   );
 
-  const onEnter = useCallback(() => {
-    const { height, width } = ref.current.getBoundingClientRect();
-    setSize({ width, height });
-  }, []);
-
-  const onExited = useCallback(() => {
-    setSize(prevSize || null);
-  }, [prevSize]);
-
   const onResizeStop = useCallback(
     (e, dir, el, delta, position) => {
       const { width, height } = el.getBoundingClientRect();
@@ -287,57 +275,49 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const currentMinHeight = useMemo(() => normalizeMinSize(minHeight, viewport.height), [normalizeMinSize, viewport.height, minHeight]);
 
   useScrollFix(ref.current);
-
   return (
-    <div ref={windowRef}>
-      {/*fallback animation for lazy loaded content*/}
-      <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={defaultFadeAnimation}>
-        <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
-          <Rnd
-            disableDragging={maximized || !moveable}
-            enableResizing={resizable && !maximized}
-            className={cx(windowClass, windowTheme)}
-            style={{ display: "flex", zIndex }} // override default inline-block
-            bounds="#windowsViewport"
-            size={size}
-            position={maximized ? { x: 0, y: 0 } : position}
-            minWidth={currentMinWidth}
-            minHeight={currentMinHeight}
-            maxHeight={maxSize.height}
-            maxWidth={maxSize.width}
-            onResizeStop={onResizeStop}
-            onDrag={onDrag}
-            onMouseDown={touch}
-            onDragStart={touch}
-            onResizeStart={touch}
-            onDragStop={onDragStop}
-            dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
-            cancel={`a[href], textarea, input, select, button, ${DRAG_PREVENT_CLASS_NAME}`}
-            data-testid="window-frame"
+    <>
+      <Rnd
+        disableDragging={maximized || !moveable}
+        enableResizing={resizable && !maximized}
+        className={cx(windowClass, windowTheme, ...getTransitionStyle(id))}
+        style={{ display: "flex", zIndex }} // override default inline-block
+        bounds="#windowsViewport"
+        size={size}
+        position={maximized ? { x: 0, y: 0 } : position}
+        minWidth={currentMinWidth}
+        minHeight={currentMinHeight}
+        maxHeight={maxSize.height}
+        maxWidth={maxSize.width}
+        onResizeStop={onResizeStop}
+        onDrag={onDrag}
+        onMouseDown={touch}
+        onDragStart={touch}
+        onResizeStart={touch}
+        onDragStop={onDragStop}
+        dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+        cancel={`a[href], textarea, input, select, button, ${DRAG_PREVENT_CLASS_NAME}`}
+        data-testid="window-frame"
+      >
+        {/* trap keyboard focus within group (windows opened since last modal) */}
+        <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+          <div
+            ref={ref}
+            onFocus={focus}
+            onBlur={blur}
+            onKeyDown={(event) => {
+              event.key === "Escape" && onEscape?.();
+              touch();
+            }}
+            tabIndex={-1}
+            className={cx(focusWrapperClass, focusWrapperTheme)}
+            data-testid="window"
           >
-            {/* trap keyboard focus within group (windows opened since last modal) */}
-            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
-              <div
-                ref={ref}
-                onFocus={focus}
-                onBlur={blur}
-                onKeyDown={(event) => {
-                  event.key === "Escape" && onEscape?.();
-                  touch();
-                }}
-                tabIndex={-1}
-                className={cx(focusWrapperClass, focusWrapperTheme)}
-                data-testid="window"
-              >
-                {props.children}
-              </div>
-            </FocusLock>
-          </Rnd>
-        </CSSTransition>
-      </CSSTransition>
+            {props.children}
+          </div>
+        </FocusLock>
+      </Rnd>
       <SnapMask previewBox={snapPreviewBox} />
-    </div>
+    </>
   );
-});
-
-WindowFrame.displayName = "WindowFrame";
+};
