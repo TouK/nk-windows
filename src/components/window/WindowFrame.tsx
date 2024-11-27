@@ -1,5 +1,4 @@
 import { css, cx } from "@emotion/css";
-import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
 import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
@@ -114,6 +113,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     };
   });
   const prevSize = usePreviousImmediate(size);
+  const wasMaximized = usePreviousDifferent(maximized);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
@@ -123,22 +123,22 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
   const forceCenterWindow = useCallback(
     (initialPosition: Coords) => {
-      if (ref.current) {
+      if (ref.current && !wasMaximized) {
         const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
         const { height, width } = ref.current.getBoundingClientRect();
         const x = (viewport.width - width) / 2;
-        const y = (viewport.height * 0.75 - height) / 2;
+        const y = (viewport.height * 0.65 - height) / 2;
         const center = randomize({ x, y });
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? center.x,
-            y: initialPosition.y ?? center.y,
+            x: initialPosition.x ?? calcCoord(center.x, center.x + width, width, viewport.width, windowMargin),
+            y: initialPosition.y ?? calcCoord(center.y, center.y + height, height, viewport.height, windowMargin),
           }),
         );
       }
     },
-    [randomizePosition, viewport.height, viewport.width],
+    [randomizePosition, viewport.height, viewport.width, wasMaximized, windowMargin],
   );
 
   const onContentChanged = useCallback(() => {
@@ -153,28 +153,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   }, [forceCenterWindow, layoutData, touched, viewport.height, viewport.width]);
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
-
-  const wasMaximized = usePreviousDifferent(maximized);
-
-  // setup position correction for screen edges
-  const calcEdgePosition = useCallback(
-    (viewport, box: Box = ref.current.getBoundingClientRect()) => {
-      const width = size?.width || box?.width || 0;
-      const height = size?.height || box?.height || 0;
-      return roundCoords({
-        x: calcCoord(box.x, box.x + box.width, width, viewport.width, windowMargin),
-        y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
-      });
-    },
-    [size, windowMargin],
-  );
-
-  useLayoutEffect(() => {
-    if (contentAvailable && position && !(maximized || wasMaximized)) {
-      const newValue = calcEdgePosition(viewport);
-      setPosition((current) => (isEqual(newValue, current) ? current : newValue));
-    }
-  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
@@ -260,7 +238,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const maxSize = useMemo(
     () => ({
       width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
-      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0),
+      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y + windowMargin || 0),
     }),
     [windowMargin, position, viewport.height],
   );
