@@ -50,7 +50,7 @@ export function useSnapAreas(margin = 0, onSnapCallback?: (box: Box, side: Side)
           return null;
       }
     },
-    [height, margin, width],
+    [height, width],
   );
 
   const onSideEdgeSnap = useCallback(

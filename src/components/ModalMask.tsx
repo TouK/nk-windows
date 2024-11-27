@@ -1,11 +1,9 @@
 import { css, cx } from "@emotion/css";
-import React from "react";
+import React, { forwardRef, RefObject } from "react";
 import { rgba } from "../rgba";
 import { useModalMaskTheme } from "../themeHooks";
-import { WindowId } from "../types";
-import { useTransition } from "./TransitionProvider";
 
-export const ModalMask = ({ zIndex, id }: { zIndex?: number; id: WindowId }): JSX.Element => {
+export const ModalMask = forwardRef(({ zIndex }: { zIndex?: number }, ref: RefObject<HTMLDivElement>): JSX.Element => {
   const modalMaskTheme = useModalMaskTheme();
   const modalMaskClass = css({
     top: 0,
@@ -15,7 +13,7 @@ export const ModalMask = ({ zIndex, id }: { zIndex?: number; id: WindowId }): JS
     position: "fixed",
     background: rgba("black", 0.6),
   });
-  const { getTransitionStyle } = useTransition();
+  return <div ref={ref} className={cx(modalMaskClass, modalMaskTheme)} style={{ zIndex }} />;
+});
 
-  return <div className={cx(modalMaskClass, modalMaskTheme, ...getTransitionStyle(id))} style={{ zIndex }} />;
-};
+ModalMask.displayName = "ModalMask";
