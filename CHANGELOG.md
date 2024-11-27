@@ -1,3 +1,10 @@
+## [1.9.1-beta.3](https://github.com/touk/nk-windows/compare/v1.9.1-beta.2...v1.9.1-beta.3) (2024-11-27)
+
+
+### Bug Fixes
+
+* Maximum update depth exceeded error ([e15935a](https://github.com/touk/nk-windows/commit/e15935acb84771237fee072b58109153741ae61c))
+
 ## [1.9.1-beta.2](https://github.com/touk/nk-windows/compare/v1.9.1-beta.1...v1.9.1-beta.2) (2024-11-27)
 
 
