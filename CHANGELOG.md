@@ -1,3 +1,17 @@
+## [1.9.1-beta.2](https://github.com/touk/nk-windows/compare/v1.9.1-beta.1...v1.9.1-beta.2) (2024-11-27)
+
+
+### Bug Fixes
+
+* revert change animation library ([13736c3](https://github.com/touk/nk-windows/commit/13736c3594bbfc340d0687b66a2fe0e58dbf4dc1))
+
+## [1.9.1-beta.1](https://github.com/touk/nk-windows/compare/v1.9.0...v1.9.1-beta.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* issue with manually change window size ([9af367b](https://github.com/touk/nk-windows/commit/9af367b8a92fdfb47b7b267f26f57fb724e21f36))
+
 # [1.9.0](https://github.com/touk/nk-windows/compare/v1.8.0...v1.9.0) (2024-09-16)
 
 
