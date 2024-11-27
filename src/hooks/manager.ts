@@ -3,8 +3,6 @@ import { WindowManagerContext } from "../context";
 import { closeWindow, getWindowsWithOrder, openWindow } from "../store";
 import { WindowId, WindowManagerState, WindowType } from "../types";
 import { ViewportContext, ViewportContextType } from "../ViewportContext";
-import { useTransition } from "../components/TransitionProvider";
-import { v4 as uuid } from "uuid";
 
 export function useViewportSize(): ViewportContextType {
   const context = useContext(ViewportContext);
@@ -21,14 +19,12 @@ export function useRawState<K extends number | string = any>(): WindowManagerSta
 
 export function useWindowManager<K extends number | string = any>(parent?: WindowId) {
   const [state, dispatch] = useContext(WindowManagerContext);
-  const transition = useTransition();
+
   const open = useCallback(
-    async <Kind extends number | string = K, Meta = never>(windowData: Partial<WindowType<Kind, Meta>> = {}) => {
-      const windowId: WindowId = windowData.id || uuid();
-      await transition.startTransition(windowId);
-      return dispatch(openWindow({ parent, ...windowData, id: windowId }));
+    <Kind extends number | string = K, Meta = never>(windowData: Partial<WindowType<Kind, Meta>> = {}) => {
+      return dispatch(openWindow({ parent, ...windowData }));
     },
-    [dispatch, parent, transition],
+    [dispatch, parent],
   );
 
   const focus = useCallback(
@@ -40,11 +36,10 @@ export function useWindowManager<K extends number | string = any>(parent?: Windo
 
   const close = useCallback(
     async (id: WindowId = parent) => {
-      await transition.finishTransition(id);
       await dispatch(closeWindow(id));
       return id;
     },
-    [dispatch, parent, transition],
+    [dispatch, parent],
   );
 
   const windows = useMemo(() => getWindowsWithOrder(state), [state]);
