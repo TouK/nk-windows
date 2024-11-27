@@ -5,6 +5,7 @@ import { AppTheme } from "../AppTheme";
 import { WindowManagerContextProvider } from "../context";
 import { ContentGetter } from "./window/WindowContent";
 import { WindowsContainer } from "./WindowsContainer";
+import { TransitionProvider } from "./TransitionProvider";
 
 const defaultTheme = {
   backgroundOpacity: 0.9,
@@ -34,13 +35,15 @@ export function WindowManager<K extends number | string = any>({
   ...props
 }: WindowManagerProps<K>): JSX.Element {
   return (
-    <WindowManagerContextProvider>
-      <div {...props}>
-        {children}
-        <ThemeProvider theme={(outerTheme = {}) => defaultsDeep(theme, outerTheme, defaultTheme)}>
-          <WindowsContainer contentGetter={contentGetter} />
-        </ThemeProvider>
-      </div>
-    </WindowManagerContextProvider>
+    <TransitionProvider>
+      <WindowManagerContextProvider>
+        <div {...props}>
+          {children}
+          <ThemeProvider theme={(outerTheme = {}) => defaultsDeep(theme, outerTheme, defaultTheme)}>
+            <WindowsContainer contentGetter={contentGetter} />
+          </ThemeProvider>
+        </div>
+      </WindowManagerContextProvider>
+    </TransitionProvider>
   );
 }
