@@ -113,7 +113,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     };
   });
   const prevSize = usePreviousImmediate(size);
-  const wasMaximized = usePreviousDifferent(maximized);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
@@ -122,8 +121,8 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const touch = useCallback(() => _setTouched(true), []);
 
   const forceCenterWindow = useCallback(
-    (initialPosition?: Coords) => {
-      if (ref.current && !wasMaximized) {
+    (initialPosition: Coords) => {
+      if (ref.current) {
         const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
         const { height, width } = ref.current.getBoundingClientRect();
         const x = (viewport.width - width) / 2;
@@ -132,13 +131,13 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? calcCoord(center.x, center.x + width, width, viewport.width, windowMargin),
-            y: initialPosition.y ?? calcCoord(center.y, center.y + height, height, viewport.height, windowMargin),
+            x: initialPosition.x ?? center.x,
+            y: initialPosition.y ?? center.y,
           }),
         );
       }
     },
-    [randomizePosition, viewport.height, viewport.width, wasMaximized, windowMargin],
+    [randomizePosition, viewport.height, viewport.width],
   );
 
   const onContentChanged = useCallback(() => {
@@ -154,22 +153,39 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
+  const wasMaximized = usePreviousDifferent(maximized);
+
+  // setup position correction for screen edges
+  const calcEdgePosition = useCallback(
+    (viewport, box: Box = ref.current.getBoundingClientRect()) => {
+      const width = size?.width || box?.width || 0;
+      const height = size?.height || box?.height || 0;
+      return roundCoords({
+        x: calcCoord(box.x, box.x + box.width, width, viewport.width, windowMargin),
+        y: calcCoord(box.y, box.y + box.height, height, viewport.height, windowMargin),
+      });
+    },
+    [size, windowMargin],
+  );
+
+  useLayoutEffect(() => {
+    if (!contentAvailable || maximized || wasMaximized) return;
+
+    const newValue = calcEdgePosition(viewport);
+
+    setPosition(newValue);
+  }, [contentAvailable, maximized, wasMaximized, calcEdgePosition, viewport]);
+
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
   const [side, setSide] = useState<Side>(Side.none);
   const getSnapSide = useSnapSide(ref);
 
-  const setFrameBox = useCallback(
-    (box: Box) => {
-      const { y, height, width, x } = box;
-      setSize({ width, height });
-      setPosition({
-        x: calcCoord(x, x + width, width, viewport.width, windowMargin),
-        y: calcCoord(y, y + height, height, viewport.height, windowMargin),
-      });
-    },
-    [viewport.height, viewport.width, windowMargin],
-  );
+  const setFrameBox = useCallback((box: Box) => {
+    const { y, height, width, x } = box;
+    setSize({ width, height });
+    setPosition({ x, y });
+  }, []);
 
   const [snapPreviewBox, onSideSnap] = useSnapAreas(windowMargin, setFrameBox);
 
@@ -226,6 +242,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
   const onResizeStop = useCallback(
     (e, dir, el, delta, position) => {
+      console.log("resize stop");
       const { width, height } = el.getBoundingClientRect();
       setFrameBox({ ...position, width, height });
     },
