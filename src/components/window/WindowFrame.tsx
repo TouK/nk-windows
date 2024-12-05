@@ -132,8 +132,8 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? calcCoord(center.x, center.x + width, width, viewport.width, windowMargin),
-            y: initialPosition.y ?? calcCoord(center.y, center.y + height, height, viewport.height, windowMargin),
+            x: initialPosition.x ?? calcCoord(windowMargin, center.x + width, width, viewport.width, windowMargin),
+            y: initialPosition.y ?? calcCoord(windowMargin, center.y + height, height, viewport.height, windowMargin),
           }),
         );
       }
