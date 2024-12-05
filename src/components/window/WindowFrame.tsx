@@ -1,10 +1,11 @@
 import { css, cx } from "@emotion/css";
+import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
 import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
+import { useDebounce, useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useScrollFix } from "../../hooks/useScrollFix";
@@ -168,13 +169,20 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     [size, windowMargin],
   );
 
+  // Fix for Maximum update depth exceeded
+  const debouncedSetPosition = useDebounce(setPosition, 0);
+
   useLayoutEffect(() => {
-    if (!contentAvailable || maximized || wasMaximized) return;
+    if (!contentAvailable || maximized || wasMaximized || !position) return;
 
     const newValue = calcEdgePosition(viewport);
 
-    setPosition(newValue);
-  }, [contentAvailable, maximized, wasMaximized, calcEdgePosition, viewport]);
+    if (!isEqual(newValue, position)) {
+      debouncedSetPosition(newValue);
+    }
+
+    return () => debouncedSetPosition.cancel();
+  }, [contentAvailable, position, maximized, wasMaximized, calcEdgePosition, viewport, debouncedSetPosition]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
