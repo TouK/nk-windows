@@ -178,7 +178,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     const newValue = calcEdgePosition(viewport);
 
     if (!isEqual(newValue, position)) {
-      debouncedSetPosition(newValue);
+      setPosition(newValue);
     }
 
     return () => debouncedSetPosition.cancel();
@@ -250,7 +250,6 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
   const onResizeStop = useCallback(
     (e, dir, el, delta, position) => {
-      console.log("resize stop");
       const { width, height } = el.getBoundingClientRect();
       setFrameBox({ ...position, width, height });
     },
