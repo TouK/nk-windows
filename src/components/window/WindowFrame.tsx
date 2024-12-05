@@ -122,7 +122,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const touch = useCallback(() => _setTouched(true), []);
 
   const forceCenterWindow = useCallback(
-    (initialPosition: Coords) => {
+    (initialPosition?: Coords) => {
       if (ref.current && !wasMaximized) {
         const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
         const { height, width } = ref.current.getBoundingClientRect();
@@ -132,8 +132,8 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
 
         setPosition(
           roundCoords({
-            x: initialPosition.x ?? calcCoord(windowMargin, center.x + width, width, viewport.width, windowMargin),
-            y: initialPosition.y ?? calcCoord(windowMargin, center.y + height, height, viewport.height, windowMargin),
+            x: initialPosition.x ?? calcCoord(center.x, center.x + width, width, viewport.width, windowMargin),
+            y: initialPosition.y ?? calcCoord(center.y, center.y + height, height, viewport.height, windowMargin),
           }),
         );
       }
@@ -159,11 +159,17 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const [side, setSide] = useState<Side>(Side.none);
   const getSnapSide = useSnapSide(ref);
 
-  const setFrameBox = useCallback((box: Box) => {
-    const { y, height, width, x } = box;
-    setSize({ width, height });
-    setPosition({ x, y });
-  }, []);
+  const setFrameBox = useCallback(
+    (box: Box) => {
+      const { y, height, width, x } = box;
+      setSize({ width, height });
+      setPosition({
+        x: calcCoord(x, x + width, width, viewport.width, windowMargin),
+        y: calcCoord(y, y + height, height, viewport.height, windowMargin),
+      });
+    },
+    [viewport.height, viewport.width, windowMargin],
+  );
 
   const [snapPreviewBox, onSideSnap] = useSnapAreas(windowMargin, setFrameBox);
 
@@ -238,7 +244,7 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
   const maxSize = useMemo(
     () => ({
       width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
-      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y + windowMargin || 0),
+      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0),
     }),
     [windowMargin, position, viewport.height],
   );
