@@ -5,7 +5,7 @@ import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
-import { useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
+import { useDebounce, useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
 import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useScrollFix } from "../../hooks/useScrollFix";
@@ -169,12 +169,15 @@ export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps
     [size, windowMargin],
   );
 
+  // it fixes an issue with  Maximum update depth exceeded  error
+  const debounceSetPosition = useDebounce(setPosition, 0, { leading: true });
+
   useLayoutEffect(() => {
     if (contentAvailable && position && !(maximized || wasMaximized)) {
       const newValue = calcEdgePosition(viewport);
-      setPosition((current) => (isEqual(newValue, current) ? current : newValue));
+      debounceSetPosition((current) => (isEqual(newValue, current) ? current : newValue));
     }
-  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport]);
+  }, [contentAvailable, wasMaximized, calcEdgePosition, maximized, position, viewport, debounceSetPosition]);
 
   const savePosition = useCallback((position: Position) => !maximized && setPosition(roundCoords(position)), [maximized]);
 
