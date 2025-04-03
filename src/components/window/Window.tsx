@@ -18,7 +18,7 @@ export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: Ref
 
   return (
     <WindowFrame
-      zIndex={data?.layoutData?.zIndex ?? order}
+      zIndex={order}
       focusGroup={focusParent}
       onFocus={onFocus}
       maximized={zoom}
