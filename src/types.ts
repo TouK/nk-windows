@@ -1,5 +1,5 @@
-export type WindowSize = Partial<Record<"width" | "height" | "minWidth" | "minHeight", number>>;
-export type WindowPosition = Partial<Record<"top" | "left" | "right" | "bottom", number>>;
+export type WindowSize = Partial<Record<"width" | "height" | "minWidth" | "minHeight", number | string>>;
+export type WindowPosition = Partial<Record<"top" | "left" | "right" | "bottom" | "zIndex", number>>;
 export type LayoutData = WindowSize & WindowPosition;
 
 export interface WindowType<Kind extends string | number = any, Meta = any> {

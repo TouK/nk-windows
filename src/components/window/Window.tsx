@@ -11,7 +11,6 @@ export interface WindowProps {
 
 export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: RefObject<HTMLDivElement>): JSX.Element => {
   const { isResizable, isStatic, focusParent, id, order, shouldCloseOnEsc } = data;
-
   const { focus: onFocus, close: onClose } = useWindowManager(id);
   const [zoom, onToggleZoom] = useWindowZoom(data);
 
@@ -19,7 +18,7 @@ export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: Ref
 
   return (
     <WindowFrame
-      zIndex={order}
+      zIndex={data.layoutData.zIndex ?? order}
       focusGroup={focusParent}
       onFocus={onFocus}
       maximized={zoom}
