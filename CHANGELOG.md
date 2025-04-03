@@ -1,3 +1,10 @@
+# [1.10.0-beta.1](https://github.com/touk/nk-windows/compare/v1.9.1...v1.10.0-beta.1) (2025-04-03)
+
+
+### Features
+
+* add zIndex to layoutData ([0201332](https://github.com/touk/nk-windows/commit/02013323b586602effa256da6e0edf171522e4e9))
+
 ## [1.9.1](https://github.com/touk/nk-windows/compare/v1.9.0...v1.9.1) (2024-12-06)
 
 
