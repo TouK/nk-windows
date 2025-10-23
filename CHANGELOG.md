@@ -1,3 +1,17 @@
+# [1.10.0-beta.2](https://github.com/touk/nk-windows/compare/v1.10.0-beta.1...v1.10.0-beta.2) (2025-10-23)
+
+
+### Bug Fixes
+
+* animations ([b64a8fa](https://github.com/touk/nk-windows/commit/b64a8fa74aa07f4fef89e474f8acd1a8c65b9db9))
+* revert zIndex from layout data ([60c32c0](https://github.com/touk/nk-windows/commit/60c32c02bc97313edb6fe128ea60edf28c7de621))
+
+
+### Features
+
+* expose DefaultContent ref ([e340ff3](https://github.com/touk/nk-windows/commit/e340ff3d76db337e68705aa0dc179e8421d193c8))
+* global windows ignoring modal mask ([fe14384](https://github.com/touk/nk-windows/commit/fe143844806ba9a9e3d251282ce07a5b1a5ad18c))
+
 # [1.10.0-beta.1](https://github.com/touk/nk-windows/compare/v1.9.1...v1.10.0-beta.1) (2025-04-03)
 
 
