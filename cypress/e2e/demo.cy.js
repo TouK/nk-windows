@@ -70,7 +70,7 @@ context("WM", () => {
 
   it("should respect layoutData position", () => {
     cy.viewport(1000, 1000);
-    cy.contains("left").click();
+    cy.contains("initial position").click();
     cy.get("[data-testid='window-frame']")
       .should("be.visible")
       .should(($el) => {
@@ -84,14 +84,10 @@ context("WM", () => {
 
   it("should allow global windows", () => {
     cy.contains("global").click();
-    cy.contains("[data-testid='window-frame']", /global/)
-      .should("be.visible")
-      .as("window1");
+    cy.contains("[data-testid='window-frame']", "global").should("be.visible").as("window1");
     cy.wait(1000);
-    cy.contains("initial size").click();
-    cy.contains("[data-testid='window-frame']", /initial size/)
-      .should("be.visible")
-      .as("window2");
+    cy.contains("initial position").click();
+    cy.contains("[data-testid='window-frame']", "initial position").should("be.visible").as("window2");
     cy.get("@window1").should("be.visible");
     cy.get("@window2").should("be.visible");
   });
