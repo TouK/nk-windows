@@ -7,6 +7,7 @@ const timeout = (t = 0) => new Promise((resolve) => setTimeout(resolve, t));
 
 const defaults: Partial<WindowType> = {
   isModal: true,
+  isGlobal: false,
   isResizable: true,
   shouldCloseOnEsc: true,
 };
@@ -16,12 +17,14 @@ export function openWindow<Kind extends number | string = any, Meta = never>({
   ...data
 }: Partial<WindowType<Kind, Meta>>): WMAction<Promise<WindowType<Kind, Meta>>> {
   const withDefaults = { ...defaults, ...data };
+  const isModal = withDefaults.isModal && !withDefaults.isGlobal;
   return async (dispatch, getState) => {
     const state = getState();
     const windowData = {
       ...withDefaults,
       id,
-      focusParent: withDefaults.isModal ? id : getTopmostModal(state),
+      isModal,
+      focusParent: isModal ? id : getTopmostModal(state),
     };
 
     await timeout(50);

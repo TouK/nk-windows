@@ -24,7 +24,7 @@ export function WindowsContainer({ container = document.body, contentGetter }: W
       {flatMap(windows, (d, index) => [
         d.isModal && (
           <CSSTransition nodeRef={modalMaskRef} key={`${d.id}/mask`} timeout={250} classNames={defaultFadeAnimation}>
-            <ModalMask ref={modalMaskRef} key={`${d.id}/mask`} zIndex={index} />
+            <ModalMask ref={modalMaskRef} key={`${d.id}/mask`} zIndex={d.maskOrder} />
           </CSSTransition>
         ),
         <CSSTransition nodeRef={windowRef} key={d.id} timeout={250} classNames={defaultFadeAnimation}>

@@ -6,6 +6,7 @@ export interface WindowType<Kind extends string | number = any, Meta = any> {
   id: string;
   title?: string;
   isModal?: boolean; // blocks access to everything under
+  isGlobal?: boolean; // ignores modal masks
   isResizable?: boolean;
   isStatic?: boolean;
   isMaximized?: boolean;
