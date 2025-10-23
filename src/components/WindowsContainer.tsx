@@ -1,5 +1,4 @@
-import { flatMap } from "lodash";
-import React, { useRef } from "react";
+import React, { createRef } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useWindowManager } from "../hooks";
@@ -16,21 +15,25 @@ interface WindowsContainerProps {
 
 export function WindowsContainer({ container = document.body, contentGetter }: WindowsContainerProps): JSX.Element {
   const { windows } = useWindowManager();
-  const modalMaskRef = useRef<HTMLDivElement>();
-  const windowRef = useRef<HTMLDivElement>();
 
   return createPortal(
     <TransitionGroup component={WindowsViewport}>
-      {flatMap(windows, (d, index) => [
-        d.isModal && (
-          <CSSTransition nodeRef={modalMaskRef} key={`${d.id}/mask`} timeout={250} classNames={defaultFadeAnimation}>
-            <ModalMask ref={modalMaskRef} key={`${d.id}/mask`} zIndex={d.maskOrder} />
-          </CSSTransition>
-        ),
-        <CSSTransition nodeRef={windowRef} key={d.id} timeout={250} classNames={defaultFadeAnimation}>
-          <Window ref={windowRef} data={d} contentGetter={contentGetter} />
-        </CSSTransition>,
-      ]).filter(Boolean)}
+      {windows
+        .flatMap((d) => {
+          const modalMaskRef = createRef<HTMLDivElement>();
+          const windowRef = createRef<HTMLDivElement>();
+          return [
+            d.isModal && (
+              <CSSTransition nodeRef={modalMaskRef} key={`${d.id}/mask`} timeout={250} classNames={defaultFadeAnimation}>
+                <ModalMask ref={modalMaskRef} key={`${d.id}/mask`} zIndex={d.maskOrder} />
+              </CSSTransition>
+            ),
+            <CSSTransition nodeRef={windowRef} key={d.id} timeout={250} classNames={defaultFadeAnimation}>
+              <Window ref={windowRef} data={d} contentGetter={contentGetter} />
+            </CSSTransition>,
+          ];
+        })
+        .filter(Boolean)}
     </TransitionGroup>,
     container,
   );

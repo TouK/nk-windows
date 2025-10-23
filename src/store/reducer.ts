@@ -20,6 +20,8 @@ const windows: Reducer<WindowType[], Action> = (windows = [], action) => {
       return [...windows, action.windowData];
     case "CLOSE_WINDOW":
       return withoutId(windows, action.id);
+    case "FOCUS_WINDOW":
+      return windows.map((w) => (w.isGlobal ? { ...w, focusParent: action.topmostModal } : w));
     default:
       return windows;
   }
@@ -40,4 +42,4 @@ const order: Reducer<WindowId[], Action> = (state = [], action) => {
   }
 };
 
-export const reducer = combine<Reducer<WindowManagerState, Action>>({ windows, order });
+export const reducer: Reducer<WindowManagerState, Action> = combine({ windows, order });

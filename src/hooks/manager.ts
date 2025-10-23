@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo } from "react";
 import { WindowManagerContext } from "../context";
-import { closeWindow, getWindowsWithOrder, openWindow } from "../store";
+import { closeWindow, focusWindow, getWindowsWithOrder, openWindow } from "../store";
 import { WindowId, WindowManagerState, WindowType } from "../types";
 import { ViewportContext, ViewportContextType } from "../ViewportContext";
 
@@ -29,7 +29,7 @@ export function useWindowManager<K extends number | string = any>(parent?: Windo
 
   const focus = useCallback(
     (id: WindowId = parent) => {
-      dispatch({ type: "FOCUS_WINDOW", id });
+      dispatch(focusWindow(id));
     },
     [dispatch, parent],
   );

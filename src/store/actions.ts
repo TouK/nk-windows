@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { WindowType } from "../types";
+import { WindowId, WindowType } from "../types";
 import { WMAction } from "./action";
 import { getTopmostModal, getWindows } from "./selectors";
 
@@ -11,6 +11,17 @@ const defaults: Partial<WindowType> = {
   isResizable: true,
   shouldCloseOnEsc: true,
 };
+
+export function focusWindow(id: WindowId): WMAction {
+  return (dispatch, getState) => {
+    const topmostModal = getTopmostModal(getState());
+    dispatch({ type: "FOCUS_WINDOW", id, topmostModal });
+  };
+}
+
+export function closeWindows(): WMAction {
+  return { type: "CLEAR_WINDOWS" };
+}
 
 export function openWindow<Kind extends number | string = any, Meta = never>({
   id = uuid(),

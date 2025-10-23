@@ -81,4 +81,18 @@ context("WM", () => {
         expect(bottom).to.eq(800);
       });
   });
+
+  it("should allow global windows", () => {
+    cy.contains("global").click();
+    cy.contains("[data-testid='window-frame']", /global/)
+      .should("be.visible")
+      .as("window1");
+    cy.wait(1000);
+    cy.contains("initial size").click();
+    cy.contains("[data-testid='window-frame']", /initial size/)
+      .should("be.visible")
+      .as("window2");
+    cy.get("@window1").should("be.visible");
+    cy.get("@window2").should("be.visible");
+  });
 });

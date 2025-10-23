@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { WindowId, WindowManagerState, WindowType } from "../types";
+import { WindowId, WindowManagerState, WindowType, WindowWithOrder } from "../types";
 
 const getWindowsState = (windowManager: WindowManagerState): WindowManagerState => windowManager || { windows: [], order: [] };
 const getWindowId = (state: WindowManagerState, { id }: { id: WindowId }): WindowId => id;
@@ -31,22 +31,13 @@ export const getTopmostModal = createSelector(getWindowsState, getWindowsById, (
   return order.find((id) => windows.get(id)?.isModal);
 });
 
-export const getGlobalWindows = createSelector(getWindows, (windows): WindowType[] => {
-  return windows.filter(({ isGlobal }) => isGlobal);
-});
-
 export const getWindowsWithOrder = createSelector(
   getWindows,
   getOrder,
   getTopmostModal,
-  <K extends number | string = any>(
-    windows: WindowType<K>[],
-    order: WindowId[],
-    topmostModal: WindowId,
-  ): Array<WindowType<K, any> & { order: number; maskOrder?: number }> =>
+  <K extends number | string = any>(windows: WindowType<K>[], order: WindowId[], topmostModal: WindowId): Array<WindowWithOrder<K>> =>
     windows.map((data) => ({
       ...data,
-      focusParent: data.isGlobal ? topmostModal : data.focusParent,
       order: order.findIndex((id) => data.id === id),
       maskOrder: order.findIndex((id) => `${data.id}/mask` === id),
     })),

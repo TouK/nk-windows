@@ -6,6 +6,6 @@ export type Action =
   | { type: "CLEAR_WINDOWS" }
   | { type: "OPEN_WINDOW"; windowData: WindowType }
   | { type: "CLOSE_WINDOW"; id: WindowId }
-  | { type: "FOCUS_WINDOW"; id: WindowId };
+  | { type: "FOCUS_WINDOW"; id: WindowId; topmostModal: WindowId };
 
-export type WMAction<R = void> = ThunkAction<typeof reducer, R>;
+export type WMAction<R = void> = ThunkAction<typeof reducer, R> | Action;

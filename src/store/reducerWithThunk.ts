@@ -24,7 +24,7 @@ export function useReducerWithThunk<R extends Reducer<unknown, unknown>>(reducer
   }, [state]);
 
   const getState = useCallback(() => _state.current, []);
-  const customDispatch = useCallback((action) => (isThunkAction(action) ? action(customDispatch, getState) : dispatch(action)), []);
+  const customDispatch = useCallback((action) => (isThunkAction(action) ? action(customDispatch, getState) : dispatch(action)), [getState]);
 
   return [state, customDispatch as ThunkDispatch<R>];
 }

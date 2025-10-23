@@ -7,6 +7,8 @@ export function getWindowDemoColors(type: DemoWindowKind = DemoWindowKind.defaul
       return css({ backgroundColor: "#A82121", color: "white" });
     case DemoWindowKind.lazy:
       return css({ backgroundColor: "#2165a8", color: "white" });
+    case DemoWindowKind.empty:
+      return css({ backgroundColor: "#4b2c67", color: "white" });
     case DemoWindowKind.default:
     default:
       return css({ backgroundColor: "#2D8E54", color: "white" });

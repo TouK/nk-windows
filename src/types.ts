@@ -38,6 +38,7 @@ export type WindowId = WindowType["id"];
 
 export interface WindowWithOrder<K extends number | string = any> extends WindowType<K, any> {
   order: number;
+  maskOrder: number;
 }
 
 export interface WindowManagerState<K extends number | string = any> {
