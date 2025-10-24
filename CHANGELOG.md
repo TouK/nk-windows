@@ -1,3 +1,10 @@
+# [1.10.0-beta.4](https://github.com/touk/nk-windows/compare/v1.10.0-beta.3...v1.10.0-beta.4) (2025-10-24)
+
+
+### Bug Fixes
+
+* focus on open ([fafd19f](https://github.com/touk/nk-windows/commit/fafd19fe06ef803b0eb3ffaf06974ad71e63cdfa))
+
 # [1.10.0-beta.3](https://github.com/touk/nk-windows/compare/v1.10.0-beta.2...v1.10.0-beta.3) (2025-10-24)
 
 
