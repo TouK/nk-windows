@@ -8,4 +8,4 @@ export type Action =
   | { type: "CLOSE_WINDOW"; id: WindowId }
   | { type: "FOCUS_WINDOW"; id: WindowId; topmostModal: WindowId };
 
-export type WMAction<R = void> = ThunkAction<typeof reducer, R> | Action;
+export type WMAction<R = void> = ThunkAction<typeof reducer, R>;

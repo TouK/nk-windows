@@ -15,12 +15,14 @@ const defaults: Partial<WindowType> = {
 export function focusWindow(id: WindowId): WMAction {
   return (dispatch, getState) => {
     const topmostModal = getTopmostModal(getState());
-    dispatch({ type: "FOCUS_WINDOW", id, topmostModal });
+    return dispatch({ type: "FOCUS_WINDOW", id, topmostModal });
   };
 }
 
 export function closeWindows(): WMAction {
-  return { type: "CLEAR_WINDOWS" };
+  return (dispatch) => {
+    return dispatch({ type: "CLEAR_WINDOWS" });
+  };
 }
 
 export function openWindow<Kind extends number | string = any, Meta = never>({
@@ -48,7 +50,7 @@ export function closeWindow(id: string = null): WMAction {
   return async (dispatch, getState) => {
     const state = getState();
     dispatch({ type: "CLOSE_WINDOW", id });
-    await Promise.all(
+    return await Promise.all(
       getWindows(state)
         .filter((w) => w.parent === id && w.id !== id && w.id !== w.parent)
         .map(({ id }) => dispatch(closeWindow(id))),
