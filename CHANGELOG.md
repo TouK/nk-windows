@@ -1,3 +1,10 @@
+# [1.10.0-beta.8](https://github.com/touk/nk-windows/compare/v1.10.0-beta.7...v1.10.0-beta.8) (2025-11-03)
+
+
+### Bug Fixes
+
+* types ([2ec6506](https://github.com/touk/nk-windows/commit/2ec65068ea1b637016137e3f124109cca21ca1c5))
+
 # [1.10.0-beta.7](https://github.com/touk/nk-windows/compare/v1.10.0-beta.6...v1.10.0-beta.7) (2025-11-03)
 
 
