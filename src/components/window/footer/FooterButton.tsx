@@ -1,6 +1,6 @@
 import { css, cx } from "@emotion/css";
 import { useTheme } from "@emotion/react";
-import React, { ReactNode, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { buttonReset } from "./ButtonReset";
 
 export interface FooterButtonProps {
@@ -42,7 +42,7 @@ const useButtonTheme = () => {
   });
 };
 
-export function FooterButton({ action, disabled, classname, className = classname, ...props }: FooterButtonProps): ReactNode {
+export function FooterButton({ action, disabled, classname, className = classname, ...props }: FooterButtonProps) {
   const [working, setWorking] = useState(false);
   const [error, setError] = useState(false);
   const onClick = useCallback(async () => {

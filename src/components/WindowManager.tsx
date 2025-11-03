@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { defaultsDeep } from "lodash";
-import React, { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 import { AppTheme } from "../AppTheme";
 import { WindowManagerContextProvider } from "../context";
 import { ContentGetter } from "./window/WindowContent";
@@ -27,12 +27,7 @@ interface WindowManagerProps<K extends number | string = any> extends DetailedHT
   contentGetter: ContentGetter<K>;
 }
 
-export function WindowManager<K extends number | string = any>({
-  theme = {},
-  contentGetter,
-  children,
-  ...props
-}: WindowManagerProps<K>): ReactNode {
+export function WindowManager<K extends number | string = any>({ theme = {}, contentGetter, children, ...props }: WindowManagerProps<K>) {
   return (
     <WindowManagerContextProvider>
       <div {...props}>

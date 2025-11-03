@@ -1,5 +1,5 @@
 import { css, cx } from "@emotion/css";
-import React, { PropsWithChildren, ReactElement, ReactNode } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 import { DRAG_HANDLE_CLASS_NAME } from "../consts";
 
 type DragHandleProps = {
@@ -12,7 +12,7 @@ type DragHandleProps = {
   el?: ReactElement;
 };
 
-export function DragHandle(props: PropsWithChildren<DragHandleProps>): ReactNode {
+export function DragHandle(props: PropsWithChildren<DragHandleProps>) {
   const { children, className, disabled, el = <div /> } = props;
 
   const element = React.Children.only(el);

@@ -1,9 +1,9 @@
 import { css, cx } from "@emotion/css";
-import React, { forwardRef, ReactNode, RefObject } from "react";
+import React, { forwardRef } from "react";
 import { rgba } from "../rgba";
 import { useModalMaskTheme } from "../themeHooks";
 
-export const ModalMask = forwardRef(({ zIndex }: { zIndex?: number }, ref: RefObject<HTMLDivElement>): ReactNode => {
+export const ModalMask = forwardRef<HTMLDivElement, { zIndex?: number }>(({ zIndex }, ref) => {
   const modalMaskTheme = useModalMaskTheme();
   const modalMaskClass = css({
     top: 0,

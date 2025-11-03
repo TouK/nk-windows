@@ -1,5 +1,5 @@
 import { css, cx } from "@emotion/css";
-import React, { ReactNode, useMemo } from "react";
+import React, { useMemo } from "react";
 import { DragHandle } from "../DragHandle";
 import { ContentClasses } from "./DefaultContent";
 import * as defaultHeaderComponents from "./header";
@@ -31,7 +31,7 @@ export function WindowHeader({
   isMaximized,
   components = {},
   ...props
-}: WindowHeaderProps): ReactNode {
+}: WindowHeaderProps) {
   const header = useMemo(
     () => <header className={cx(flexRow, css({ justifyContent: "space-between" }))} onDoubleClick={() => zoomDialog?.()} />,
     [zoomDialog],
