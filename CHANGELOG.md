@@ -1,3 +1,11 @@
+# [1.10.0-beta.6](https://github.com/touk/nk-windows/compare/v1.10.0-beta.5...v1.10.0-beta.6) (2025-11-03)
+
+
+### Bug Fixes
+
+* close only the front window using the esc key ([f189731](https://github.com/touk/nk-windows/commit/f1897317dc2bbb7355b4aea0eb0fbf96b2dfcf82))
+* modal descendants order ([6e439ee](https://github.com/touk/nk-windows/commit/6e439ee0e95dc272f1d97f75b5be1c61c383116b))
+
 # [1.10.0-beta.5](https://github.com/touk/nk-windows/compare/v1.10.0-beta.4...v1.10.0-beta.5) (2025-11-03)
 
 
