@@ -1,6 +1,6 @@
 import { css, cx } from "@emotion/css";
 import { uniqBy } from "lodash";
-import React, { PropsWithChildren, useMemo } from "react";
+import React, { PropsWithChildren, ReactNode, useMemo } from "react";
 import { ContentClasses } from "./DefaultContent";
 import * as defaultFooterComponents from "./footer";
 import { FooterButtonProps } from "./footer";
@@ -20,7 +20,7 @@ export function WindowFooter({
   classnames = {},
   components = {},
   className,
-}: WindowFooterProps): JSX.Element {
+}: WindowFooterProps): ReactNode {
   const uniqButtons = uniqBy(buttons, (b) => b.title);
   const flexClass = css({
     display: "flex",

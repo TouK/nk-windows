@@ -1,6 +1,6 @@
 import { css, cx } from "@emotion/css";
 import { useTheme } from "@emotion/react";
-import React, { PropsWithChildren, useMemo } from "react";
+import React, { PropsWithChildren, ReactNode, useMemo } from "react";
 import { useSize } from "../hooks";
 import { ViewportContext } from "../ViewportContext";
 
@@ -19,7 +19,7 @@ const fullscreenFixed = css({
   position: "fixed",
 });
 
-export function WindowsViewport({ children }: PropsWithChildren<unknown>): JSX.Element {
+export function WindowsViewport({ children }: PropsWithChildren<unknown>): ReactNode {
   const { observe, height, width } = useSize();
   const value = useMemo(() => ({ width, height }), [height, width]);
 

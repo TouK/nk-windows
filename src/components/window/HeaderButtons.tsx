@@ -1,6 +1,6 @@
 import { css, cx } from "@emotion/css";
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 
-export function HeaderButtons({ className, ...props }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>): JSX.Element {
+export function HeaderButtons({ className, ...props }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>): ReactNode {
   return <div className={cx(css({ display: "block" }), className)} {...props} />;
 }

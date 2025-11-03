@@ -7,6 +7,7 @@ import React, {
   KeyboardEvent,
   KeyboardEventHandler,
   PointerEventHandler,
+  ReactNode,
 } from "react";
 import { buttonReset } from "../footer/ButtonReset";
 
@@ -44,7 +45,7 @@ function filterByKeys<T = Element>(action: KeyboardEventHandler<T>, keys: Keyboa
 export const HeaderButton = forwardRef(function HeaderButton(
   { className, action, ...props }: HeaderButtonProps,
   ref: React.ForwardedRef<HTMLButtonElement>,
-): JSX.Element {
+): ReactNode {
   const headerButtonTheme = useStyles();
   return (
     <button

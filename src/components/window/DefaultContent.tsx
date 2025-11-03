@@ -1,4 +1,4 @@
-import React, { forwardRef, PropsWithChildren, useMemo } from "react";
+import React, { forwardRef, PropsWithChildren, ReactNode, useMemo } from "react";
 import { DragHandle } from "../DragHandle";
 import * as defaultComponents from "./defaultComponents";
 import { FooterButtonProps } from "./footer";
@@ -21,7 +21,7 @@ export interface DefaultContentProps<K extends number | string = any, M = unknow
   components?: Partial<typeof defaultComponents>;
 }
 
-const Content = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps>>(function Content(props, ref): JSX.Element {
+const Content = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps>>(function Content(props, ref): ReactNode {
   const {
     title,
     classnames = {},
@@ -61,7 +61,7 @@ const Content = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps
 export const DefaultContent = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps>>(function DefaultContent(
   { backgroundDrag, ...props },
   ref,
-): JSX.Element {
+): ReactNode {
   return (
     <>
       {backgroundDrag ? (

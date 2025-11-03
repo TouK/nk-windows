@@ -1,4 +1,4 @@
-import React, { createRef } from "react";
+import React, { createRef, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useWindowManager } from "../hooks";
@@ -13,7 +13,7 @@ interface WindowsContainerProps {
   contentGetter: ContentGetter;
 }
 
-export function WindowsContainer({ container = document.body, contentGetter }: WindowsContainerProps): JSX.Element {
+export function WindowsContainer({ container = document.body, contentGetter }: WindowsContainerProps): ReactNode {
   const { windows } = useWindowManager();
 
   return createPortal(

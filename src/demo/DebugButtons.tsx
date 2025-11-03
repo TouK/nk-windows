@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { useWindowManager } from "../hooks";
 import { WindowId, WindowType } from "../types";
 import { DemoWindowKind } from "./DemoWindowKind";
 
-export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Element {
+export function DebugButtons({ currentId }: { currentId?: WindowId }): ReactNode {
   const { open, close, closeAll } = useWindowManager<DemoWindowKind | string>(currentId);
 
   const buttons: Partial<WindowType>[] = useMemo(

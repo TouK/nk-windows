@@ -1,4 +1,4 @@
-import React, { createContext, memo, useContext } from "react";
+import React, { createContext, memo, ReactNode, useContext } from "react";
 import { WindowContentProps } from "./WindowContentProps";
 
 export type ContentGetter<K extends number | string = any> = React.FC<WindowContentProps<K, unknown>>;
@@ -18,7 +18,7 @@ export function useWindowContext<K extends number | string = any, M = unknown>()
 export const WindowContent = memo(function WindowContent<K extends number | string = any>({
   contentGetter,
   ...props
-}: WindowContentProps<K, unknown> & { contentGetter: ContentGetter }): JSX.Element {
+}: WindowContentProps<K, unknown> & { contentGetter: ContentGetter }): ReactNode {
   const Component = contentGetter;
   return (
     <WindowContentCtx.Provider value={props}>
