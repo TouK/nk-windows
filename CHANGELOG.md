@@ -1,3 +1,25 @@
+# [1.10.0](https://github.com/touk/nk-windows/compare/v1.9.1...v1.10.0) (2025-11-03)
+
+
+### Bug Fixes
+
+* animations ([b64a8fa](https://github.com/touk/nk-windows/commit/b64a8fa74aa07f4fef89e474f8acd1a8c65b9db9))
+* close only the front window using the esc key ([f189731](https://github.com/touk/nk-windows/commit/f1897317dc2bbb7355b4aea0eb0fbf96b2dfcf82))
+* focus on open ([fafd19f](https://github.com/touk/nk-windows/commit/fafd19fe06ef803b0eb3ffaf06974ad71e63cdfa))
+* modal descendants order ([6e439ee](https://github.com/touk/nk-windows/commit/6e439ee0e95dc272f1d97f75b5be1c61c383116b))
+* revert zIndex from layout data ([60c32c0](https://github.com/touk/nk-windows/commit/60c32c02bc97313edb6fe128ea60edf28c7de621))
+* types ([2ec6506](https://github.com/touk/nk-windows/commit/2ec65068ea1b637016137e3f124109cca21ca1c5))
+* types ([7e7fae8](https://github.com/touk/nk-windows/commit/7e7fae87a39020364121acce5250fae5a83bc76f))
+* types ([dc72f46](https://github.com/touk/nk-windows/commit/dc72f4653552c74fe072b23d3a575813f8bc0a72))
+
+
+### Features
+
+* add zIndex to layoutData ([0201332](https://github.com/touk/nk-windows/commit/02013323b586602effa256da6e0edf171522e4e9))
+* expose DefaultContent ref ([e340ff3](https://github.com/touk/nk-windows/commit/e340ff3d76db337e68705aa0dc179e8421d193c8))
+* global windows ignoring modal mask ([fe14384](https://github.com/touk/nk-windows/commit/fe143844806ba9a9e3d251282ce07a5b1a5ad18c))
+* replace useOverflow with stable useContentScroll ([1006c27](https://github.com/touk/nk-windows/commit/1006c2792cc714becdd03e0394652f20ede496f2))
+
 # [1.10.0-beta.8](https://github.com/touk/nk-windows/compare/v1.10.0-beta.7...v1.10.0-beta.8) (2025-11-03)
 
 
