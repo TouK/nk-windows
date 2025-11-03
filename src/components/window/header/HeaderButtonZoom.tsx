@@ -9,7 +9,7 @@ export interface HeaderButtonZoomProps {
   keepFocus?: boolean;
 }
 
-export function HeaderButtonZoom({ zoomDialog, isMaximized, keepFocus }: HeaderButtonZoomProps): JSX.Element {
+export function HeaderButtonZoom({ zoomDialog, isMaximized, keepFocus }: HeaderButtonZoomProps) {
   const ref = useRef<HTMLButtonElement>();
   const action = useCallback(
     (event: UIEvent) => {

@@ -9,10 +9,12 @@ export type WithOverflowProps = PropsWithChildren<{
   className?: string;
 }>;
 
-export function WithOverflow(props: WithOverflowProps): JSX.Element {
+export function WithOverflow(props: WithOverflowProps) {
   const { children, className } = props;
   const { observe: parentRef, height: availableHeight, entry } = useSize();
   const { observe: childRef, height: contentHeight } = useSize();
+  const contentHeightRef = useRef(contentHeight);
+  contentHeightRef.current = contentHeight;
 
   const innerShadow = useMemo(
     () =>
@@ -55,13 +57,17 @@ export function WithOverflow(props: WithOverflowProps): JSX.Element {
   const ref = useForkRef(parentRef, scrollRef);
 
   const scrollTo = useCallback((top: number) => scrollRef.current.scrollTo({ top, behavior: "smooth" }), []);
+
+  const hasBottomOverflow = Boolean(overflowBottom);
+  const hasTopOverflow = Boolean(overflowTop);
+
   const ctx = useMemo<Ctx>(
     () => ({
-      scrollTo: overflowTop || overflowBottom ? scrollTo : null,
-      scrollToTop: overflowTop ? () => scrollTo(0) : null,
-      scrollToBottom: overflowBottom ? () => scrollTo(contentHeight) : null,
+      scrollTo: hasTopOverflow || hasBottomOverflow ? scrollTo : null,
+      scrollToTop: hasTopOverflow ? () => scrollTo(0) : null,
+      scrollToBottom: hasBottomOverflow ? () => scrollTo(contentHeightRef.current) : null,
     }),
-    [contentHeight, overflowBottom, overflowTop, scrollTo],
+    [hasBottomOverflow, hasTopOverflow, scrollTo],
   );
 
   return (

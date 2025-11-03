@@ -1,7 +1,7 @@
 import { css, cx } from "@emotion/css";
 import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
-import React, { forwardRef, PropsWithChildren, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { forwardRef, PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { Position, Rnd } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
@@ -89,7 +89,7 @@ const windowClass = css({
   willChange: "transform, top, left, minWidth, minHeight, width, height",
 });
 
-export const WindowFrame = forwardRef((props: PropsWithChildren<WindowFrameProps>, windowRef: RefObject<HTMLDivElement>): JSX.Element => {
+export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFrameProps>>((props, windowRef) => {
   const {
     focusGroup,
     zIndex,

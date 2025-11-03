@@ -19,7 +19,7 @@ const fullscreenFixed = css({
   position: "fixed",
 });
 
-export function WindowsViewport({ children }: PropsWithChildren<unknown>): JSX.Element {
+export function WindowsViewport({ children }: PropsWithChildren<unknown>) {
   const { observe, height, width } = useSize();
   const value = useMemo(() => ({ width, height }), [height, width]);
 

@@ -42,7 +42,7 @@ const useButtonTheme = () => {
   });
 };
 
-export function FooterButton({ action, disabled, classname, className = classname, ...props }: FooterButtonProps): JSX.Element {
+export function FooterButton({ action, disabled, classname, className = classname, ...props }: FooterButtonProps) {
   const [working, setWorking] = useState(false);
   const [error, setError] = useState(false);
   const onClick = useCallback(async () => {

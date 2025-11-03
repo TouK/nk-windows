@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useMemo } from "react";
+import React, { forwardRef, PropsWithChildren, useMemo } from "react";
 import { DragHandle } from "../DragHandle";
 import * as defaultComponents from "./defaultComponents";
 import { FooterButtonProps } from "./footer";
@@ -21,7 +21,7 @@ export interface DefaultContentProps<K extends number | string = any, M = unknow
   components?: Partial<typeof defaultComponents>;
 }
 
-function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
+const Content = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps>>(function Content(props, ref) {
   const {
     title,
     classnames = {},
@@ -43,7 +43,7 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
   );
 
   return (
-    <WindowContentGrid>
+    <WindowContentGrid ref={ref}>
       <Header
         title={title || data.title}
         classnames={classnames}
@@ -57,18 +57,21 @@ function Content(props: PropsWithChildren<DefaultContentProps>): JSX.Element {
       <Footer buttons={buttons} classnames={classnames} components={passComponents} />
     </WindowContentGrid>
   );
-}
+});
 
-export function DefaultContent({ backgroundDrag, ...props }: PropsWithChildren<DefaultContentProps>): JSX.Element {
+export const DefaultContent = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps>>(function DefaultContent(
+  { backgroundDrag, ...props },
+  ref,
+) {
   return (
     <>
       {backgroundDrag ? (
         <DragHandle disabled={props.isMaximized || props.data.isStatic}>
-          <Content {...props} />
+          <Content ref={ref} {...props} />
         </DragHandle>
       ) : (
-        <Content {...props} />
+        <Content ref={ref} {...props} />
       )}
     </>
   );
-}
+});

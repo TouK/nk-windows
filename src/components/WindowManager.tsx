@@ -27,12 +27,7 @@ interface WindowManagerProps<K extends number | string = any> extends DetailedHT
   contentGetter: ContentGetter<K>;
 }
 
-export function WindowManager<K extends number | string = any>({
-  theme = {},
-  contentGetter,
-  children,
-  ...props
-}: WindowManagerProps<K>): JSX.Element {
+export function WindowManager<K extends number | string = any>({ theme = {}, contentGetter, children, ...props }: WindowManagerProps<K>) {
   return (
     <WindowManagerContextProvider>
       <div {...props}>

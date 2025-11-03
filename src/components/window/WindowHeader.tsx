@@ -31,7 +31,7 @@ export function WindowHeader({
   isMaximized,
   components = {},
   ...props
-}: WindowHeaderProps): JSX.Element {
+}: WindowHeaderProps) {
   const header = useMemo(
     () => <header className={cx(flexRow, css({ justifyContent: "space-between" }))} onDoubleClick={() => zoomDialog?.()} />,
     [zoomDialog],

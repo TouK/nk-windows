@@ -1,4 +1,4 @@
-import React, { forwardRef, RefObject, useCallback } from "react";
+import React, { forwardRef, useCallback } from "react";
 import { useWindowManager, useWindowZoom } from "../../hooks";
 import { WindowWithOrder } from "../../types";
 import { ContentGetter, WindowContent } from "./WindowContent";
@@ -9,13 +9,17 @@ export interface WindowProps {
   contentGetter: ContentGetter;
 }
 
-export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: RefObject<HTMLDivElement>): JSX.Element => {
+export const Window = forwardRef<HTMLDivElement, WindowProps>(({ data, contentGetter }, ref) => {
   const { isResizable, isStatic, focusParent, id, order, shouldCloseOnEsc } = data;
 
-  const { focus: onFocus, close: onClose } = useWindowManager(id);
+  const { focus: onFocus, close: onClose, frontWindow } = useWindowManager(id);
   const [zoom, onToggleZoom] = useWindowZoom(data);
 
-  const onEscKey = useCallback(() => shouldCloseOnEsc && onClose(), [onClose, shouldCloseOnEsc]);
+  const onEscKey = useCallback(() => {
+    if (shouldCloseOnEsc && frontWindow === id) {
+      return onClose();
+    }
+  }, [frontWindow, id, onClose, shouldCloseOnEsc]);
 
   return (
     <WindowFrame

@@ -41,10 +41,7 @@ function filterByKeys<T = Element>(action: KeyboardEventHandler<T>, keys: Keyboa
   };
 }
 
-export const HeaderButton = forwardRef(function HeaderButton(
-  { className, action, ...props }: HeaderButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>,
-): JSX.Element {
+export const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(function HeaderButton({ className, action, ...props }, ref) {
   const headerButtonTheme = useStyles();
   return (
     <button

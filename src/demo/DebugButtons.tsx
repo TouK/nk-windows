@@ -3,7 +3,7 @@ import { useWindowManager } from "../hooks";
 import { WindowId, WindowType } from "../types";
 import { DemoWindowKind } from "./DemoWindowKind";
 
-export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Element {
+export function DebugButtons({ currentId }: { currentId?: WindowId }) {
   const { open, close, closeAll } = useWindowManager<DemoWindowKind | string>(currentId);
 
   const buttons: Partial<WindowType>[] = useMemo(
@@ -19,6 +19,12 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
       { title: "initial size", kind: DemoWindowKind.lazy, layoutData: { width: 700, height: 700 } },
       { title: "minimal size (overflow fixed)", kind: DemoWindowKind.danger, layoutData: { width: 7000, height: 7000 } },
       { title: `initial position`, layoutData: { top: 50, left: 200, right: 50, bottom: 200 } },
+      {
+        title: "global",
+        kind: DemoWindowKind.empty,
+        layoutData: { top: 50, left: 50, width: 200, height: 200 },
+        isGlobal: true,
+      },
       { title: `fixed id`, id: "fixed", parent: null },
     ],
     [],
@@ -26,10 +32,10 @@ export function DebugButtons({ currentId }: { currentId?: WindowId }): JSX.Eleme
 
   return (
     <div>
-      {buttons.map((props, index) => (
+      {buttons.map((data, index) => (
         <span key={index}>
-          <button onClick={() => open(props)} style={{ fontWeight: "bold", color: "black", margin: ".5em" }}>
-            add({JSON.stringify(props)})
+          <button onClick={() => open(data)} style={{ fontWeight: "bold", color: "black", margin: ".5em" }}>
+            add({data?.title || ""})
           </button>
         </span>
       ))}

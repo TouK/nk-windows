@@ -9,7 +9,7 @@ const titleClassName = css({
   padding: ".25em .5em",
 });
 
-export function HeaderTitle({ children, className }: HeaderTitleProps): JSX.Element {
+export function HeaderTitle({ children, className }: HeaderTitleProps) {
   return (
     <div className={cx(titleClassName, className)}>
       <span>{children}</span>

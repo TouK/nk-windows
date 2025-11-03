@@ -1,12 +1,12 @@
 import React, { createContext, PropsWithChildren, useEffect } from "react";
-import { reducer, ReducerWithThunk, useReducerWithThunk } from "../store";
+import { closeWindows, reducer, ReducerWithThunk, useReducerWithThunk } from "../store";
 
 export const WindowManagerContext = createContext<ReducerWithThunk<typeof reducer>>(null);
 
-export function WindowManagerContextProvider({ children }: PropsWithChildren<unknown>): JSX.Element {
+export function WindowManagerContextProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducerWithThunk(reducer, { windows: [], order: [] });
   // clear windows on unmount
-  useEffect(() => () => dispatch({ type: "CLEAR_WINDOWS" }), [dispatch]);
+  useEffect(() => () => dispatch(closeWindows()), [dispatch]);
 
   return <WindowManagerContext.Provider value={[state, dispatch]}>{children}</WindowManagerContext.Provider>;
 }

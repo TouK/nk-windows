@@ -20,7 +20,7 @@ export function WindowFooter({
   classnames = {},
   components = {},
   className,
-}: WindowFooterProps): JSX.Element {
+}: WindowFooterProps) {
   const uniqButtons = uniqBy(buttons, (b) => b.title);
   const flexClass = css({
     display: "flex",

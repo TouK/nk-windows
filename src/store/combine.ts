@@ -1,16 +1,26 @@
-import { Reducer, ReducerAction, ReducerState } from "react";
+import { Reducer } from "react";
 
-type ReducersMap<R extends Reducer<any, any>, S = ReducerState<R>, A = ReducerAction<R>> = {
-  [K in keyof S]: Reducer<S[K], A>;
+type ReducersMap<S, A> = {
+  readonly [K in keyof S]: Reducer<S[K], A>;
 };
 
-export function combine<R extends Reducer<any, any>>(reducers: ReducersMap<R>): R {
-  return ((prevState, action) =>
-    Object.keys(reducers).reduce(
-      (previousValue, key) => ({
+export function combine<S, A>(...reducers: ReadonlyArray<ReducersMap<S, A> | Reducer<S, A>>): Reducer<S, A> {
+  return (prevState, action) => {
+    return reducers.reduce((previousValue, current) => {
+      const reducer = typeof current === "function" ? current : combineMap(current);
+      return reducer(previousValue, action);
+    }, prevState);
+  };
+}
+
+function combineMap<S, A>(reducers: ReducersMap<S, A>): Reducer<S, A> {
+  return (prevState, action) => {
+    return Object.entries<Reducer<S[keyof S], A>>(reducers).reduce((previousValue, [key, reducer]) => {
+      const prevStateElement = prevState?.[key];
+      return {
         ...previousValue,
-        [key]: reducers[key](prevState?.[key], action),
-      }),
-      {},
-    )) as R;
+        [key]: reducer(prevStateElement, action),
+      };
+    }, prevState);
+  };
 }

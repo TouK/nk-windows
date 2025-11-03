@@ -6,6 +6,7 @@ export interface WindowType<Kind extends string | number = any, Meta = any> {
   id: string;
   title?: string;
   isModal?: boolean; // blocks access to everything under
+  isGlobal?: boolean; // ignores modal masks
   isResizable?: boolean;
   isStatic?: boolean;
   isMaximized?: boolean;
@@ -37,6 +38,7 @@ export type WindowId = WindowType["id"];
 
 export interface WindowWithOrder<K extends number | string = any> extends WindowType<K, any> {
   order: number;
+  maskOrder: number;
 }
 
 export interface WindowManagerState<K extends number | string = any> {

@@ -18,7 +18,7 @@ export function useWindowContext<K extends number | string = any, M = unknown>()
 export const WindowContent = memo(function WindowContent<K extends number | string = any>({
   contentGetter,
   ...props
-}: WindowContentProps<K, unknown> & { contentGetter: ContentGetter }): JSX.Element {
+}: WindowContentProps<K, unknown> & { contentGetter: ContentGetter }) {
   const Component = contentGetter;
   return (
     <WindowContentCtx.Provider value={props}>

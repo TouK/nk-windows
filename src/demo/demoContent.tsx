@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ObjectInspector } from "react-inspector";
 import { useViewportSize } from "../hooks";
 import { useWindowContext } from "../index";

@@ -12,7 +12,7 @@ type DragHandleProps = {
   el?: ReactElement;
 };
 
-export function DragHandle(props: PropsWithChildren<DragHandleProps>): JSX.Element {
+export function DragHandle(props: PropsWithChildren<DragHandleProps>) {
   const { children, className, disabled, el = <div /> } = props;
 
   const element = React.Children.only(el);
