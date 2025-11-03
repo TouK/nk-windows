@@ -20,11 +20,19 @@ export const getOrder = createSelector(getWindowsState, getWindowsById, ({ order
     return orderWithMasks.reverse();
   }
 
+  const modalMask = orderWithMasks[lastModalIndex];
+  const aboveModal = (id: string) => {
+    const window = windows.get(id);
+    if (!window) return false;
+    const isDescendant = modalMask.startsWith(window.parent) || aboveModal(window.parent);
+    return window.isGlobal || isDescendant;
+  };
+
   const before = orderWithMasks.slice(0, lastModalIndex);
   const after = orderWithMasks.slice(lastModalIndex + 1);
-  const move = after.filter((id) => windows.get(id)?.isGlobal);
-  const stayAfter = after.filter((id) => !windows.get(id)?.isGlobal);
-  return [...before, ...move, orderWithMasks[lastModalIndex], ...stayAfter].reverse();
+  const move = after.filter((id) => aboveModal(id));
+  const stayAfter = after.filter((id) => !aboveModal(id));
+  return [...before, ...move, modalMask, ...stayAfter].reverse();
 });
 
 export const getTopmostModal = createSelector(getWindowsState, getWindowsById, ({ order }, windows): WindowId => {
