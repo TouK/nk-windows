@@ -1,3 +1,10 @@
+# [1.10.0-beta.5](https://github.com/touk/nk-windows/compare/v1.10.0-beta.4...v1.10.0-beta.5) (2025-11-03)
+
+
+### Features
+
+* replace useOverflow with stable useContentScroll ([1006c27](https://github.com/touk/nk-windows/commit/1006c2792cc714becdd03e0394652f20ede496f2))
+
 # [1.10.0-beta.4](https://github.com/touk/nk-windows/compare/v1.10.0-beta.3...v1.10.0-beta.4) (2025-10-24)
 
 
