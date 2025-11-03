@@ -12,10 +12,14 @@ export interface WindowProps {
 export const Window = forwardRef(({ data, contentGetter }: WindowProps, ref: RefObject<HTMLDivElement>): JSX.Element => {
   const { isResizable, isStatic, focusParent, id, order, shouldCloseOnEsc } = data;
 
-  const { focus: onFocus, close: onClose } = useWindowManager(id);
+  const { focus: onFocus, close: onClose, frontWindow } = useWindowManager(id);
   const [zoom, onToggleZoom] = useWindowZoom(data);
 
-  const onEscKey = useCallback(() => shouldCloseOnEsc && onClose(), [onClose, shouldCloseOnEsc]);
+  const onEscKey = useCallback(() => {
+    if (shouldCloseOnEsc && frontWindow === id) {
+      return onClose();
+    }
+  }, [frontWindow, id, onClose, shouldCloseOnEsc]);
 
   return (
     <WindowFrame

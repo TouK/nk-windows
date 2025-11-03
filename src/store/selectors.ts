@@ -42,8 +42,7 @@ export const getTopmostModal = createSelector(getWindowsState, getWindowsById, (
 export const getWindowsWithOrder = createSelector(
   getWindows,
   getOrder,
-  getTopmostModal,
-  <K extends number | string = any>(windows: WindowType<K>[], order: WindowId[], topmostModal: WindowId): Array<WindowWithOrder<K>> =>
+  <K extends number | string = any>(windows: WindowType<K>[], order: WindowId[]): Array<WindowWithOrder<K>> =>
     windows.map((data) => ({
       ...data,
       order: order.findIndex((id) => data.id === id),
