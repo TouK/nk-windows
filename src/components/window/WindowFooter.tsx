@@ -4,12 +4,13 @@ import React, { PropsWithChildren, useMemo } from "react";
 import { ContentClasses } from "./DefaultContent";
 import * as defaultFooterComponents from "./footer";
 import { FooterButtonProps } from "./footer";
+import { Components } from "./typeHelpers";
 
 export type WindowFooterProps = PropsWithChildren<{
   buttons?: FooterButtonProps[];
   disabled?: boolean;
   classnames?: Pick<ContentClasses, "footer" | "footerButton">;
-  components?: Partial<typeof defaultFooterComponents>;
+  components?: Components<typeof defaultFooterComponents>;
   className?: string;
 }>;
 

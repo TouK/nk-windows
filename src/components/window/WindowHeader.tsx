@@ -4,6 +4,7 @@ import { DragHandle } from "../DragHandle";
 import { ContentClasses } from "./DefaultContent";
 import * as defaultHeaderComponents from "./header";
 import { HeaderButtons } from "./HeaderButtons";
+import { Components } from "./typeHelpers";
 
 export interface WindowHeaderProps {
   title?: string;
@@ -12,7 +13,7 @@ export interface WindowHeaderProps {
   isMaximized?: boolean;
   isStatic?: boolean;
   classnames?: Pick<ContentClasses, "header" | "headerButtons">;
-  components?: Partial<typeof defaultHeaderComponents>;
+  components?: Components<typeof defaultHeaderComponents>;
   className?: string;
 }
 
