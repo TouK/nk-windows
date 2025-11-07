@@ -106,7 +106,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rimraf": "5.0.7",
-    "rollup": "4.17.2",
+    "rollup": "4.20.0",
     "rollup-plugin-node-externals": "7.1.2",
     "rollup-plugin-typescript2": "0.36.0",
     "semantic-release": "23.1.1",
