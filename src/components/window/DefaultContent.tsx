@@ -2,6 +2,7 @@ import React, { forwardRef, PropsWithChildren, useMemo } from "react";
 import { DragHandle } from "../DragHandle";
 import * as defaultComponents from "./defaultComponents";
 import { FooterButtonProps } from "./footer";
+import { Components } from "./typeHelpers";
 import { WindowContentGrid } from "./WindowContentGrid";
 import { WindowContentProps } from "./WindowContentProps";
 
@@ -18,7 +19,7 @@ export interface DefaultContentProps<K extends number | string = any, M = unknow
   title?: string;
   backgroundDrag?: boolean;
   classnames?: ContentClasses;
-  components?: Partial<typeof defaultComponents>;
+  components?: Components<typeof defaultComponents>;
 }
 
 const Content = forwardRef<HTMLDivElement, PropsWithChildren<DefaultContentProps>>(function Content(props, ref) {
