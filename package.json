@@ -50,7 +50,7 @@
     "@babel/core": "7.24.5",
     "@babel/preset-env": "7.24.5",
     "@babel/preset-react": "7.24.1",
-    "@babel/preset-typescript": "7.24.1",
+    "@babel/preset-typescript": "7.24.7",
     "@cypress/browserify-preprocessor": "3.0.2",
     "@cypress/code-coverage": "3.12.39",
     "@frsource/cypress-plugin-visual-regression-diff": "3.3.10",
