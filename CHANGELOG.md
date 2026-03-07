@@ -1,3 +1,10 @@
+## [1.10.2-beta.1](https://github.com/touk/nk-windows/compare/v1.10.1...v1.10.2-beta.1) (2026-03-07)
+
+
+### Bug Fixes
+
+* remove findDOMNode dependency ([f4fedf0](https://github.com/touk/nk-windows/commit/f4fedf055e7c7e37e4cb2f73fd159d6477042bd1))
+
 ## [1.10.1](https://github.com/touk/nk-windows/compare/v1.10.0...v1.10.1) (2025-11-08)
 
 
