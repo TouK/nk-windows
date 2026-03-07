@@ -1,0 +1,27 @@
+.version {
+    font-family: monospace;
+    line-height: 1.6;
+    display: flex;
+    justify-content: space-between;
+    padding: .25em;
+}
+
+.version.stable {
+    font-weight: bold;
+}
+
+.version.beta {
+    font-weight: normal;
+}
+
+.date {
+    color: gray;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover, a:hover + .date {
+    background-color: aliceblue;
+}
