@@ -104,6 +104,10 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
   } = props;
   const { minWidth = props.minWidth ?? 400, minHeight = props.minHeight ?? 140 } = layoutData;
   const ref = useRef<HTMLDivElement>();
+  const rndNodeRef = useRef<HTMLElement>(null);
+  const rndRef = useCallback((instance: InstanceType<typeof Rnd>) => {
+    rndNodeRef.current = instance?.resizableElement?.current || null;
+  }, []);
   const viewport = useViewportSize();
   const [position, setPosition] = useState<Coords>();
   const [size, setSize] = useState<Size>(() => {
@@ -295,8 +299,9 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
     <div ref={windowRef}>
       {/*fallback animation for lazy loaded content*/}
       <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={defaultFadeAnimation}>
-        <CSSTransition in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
+        <CSSTransition nodeRef={rndNodeRef} in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
           <Rnd
+            ref={rndRef}
             disableDragging={maximized || !moveable}
             enableResizing={resizable && !maximized}
             className={cx(windowClass, windowTheme)}
