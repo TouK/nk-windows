@@ -49,8 +49,10 @@ async function generateIndexHtml(basePath, regex) {
     .map(item => ({ name: item.name, date: getPublishDate(item.name) }))
     .sort(compareVersions);
 
+  const frame = "iframe.html?args=&id=demo--defult&viewMode=story";
+
   const latestRow = latestTarget
-    ? `<a href="./latest/" class="version stable latest"><span class="name">latest</span><span class="date">${latestTarget}</span></a>`
+    ? `<a href="./latest/${frame}" class="version stable latest"><span class="name">latest</span><span class="date">${latestTarget}</span></a>`
     : "";
 
   const htmlContent = [
@@ -61,7 +63,7 @@ async function generateIndexHtml(basePath, regex) {
       latestRow,
       ...directories.map(({ name, date }) => {
         const cls = name.match("beta") ? "version beta" : "version stable";
-        return `<a href="./${name}/" class="${cls}"><span class="name">${name}</span><span class="date">${date || ""}</span></a>`;
+        return `<a href="./${name}/${frame}" class="${cls}"><span class="name">${name}</span><span class="date">${date || ""}</span></a>`;
       }),
       `</body>`,
       `</html>`,
