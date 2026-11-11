@@ -35,7 +35,7 @@ function getPublishDate(name) {
   return "";
 }
 
-async function generateIndexHtml(basePath, regex) {
+async function generateIndexHtml(basePath) {
   const items = await fsPromises.readdir(basePath, { withFileTypes: true });
 
   const latestLink = items.find(item => item.name === "latest");
@@ -45,7 +45,7 @@ async function generateIndexHtml(basePath, regex) {
   }
 
   const directories = items
-    .filter(item => item.name !== "latest" && item.isDirectory() && regex.test(item.name))
+    .filter(item => item.isDirectory() && parseVersion(item.name))
     .map(item => ({ name: item.name, date: getPublishDate(item.name) }))
     .sort(compareVersions);
 
@@ -83,6 +83,4 @@ async function generateIndexHtml(basePath, regex) {
 }
 
 const basePath = "./";
-const regex = /^[a-zA-Z].+$/;
-
-generateIndexHtml(basePath, regex);
+generateIndexHtml(basePath);
