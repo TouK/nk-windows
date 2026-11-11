@@ -164,7 +164,12 @@ context("WM", () => {
     cy.wait(1000);
     cy.contains("initial position").click();
     cy.contains("[data-testid='window-frame']", "initial position").should("be.visible").as("window2");
-    cy.get("@window1").should("be.visible");
     cy.get("@window2").should("be.visible");
+    // the global window stays above the modal mask, the modal window opened later covers its right part
+    cy.get("@window1").should(($el) => {
+      const box = $el[0].getBoundingClientRect();
+      const hit = $el[0].ownerDocument.elementFromPoint(box.left + 20, box.top + box.height / 2);
+      expect($el[0].contains(hit)).to.equal(true);
+    });
   });
 });

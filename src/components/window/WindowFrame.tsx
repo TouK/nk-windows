@@ -381,7 +381,8 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
   useScrollFix(ref.current);
 
   return (
-    <div ref={windowRef}>
+    // the fade-in opacity makes this wrapper a stacking context, without its own zIndex a new window would show up below the others
+    <div ref={windowRef} style={{ position: "relative", zIndex }}>
       {/*fallback animation for lazy loaded content*/}
       <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={defaultFadeAnimation}>
         <CSSTransition
