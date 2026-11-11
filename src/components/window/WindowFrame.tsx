@@ -267,9 +267,10 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
   const maxSize = useMemo(
     () => ({
       width: `calc(100% - ${position?.x <= windowMargin ? windowMargin * 2 : position?.x || 0}px)`,
-      height: viewport.height - (position?.y <= windowMargin ? windowMargin * 2 : position?.y || 0),
+      // position limits per resize direction come from Rnd bounds, a position-based value would stop resizing to the top
+      height: viewport.height - windowMargin * 2,
     }),
-    [windowMargin, position, viewport.height],
+    [windowMargin, position?.x, viewport.height],
   );
 
   const normalizeMinSize = useCallback(
