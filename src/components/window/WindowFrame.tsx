@@ -143,7 +143,6 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
       width: left >= 0 && right >= 0 ? viewport.width - left - right : width ?? props.width,
     };
   });
-  const prevSize = usePreviousImmediate(size);
 
   const { focusWrapperTheme, windowTheme, windowMargin } = useFrameTheme();
   const dragging = useRef(false);
@@ -171,16 +170,42 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
     [randomizePosition, viewport.height, viewport.width],
   );
 
+  const centerWindow = useCallback(() => {
+    const { height, width } = ref.current.getBoundingClientRect();
+    const { right, bottom, left, top } = layoutData;
+    forceCenterWindow({
+      x: !(left >= 0) && right >= 0 ? viewport.width - right - width : left,
+      y: !(top >= 0) && bottom >= 0 ? viewport.height - bottom - height : top,
+    });
+  }, [forceCenterWindow, layoutData, viewport.height, viewport.width]);
+
+  // the frame still has its maximized size in the first render after restore
+  const wasMaximizedLastRender = usePreviousImmediate(maximized);
+  const justRestored = wasMaximizedLastRender && !maximized;
+
   const onContentChanged = useCallback(() => {
-    if (!touched) {
-      const { height, width } = ref.current.getBoundingClientRect();
-      const { right, bottom, left, top } = layoutData;
-      forceCenterWindow({
-        x: !(left >= 0) && right >= 0 ? viewport.width - right - width : left,
-        y: !(top >= 0) && bottom >= 0 ? viewport.height - bottom - height : top,
-      });
+    // centering a maximized frame would move the restored window to the corner
+    if (!touched && !maximized && !justRestored) {
+      centerWindow();
     }
-  }, [forceCenterWindow, layoutData, touched, viewport.height, viewport.width]);
+  }, [centerWindow, justRestored, maximized, touched]);
+
+  // a window opened maximized has no position to restore to
+  useLayoutEffect(() => {
+    if (!justRestored || position || touched) {
+      return;
+    }
+    requestAnimationFrame(() => {
+      const node = rndNodeRef.current;
+      if (!node) {
+        return;
+      }
+      // measure the restored size instead of a frame of the zoom transition, centering after the transition would make the window jump
+      node.style.transition = "none";
+      centerWindow();
+      node.style.transition = "";
+    });
+  }, [centerWindow, justRestored, position, touched]);
 
   const contentAvailable = useContentVisibility(ref, onContentChanged);
 
@@ -264,14 +289,25 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
     [onSideSnap, onSnapCallback, savePosition, side],
   );
 
+  // size before maximize, with undefined dimensions for windows that fit their content
+  const sizeBeforeMaximize = useRef<Size>();
+
   const onEnter = useCallback(() => {
+    sizeBeforeMaximize.current = size;
     const { height, width } = ref.current.getBoundingClientRect();
     setSize({ width, height });
-  }, []);
+  }, [size]);
+
+  const onExit = useCallback(() => {
+    // keep the position from before maximize
+    if (position) {
+      touch();
+    }
+  }, [position, touch]);
 
   const onExited = useCallback(() => {
-    setSize(prevSize || null);
-  }, [prevSize]);
+    setSize(sizeBeforeMaximize.current || null);
+  }, []);
 
   const lastResizeClick = useRef<{ direction: ResizeDirection; time: number }>();
 
@@ -345,7 +381,15 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
     <div ref={windowRef}>
       {/*fallback animation for lazy loaded content*/}
       <CSSTransition nodeRef={ref} in={contentAvailable} timeout={250} classNames={defaultFadeAnimation}>
-        <CSSTransition nodeRef={rndNodeRef} in={maximized} timeout={250} classNames={zoomAnimation} onEnter={onEnter} onExited={onExited}>
+        <CSSTransition
+          nodeRef={rndNodeRef}
+          in={maximized}
+          timeout={250}
+          classNames={zoomAnimation}
+          onEnter={onEnter}
+          onExit={onExit}
+          onExited={onExited}
+        >
           <Rnd
             ref={rndRef}
             disableDragging={maximized || !moveable}

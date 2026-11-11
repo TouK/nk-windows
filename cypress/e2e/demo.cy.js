@@ -91,6 +91,48 @@ context("WM", () => {
     });
   });
 
+  it("should restore window to its position and content size", () => {
+    cy.viewport(1280, 720);
+    cy.contains("button", /^add\(\)$/).click();
+    cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.get("@window").contains("button", "add line").click();
+    cy.wait(defaultWait);
+    cy.get("@window").then(($window) => {
+      const { left, top, height } = $window[0].getBoundingClientRect();
+      cy.get("@window").find("button[name='zoom']").click();
+      cy.get("@window").should(($el) => {
+        expect($el[0].getBoundingClientRect().top).to.be.closeTo(0, 1);
+      });
+      cy.get("@window").find("button[name='zoom']").click();
+      cy.get("@window").should(($el) => {
+        const box = $el[0].getBoundingClientRect();
+        expect(box.left).to.be.closeTo(left, 1);
+        expect(box.top).to.be.closeTo(top, 1);
+        expect(box.height).to.be.closeTo(height, 1);
+        expect($el[0].style.height).to.equal("auto");
+      });
+      cy.get("@window").contains("button", "add line").click();
+      cy.get("@window").should(($el) => {
+        expect($el[0].getBoundingClientRect().height).to.be.greaterThan(height + 1);
+      });
+    });
+  });
+
+  it("should center window opened maximized on restore", () => {
+    cy.viewport(1280, 720);
+    cy.contains("button", /^add\(danger, maximized\)$/).click();
+    cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.wait(defaultWait);
+    cy.get("@window").find("button[name='zoom']").click();
+    cy.get("@window").should(($el) => {
+      const box = $el[0].getBoundingClientRect();
+      expect(box.height).to.be.lessThan(720 - 20);
+      expect(box.left + box.width / 2).to.be.closeTo(1280 / 2, 1);
+      expect(box.top).to.be.greaterThan(20);
+      expect($el[0].style.height).to.equal("auto");
+    });
+  });
+
   it("should round translation coords", () => {
     cy.contains("not modal").click();
     cy.get("[data-testid='window-frame']")
