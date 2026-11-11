@@ -312,6 +312,12 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
     setSize(sizeBeforeMaximize.current || null);
   }, []);
 
+  const onResizeStart = useCallback(() => {
+    touch();
+    const { width, height } = ref.current.getBoundingClientRect();
+    setSize({ width, height });
+  }, [touch]);
+
   const lastResizeClick = useRef<{ direction: ResizeDirection; time: number }>();
 
   const onResizeStop = useCallback<RndResizeCallback>(
@@ -412,14 +418,24 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
             onDrag={onDrag}
             onMouseDown={touch}
             onDragStart={touch}
-            onResizeStart={touch}
+            onResizeStart={onResizeStart}
             onDragStop={onDragStop}
             dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
             cancel={`a[href], textarea, input, select, button, ${DRAG_PREVENT_CLASS_NAME}`}
             data-testid="window-frame"
           >
             {/* trap keyboard focus within group (windows opened since last modal) */}
-            <FocusLock className={css({ flex: 1 })} group={focusGroup} disabled={!focusGroup} returnFocus autoFocus>
+            <FocusLock
+              className={css({
+                flex: 1,
+                display: "flex",
+                maxHeight: size?.height != null ? undefined : viewport.height - Math.max(windowMargin, position?.y || 0) - windowMargin,
+              })}
+              group={focusGroup}
+              disabled={!focusGroup}
+              returnFocus
+              autoFocus
+            >
               <div
                 ref={ref}
                 onFocus={focus}
