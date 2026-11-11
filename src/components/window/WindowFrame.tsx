@@ -3,10 +3,10 @@ import { isEqual } from "lodash";
 import { mapValues } from "lodash/fp";
 import React, { forwardRef, PropsWithChildren, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
-import { Position, Rnd } from "react-rnd";
+import { HandleClasses, Position, Rnd, RndResizeCallback } from "react-rnd";
 import { CSSTransition } from "react-transition-group";
 import { useDebounce, useMutationObserver, usePreviousDifferent, usePreviousImmediate } from "rooks";
-import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME } from "../../consts";
+import { DRAG_HANDLE_CLASS_NAME, DRAG_PREVENT_CLASS_NAME, RESIZE_HANDLE_CLASS_NAME } from "../../consts";
 import { useViewportSize } from "../../hooks";
 import { useScrollFix } from "../../hooks/useScrollFix";
 import { useFrameTheme } from "../../themeHooks";
@@ -57,6 +57,32 @@ function calcCoord(start: number, end: number, size: number, viewportSize: numbe
 }
 
 const roundCoords = mapValues<Coords, number>(Math.round);
+
+const resizeDirections = ["top", "right", "bottom", "left", "topRight", "bottomRight", "bottomLeft", "topLeft"] as const;
+type ResizeDirection = (typeof resizeDirections)[number];
+
+const getResizeHandleClass = (direction: ResizeDirection) => `${RESIZE_HANDLE_CLASS_NAME}-${direction}`;
+
+const resizeHandleClasses = resizeDirections.reduce<HandleClasses>(
+  (classes, direction) => ({ ...classes, [direction]: cx(RESIZE_HANDLE_CLASS_NAME, getResizeHandleClass(direction)) }),
+  {},
+);
+
+// resizing covers the page with an overlay on mousedown, so the browser never fires dblclick on a resize handle
+const DOUBLE_CLICK_TIME = 500;
+
+function expandBox(box: Box, direction: ResizeDirection, viewport: Size, margin: number): Box {
+  const right = box.x + box.width;
+  const bottom = box.y + box.height;
+  const x = Math.round(/left/i.test(direction) ? margin : box.x);
+  const y = Math.round(/top/i.test(direction) ? margin : box.y);
+  return {
+    x,
+    y,
+    width: Math.round((/right/i.test(direction) ? viewport.width - margin : right) - x),
+    height: Math.round((/bottom/i.test(direction) ? viewport.height - margin : bottom) - y),
+  };
+}
 
 function useContentVisibility(ref: React.MutableRefObject<HTMLElement>, onContentChange?: (children: Element) => void) {
   const [firstChild, setFirstChild] = useState<Element>();
@@ -247,12 +273,31 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
     setSize(prevSize || null);
   }, [prevSize]);
 
-  const onResizeStop = useCallback(
-    (e, dir, el, delta, position) => {
+  const lastResizeClick = useRef<{ direction: ResizeDirection; time: number }>();
+
+  const onResizeStop = useCallback<RndResizeCallback>(
+    (e, direction, el, delta, position) => {
       const { width, height } = el.getBoundingClientRect();
-      setFrameBox({ ...position, width, height });
+      const box = { ...position, width, height };
+
+      if (delta.width || delta.height) {
+        lastResizeClick.current = undefined;
+        setFrameBox(box);
+        return;
+      }
+
+      const lastClick = lastResizeClick.current;
+      const time = Date.now();
+      if (lastClick?.direction === direction && time - lastClick.time < DOUBLE_CLICK_TIME) {
+        lastResizeClick.current = undefined;
+        setFrameBox(expandBox(box, direction, viewport, windowMargin));
+        return;
+      }
+
+      lastResizeClick.current = { direction, time };
+      setFrameBox(box);
     },
-    [setFrameBox],
+    [setFrameBox, viewport, windowMargin],
   );
 
   const [focused, setFocused] = useState(false);
@@ -315,6 +360,7 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
             maxHeight={maxSize.height}
             maxWidth={maxSize.width}
             onResizeStop={onResizeStop}
+            resizeHandleClasses={resizeHandleClasses}
             onDrag={onDrag}
             onMouseDown={touch}
             onDragStart={touch}

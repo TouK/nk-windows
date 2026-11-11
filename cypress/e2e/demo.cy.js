@@ -57,6 +57,40 @@ context("WM", () => {
     cy.document().matchImage({ screenshotConfig });
   });
 
+  it("should expand window to viewport edge on resize handle double click", () => {
+    const margin = 10;
+    // cy.dblclick() fires mouseup before React commits the resize start, so the resize would never stop
+    const click = (handle) => {
+      cy.get("@window").find(handle).trigger("mousedown", { button: 0, force: true });
+      cy.wait(50);
+      cy.get("@window").find(handle).trigger("mouseup", { force: true });
+    };
+    const doubleClick = (handle) => {
+      click(handle);
+      click(handle);
+    };
+    cy.viewport(1280, 720);
+    cy.contains("not modal").click();
+    cy.get("[data-testid='window-frame']").should("be.visible").as("window");
+    cy.get("@window").then(($window) => {
+      const { left, bottom } = $window[0].getBoundingClientRect();
+      doubleClick(".resize-handle-top");
+      cy.get("@window").should(($el) => {
+        const box = $el[0].getBoundingClientRect();
+        expect(box.top).to.be.closeTo(margin, 1);
+        expect(box.left).to.be.closeTo(left, 1);
+        expect(box.bottom).to.be.closeTo(bottom, 1);
+      });
+    });
+    doubleClick(".resize-handle-bottomRight");
+    cy.get("@window").should(($el) => {
+      const box = $el[0].getBoundingClientRect();
+      expect(box.top).to.be.closeTo(margin, 1);
+      expect(box.right).to.be.closeTo(1280 - margin, 1);
+      expect(box.bottom).to.be.closeTo(720 - margin, 1);
+    });
+  });
+
   it("should round translation coords", () => {
     cy.contains("not modal").click();
     cy.get("[data-testid='window-frame']")
