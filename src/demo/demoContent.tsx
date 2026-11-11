@@ -34,9 +34,12 @@ function DemoContent() {
         },
       ]}
     >
-      <ObjectInspector expandLevel={1} data={ctx.data} />
-      <DebugButtons currentId={ctx.data.id} />
-      <OverflowDebug />
+      {/* inline buttons would stretch an auto-sized window to the full viewport width */}
+      <div style={{ maxWidth: 600 }}>
+        <ObjectInspector expandLevel={1} data={ctx.data} />
+        <DebugButtons currentId={ctx.data.id} />
+        <OverflowDebug />
+      </div>
     </DemoDefaultContent>
   );
 }

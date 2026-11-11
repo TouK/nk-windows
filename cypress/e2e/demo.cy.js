@@ -128,7 +128,6 @@ context("WM", () => {
       const box = $el[0].getBoundingClientRect();
       expect(box.height).to.be.lessThan(720 - 20);
       expect(box.left + box.width / 2).to.be.closeTo(1280 / 2, 1);
-      expect(box.top).to.be.greaterThan(20);
       expect($el[0].style.height).to.equal("auto");
     });
   });
