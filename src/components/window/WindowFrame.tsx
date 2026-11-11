@@ -150,14 +150,17 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
   const [touched, _setTouched] = useState(false);
   const touch = useCallback(() => _setTouched(true), []);
 
+  // drawn once, untouched windows are centered again on rerenders and opening another window would move them
+  const [randomOffset] = useState<Coords>(() => ({ x: random(randomizePosition), y: random(randomizePosition) }));
+
   const forceCenterWindow = useCallback(
     (initialPosition: Coords) => {
       if (ref.current) {
-        const randomize = mapValues<Coords, number>((v: number) => Math.max(0, v + random(randomizePosition)));
         const { height, width } = ref.current.getBoundingClientRect();
-        const x = (viewport.width - width) / 2;
-        const y = (viewport.height * 0.75 - height) / 2;
-        const center = randomize({ x, y });
+        const center = {
+          x: Math.max(0, (viewport.width - width) / 2 + randomOffset.x),
+          y: Math.max(0, (viewport.height * 0.75 - height) / 2 + randomOffset.y),
+        };
 
         setPosition(
           roundCoords({
@@ -167,7 +170,7 @@ export const WindowFrame = forwardRef<HTMLDivElement, PropsWithChildren<WindowFr
         );
       }
     },
-    [randomizePosition, viewport.height, viewport.width],
+    [randomOffset, viewport.height, viewport.width],
   );
 
   const centerWindow = useCallback(() => {
