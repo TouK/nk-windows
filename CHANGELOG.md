@@ -1,3 +1,10 @@
+# [1.11.0-beta.2](https://github.com/TouK/nk-windows/compare/v1.11.0-beta.1...v1.11.0-beta.2) (2026-11-11)
+
+
+### Bug Fixes
+
+* constrain auto-sized windows within viewport margins ([f6ec175](https://github.com/TouK/nk-windows/commit/f6ec175073ddbeb82ae18400b7fea9ffc22cf56b))
+
 # [1.11.0-beta.1](https://github.com/TouK/nk-windows/compare/v1.10.2-beta.1...v1.11.0-beta.1) (2026-11-11)
 
 
