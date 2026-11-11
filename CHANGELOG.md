@@ -1,3 +1,19 @@
+# [1.11.0-beta.1](https://github.com/TouK/nk-windows/compare/v1.10.2-beta.1...v1.11.0-beta.1) (2026-11-11)
+
+
+### Bug Fixes
+
+* **deps:** bump lodash to 4.18.1 ([bfd157d](https://github.com/TouK/nk-windows/commit/bfd157d10f061cb3d5795567c98080dddaa086e6))
+* keep positions of open windows when another window opens ([3e420b3](https://github.com/TouK/nk-windows/commit/3e420b34951a3225c56e091e198f4a06f4fd2aeb))
+* restore window to its position and content size after maximize ([52440f0](https://github.com/TouK/nk-windows/commit/52440f09900b9fe1408716632b7ef65230d678b3))
+* show a new window on top of the others from the start of its fade-in ([ff428b6](https://github.com/TouK/nk-windows/commit/ff428b65811a0daa3d4e88d2fd6e270d9e216231))
+* window resize to the top stopping before the viewport edge ([ad82ed9](https://github.com/TouK/nk-windows/commit/ad82ed96bc4794fd196bdf902d71e3a8c5d212cb))
+
+
+### Features
+
+* expand window to viewport edge on resize handle double click ([1bf186b](https://github.com/TouK/nk-windows/commit/1bf186b655a2f5b1ad001dde6c8dc1230e615df0))
+
 ## [1.10.2-beta.1](https://github.com/touk/nk-windows/compare/v1.10.1...v1.10.2-beta.1) (2026-03-07)
 
 
